@@ -1,30 +1,28 @@
-import { Component } from '@angular/core';
-import { UserService } from "../shared/user.service";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserService) {
+  loginForm: FormGroup;
+
+  constructor(private authService: AuthService) {
   }
 
-  onUserSet() {
-    this.userService.setContext('test', undefined);
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      'username': new FormControl(''),
+      'password': new FormControl('')
+    });
   }
 
-  onUserClean() {
-    this.userService.setContext('');
+  onSubmit() {
+    console.log(this.loginForm);
+    this.authService.login(this.loginForm.value.username, this.loginForm.value.password);
   }
-
-  onWalletSet() {
-    this.userService.setContext('user', 'test-wallet')
-  }
-
-  onWalletClean() {
-    this.userService.setContext('', undefined);
-  }
-
 }

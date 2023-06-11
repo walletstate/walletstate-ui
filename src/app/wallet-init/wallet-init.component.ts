@@ -1,22 +1,47 @@
-import { Component } from '@angular/core';
-import { UserService } from "../shared/user.service";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { WalletService } from '../shared/wallet.service';
+
 
 @Component({
   selector: 'app-wallet-init',
   templateUrl: './wallet-init.component.html',
   styleUrls: ['./wallet-init.component.scss']
 })
-export class WalletInitComponent {
+export class WalletInitComponent implements OnInit {
+  createWalletForm: FormGroup;
+  joinWalletForm: FormGroup;
 
-  constructor(private userService: UserService) {
+
+  constructor(private walletService: WalletService, private router: Router) {
   }
 
-  onWalletSet() {
-    this.userService.setContext('test', 'test-wallet');
+  ngOnInit(): void {
+    this.createWalletForm = new FormGroup({
+      'name': new FormControl('')
+    });
+
+    this.joinWalletForm = new FormGroup({
+      'inviteCode': new FormControl('')
+    });
   }
 
-  onWalletClean() {
-    this.userService.setContext('', undefined);
+  onCreate() {
+    this.walletService.create(this.createWalletForm.value)
+      .subscribe(wallet => {
+        console.log('Created wallet');
+        console.log(wallet);
+        this.router.navigate(['/']);
+      });
   }
 
+  onJoin() {
+    this.walletService.join(this.joinWalletForm.value)
+      .subscribe(wallet => {
+        console.log('Joined wallet');
+        console.log(wallet);
+        this.router.navigate(['/']);
+      });
+  }
 }
