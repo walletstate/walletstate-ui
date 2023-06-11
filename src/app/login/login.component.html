@@ -1,0 +1,25 @@
+<p>login works!</p>
+
+<div>
+  <ul>
+    <li><a routerLink="/wallet-init">init wallet</a></li>
+    <li><a routerLink="/">wallet</a></li>
+    <li><a routerLink="/user">user</a></li>
+  </ul>
+</div>
+
+<hr>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+  <label for="username">
+    Username:
+    <input type="text" id="username" formControlName="username">
+  </label>
+
+  <label for="password">
+    Password:
+    <input type="password" id="password" formControlName="password">
+  </label>
+  <button type="submit">Login</button>
+</form>
+

@@ -1,0 +1,27 @@
+<p>wallet-init works!</p>
+
+<div>
+  <ul>
+    <li><a routerLink="/">wallet</a></li>
+  </ul>
+</div>
+
+<hr>
+
+<form [formGroup]="createWalletForm" (ngSubmit)="onCreate()">
+  <label for="name">
+    Name: <input id="name" type="text" formControlName="name">
+  </label>
+
+  <button type="submit"> Create</button>
+</form>
+
+<hr>
+
+<form [formGroup]="joinWalletForm" (ngSubmit)="onJoin()">
+  <label for="invite-code">
+    Invite code: <input id="invite-code" type="text" formControlName="inviteCode">
+  </label>
+
+  <button type="submit"> Join</button>
+</form>
