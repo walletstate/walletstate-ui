@@ -1,27 +1,63 @@
-<p>wallet-init works!</p>
+<app-toolbar></app-toolbar>
+<div class="center-container">
 
-<div>
-  <ul>
-    <li><a routerLink="/">wallet</a></li>
-  </ul>
+  <mat-tab-group mat-stretch-tabs class="init-tab mat-elevation-z4">
+    <mat-tab label="Create">
+
+      <mat-card>
+        <form [formGroup]="createWalletForm" (ngSubmit)="onCreate()">
+          <mat-card-header>
+            <mat-card-title>Create wallet</mat-card-title>
+            <mat-card-subtitle>Create a new wallet</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field appearance="outline" class="card-input">
+              <mat-label>Wallet name</mat-label>
+              <input matInput placeholder="Name" formControlName="name">
+              <mat-icon matSuffix>wallet</mat-icon>
+              <mat-hint>Enter the new wallet name</mat-hint>
+              <mat-error *ngIf="createWalletForm.controls['name'].invalid">Name is required</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="createError">{{createError}}</mat-error>
+          </mat-card-content>
+
+          <mat-card-actions align="end" class="init-action">
+            <button mat-raised-button color="primary" [disabled]="createWalletForm.invalid">Create</button>
+          </mat-card-actions>
+
+        </form>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Join">
+      <mat-card>
+        <form [formGroup]="joinWalletForm" (ngSubmit)="onJoin()">
+          <mat-card-header>
+            <mat-card-title>Join to the wallet</mat-card-title>
+            <mat-card-subtitle>Please enter the invite code to join the wallet</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field appearance="outline" class="card-input">
+              <mat-label>Invite code</mat-label>
+              <input matInput placeholder="Invite code" formControlName="inviteCode">
+              <mat-icon matSuffix>abc</mat-icon>
+              <mat-hint>
+                If you dont have the code please ask the wallet owner to provide it.
+              </mat-hint>
+              <mat-error *ngIf="joinWalletForm.controls['inviteCode'].invalid">Name is required</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="joinError">{{joinError}}</mat-error>
+          </mat-card-content>
+
+          <mat-card-actions align="end" class="init-action">
+            <button mat-raised-button color="primary" [disabled]="joinWalletForm.invalid">Join</button>
+          </mat-card-actions>
+
+        </form>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+
 </div>
-
-<hr>
-
-<form [formGroup]="createWalletForm" (ngSubmit)="onCreate()">
-  <label for="name">
-    Name: <input id="name" type="text" formControlName="name">
-  </label>
-
-  <button type="submit"> Create</button>
-</form>
-
-<hr>
-
-<form [formGroup]="joinWalletForm" (ngSubmit)="onJoin()">
-  <label for="invite-code">
-    Invite code: <input id="invite-code" type="text" formControlName="inviteCode">
-  </label>
-
-  <button type="submit"> Join</button>
-</form>

@@ -23,6 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { MatMenuModule } from '@angular/material/menu';
     UserComponent,
     WalletHomeComponent,
     AccountsComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatCheckboxModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTabsModule
   ],
   providers: [
     {
