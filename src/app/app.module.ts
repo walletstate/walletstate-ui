@@ -25,6 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     WalletHomeComponent,
     AccountsComponent,
     CategoriesComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

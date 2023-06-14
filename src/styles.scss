@@ -15,5 +15,13 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: calc(100vh - 84px);
+  min-height: calc(100vh - 84px);
+}
+
+.center-container-with-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 168px);
 }
