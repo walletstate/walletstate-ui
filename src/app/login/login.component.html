@@ -1,25 +1,41 @@
-<p>login works!</p>
+<div class="center-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+      <mat-card-subtitle>Welcome to WalletState</mat-card-subtitle>
+    </mat-card-header>
 
-<div>
-  <ul>
-    <li><a routerLink="/wallet-init">init wallet</a></li>
-    <li><a routerLink="/">wallet</a></li>
-    <li><a routerLink="/user">user</a></li>
-  </ul>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="login-input">
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="Username" formControlName="username">
+          <mat-icon matSuffix>account_circle</mat-icon>
+
+          <mat-error *ngIf="loginForm.controls['username'].invalid">Username is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="login-input">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.controls['username'].invalid">Password is required</mat-error>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="rememberMe">Remember me!</mat-checkbox>
+        <mat-error *ngIf="loginError">{{loginError}}</mat-error>
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="login-action">
+        <button mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
 </div>
-
-<hr>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
-  <label for="username">
-    Username:
-    <input type="text" id="username" formControlName="username">
-  </label>
-
-  <label for="password">
-    Password:
-    <input type="password" id="password" formControlName="password">
-  </label>
-  <button type="submit">Login</button>
-</form>
-

@@ -88,16 +88,18 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    this.http.post<UserInfo>('/auth/login', {username, password}, {observe: 'response'})
-      .subscribe(response => {
-        const user = User.build(response.body, +response.headers.get('X-Auth-Token-Expire-In'));
-        this.updateUserContext(user);
-        if (!!user.wallet) {
-          this.router.navigate(['/']);
-        } else {
-          this.router.navigate(['/wallet-init']);
-        }
-      });
+    return this.http.post<UserInfo>('/auth/login', {username, password}, {observe: 'response'})
+      .pipe(
+        tap(response => {
+          const user = User.build(response.body, +response.headers.get('X-Auth-Token-Expire-In'));
+          this.updateUserContext(user);
+          if (!!user.wallet) {
+            this.router.navigate(['/']);
+          } else {
+            this.router.navigate(['/wallet-init']);
+          }
+        })
+      );
   }
 
   logout() {

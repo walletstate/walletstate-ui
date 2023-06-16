@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-wallet',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class WalletComponent {
 
+  constructor(private authService: AuthService) {
+  }
+
+  onLogout() {
+    this.authService.logout()
+  }
 }

@@ -1,0 +1,14 @@
+footer {
+  margin: 20px 0 0 0;
+  width: 100%;
+  height: 64px;
+  background-color: #3f51b5; //user variable from material instead
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.column {
+  margin: 10px 30px;
+  color: #fafafa;
+}
