@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.filters {
+  min-width: 300px;
+  flex-grow: 1;
+  margin: 15px;
+  height: calc(100vh - 200px);
+  order: 1;
+
+}
+
+.dashboard {
+  display: flex;
+  order: 2;
+  flex-direction: column;
+  flex-grow: 5;
+
+  margin: 15px;
+}
+
+.header {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: stretch;
+  gap: 20px;
+
+}
+
+.dash-card {
+  min-width: 300px;
+  min-height: 300px;
+  flex-grow: 1;
+}
+
+.dash-card-large {
+  flex-grow: 2;
+}

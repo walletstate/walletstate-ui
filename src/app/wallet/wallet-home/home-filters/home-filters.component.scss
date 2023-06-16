@@ -1,0 +1,11 @@
+.filters-tab {
+
+}
+
+
+.filter-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 10px;
+  height: calc(100vh - 250px); //todo investigate how to set 100% of parent component
+}

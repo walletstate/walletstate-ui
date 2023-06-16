@@ -26,6 +26,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FooterComponent } from './shared/footer/footer.component';
+import { HomeFiltersComponent } from './wallet/wallet-home/home-filters/home-filters.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accounts-filter/accounts-filter.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,9 @@ import { FooterComponent } from './shared/footer/footer.component';
     AccountsComponent,
     CategoriesComponent,
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    HomeFiltersComponent,
+    AccountsFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +64,11 @@ import { FooterComponent } from './shared/footer/footer.component';
     MatCheckboxModule,
     MatToolbarModule,
     MatMenuModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatTreeModule,
   ],
   providers: [
     {
