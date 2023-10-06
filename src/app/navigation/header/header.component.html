@@ -1,0 +1,42 @@
+<mat-toolbar color="primary">
+
+  <button mat-icon-button
+          (click)="onToggleSidenav()"
+          *ngIf="isSmallScreen">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <a routerLink="/" class="logo-container">
+    <mat-icon>wallet</mat-icon>
+    <span class="nav-caption">Wallet State</span>
+  </a>
+
+
+  <ul class="navigation-items" *ngIf="!isSmallScreen">
+    <li>
+      <a routerLink="/accounts">Accounts</a>
+    </li>
+    <li>
+      <a routerLink="/settings">Settings</a>
+    </li>
+    <li>
+      <button mat-icon-button
+              aria-label="User"
+              [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu" yPosition="below" xPosition="before">
+        <a mat-menu-item routerLink="/user">
+          <mat-icon>account_box</mat-icon>
+          <span>User profile</span>
+        </a>
+        <button mat-menu-item (click)="onLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+
+    </li>
+  </ul>
+
+</mat-toolbar>

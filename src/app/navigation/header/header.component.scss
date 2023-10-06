@@ -1,0 +1,29 @@
+a {
+  text-decoration: none;
+  color: white; //todo - move to variable
+}
+
+a:hover,
+a:active {
+  color: lightgray; //todo - move to variable
+}
+
+.navigation-items {
+  list-style: none;
+  padding: 0;
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  //padding-left: 10px;
+}
+
+.nav-caption {
+  padding-left: 6px;
+}

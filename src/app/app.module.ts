@@ -23,7 +23,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeFiltersComponent } from './wallet/wallet-home/home-filters/home-filters.component';
@@ -32,6 +31,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accounts-filter/accounts-filter.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -44,10 +47,11 @@ import { MatTreeModule } from '@angular/material/tree';
     WalletHomeComponent,
     AccountsComponent,
     CategoriesComponent,
-    ToolbarComponent,
     FooterComponent,
     HomeFiltersComponent,
-    AccountsFilterComponent
+    AccountsFilterComponent,
+    HeaderComponent,
+    SidenavListComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +73,8 @@ import { MatTreeModule } from '@angular/material/tree';
     MatNativeDateModule,
     MatSelectModule,
     MatTreeModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   providers: [
     {

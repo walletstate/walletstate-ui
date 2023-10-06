@@ -15,13 +15,9 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'user', component: UserComponent, canActivate: [userGuard]},
   {path: 'wallet-init', component: WalletInitComponent, canActivate: [userGuard]},
-  {
-    path: '', component: WalletComponent, canActivate: [walletGuard], children: [
-      {path: '', component: WalletHomeComponent},
-      {path: 'accounts', component: AccountsComponent},
-      {path: 'categories', component: CategoriesComponent}
-    ]
-  },
+  {path: '', canActivate: [walletGuard], component: WalletHomeComponent},
+  {path: 'accounts', canActivate: [walletGuard], component: AccountsComponent},
+  {path: 'categories', canActivate: [walletGuard], component: CategoriesComponent},
   {path: '**', component: NotFoundComponent}
 ];
 
