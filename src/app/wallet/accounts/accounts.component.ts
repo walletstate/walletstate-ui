@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AccountsService } from '../shared/accounts.service';
 import { Account } from '../shared/account.model';
+import { group } from '@angular/animations';
 
 @Component({
   selector: 'app-accounts',
@@ -12,6 +13,7 @@ export class AccountsComponent implements OnInit {
 
   accounts: Account[] = [];
   createAccountForm: FormGroup;
+
 
   constructor(private accountsService: AccountsService) {
   }
@@ -31,6 +33,4 @@ export class AccountsComponent implements OnInit {
       .create(this.createAccountForm.value)
       .subscribe(account => this.accounts.push(account));
   }
-
-
 }

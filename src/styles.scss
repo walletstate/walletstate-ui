@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
 
 html, body {
   height: 100%;
@@ -24,4 +26,23 @@ body {
   align-items: center;
   width: 100%;
   min-height: calc(100vh - 168px);
+}
+
+
+.global-container {
+  //width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+//material
+.narrow-form-field {
+  @include mat.form-field-density(-5);
 }

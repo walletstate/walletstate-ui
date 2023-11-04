@@ -4,10 +4,13 @@
   <mat-sidenav #sidenav role="navigation">
     <app-sidenav-list (closeSidenav)="sidenav.close()"></app-sidenav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
     <main>
-      <router-outlet></router-outlet>
+      <div class="global-container">
+        <router-outlet></router-outlet>
+      </div>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

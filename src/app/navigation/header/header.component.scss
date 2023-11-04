@@ -27,3 +27,17 @@ a:active {
 .nav-caption {
   padding-left: 6px;
 }
+
+.icon-button {
+  background: none;
+  margin: 6px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.icon-button .icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+}

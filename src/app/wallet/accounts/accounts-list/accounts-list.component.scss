@@ -1,0 +1,48 @@
+mat-card-header {
+  padding-top: 5px;
+  padding-right: 5px;
+}
+
+mat-card-title-group {
+  align-items: center;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-card-content {
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+}
+
+.two-actions {
+  min-width: 96px;
+}
+
+.group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.group-header {
+  margin: 0;
+  font-size: 18px;
+}
+
+.group-actions {
+
+}
+
+.group-action {
+
+}
+
+.hidden-actions {
+  visibility: hidden;
+}
+
+.group:hover .hidden-actions {
+  visibility: visible;
+}
