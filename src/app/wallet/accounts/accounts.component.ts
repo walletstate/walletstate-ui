@@ -11,7 +11,6 @@ import { group } from '@angular/animations';
 })
 export class AccountsComponent implements OnInit {
 
-  accounts: Account[] = [];
   createAccountForm: FormGroup;
 
 
@@ -22,15 +21,6 @@ export class AccountsComponent implements OnInit {
     this.createAccountForm = new FormGroup({
       'name': new FormControl('')
     });
-
-    this.accountsService
-      .get()
-      .subscribe(accounts => this.accounts = accounts);
   }
 
-  onCreate() {
-    this.accountsService
-      .create(this.createAccountForm.value)
-      .subscribe(account => this.accounts.push(account));
-  }
 }
