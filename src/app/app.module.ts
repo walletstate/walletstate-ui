@@ -9,11 +9,10 @@ import { WalletInitComponent } from './wallet-init/wallet-init.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { UserComponent } from './user/user.component';
 import { WalletHomeComponent } from './wallet/wallet-home/wallet-home.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AccountsComponent } from './wallet/accounts/accounts.component';
-import { CategoriesComponent } from './wallet/categories/categories.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +22,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeFiltersComponent } from './wallet/wallet-home/home-filters/home-filters.component';
@@ -32,6 +30,17 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accounts-filter/accounts-filter.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { AccountComponent } from './wallet/accounts/account/account.component';
+import { CreateAccountComponent } from './wallet/accounts/create-account/create-account.component';
+import { AccountInfoComponent } from './wallet/accounts/account/account-info/account-info.component';
+import { AccountRecordsComponent } from './wallet/accounts/account/account-records/account-records.component';
+import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
+import { AccountsListComponent } from './wallet/accounts/accounts-list/accounts-list.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -43,14 +52,21 @@ import { MatTreeModule } from '@angular/material/tree';
     UserComponent,
     WalletHomeComponent,
     AccountsComponent,
-    CategoriesComponent,
-    ToolbarComponent,
     FooterComponent,
     HomeFiltersComponent,
-    AccountsFilterComponent
+    AccountsFilterComponent,
+    HeaderComponent,
+    SidenavListComponent,
+    AccountComponent,
+    CreateAccountComponent,
+    AccountInfoComponent,
+    AccountRecordsComponent,
+    AccountImportsComponent,
+    AccountsListComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -69,6 +85,9 @@ import { MatTreeModule } from '@angular/material/tree';
     MatNativeDateModule,
     MatSelectModule,
     MatTreeModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTooltipModule
   ],
   providers: [
     {

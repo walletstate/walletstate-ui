@@ -33,7 +33,7 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    this.userSubscription && this.userSubscription.unsubscribe();
   }
 
   onLogout() {

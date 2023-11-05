@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  gap: 20px;
+  //padding: 20px;
+}
+
+.accounts {
+  max-width: 300px;
+  flex: 1 1 auto;
+}
+
+.content {
+  display: flex;
+  flex: 1 1 auto;
+}

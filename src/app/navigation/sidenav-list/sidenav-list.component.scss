@@ -1,0 +1,14 @@
+a {
+  text-decoration: none;
+  color: white; //todo - move to variable
+}
+
+a:hover,
+a:active {
+  color: lightgray; //todo - move to variable
+}
+
+mat-nav-list {
+  width: 300px;
+}
+
