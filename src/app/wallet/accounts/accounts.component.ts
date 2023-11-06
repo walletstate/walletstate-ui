@@ -11,16 +11,12 @@ import { group } from '@angular/animations';
 })
 export class AccountsComponent implements OnInit {
 
-  createAccountForm: FormGroup;
 
 
   constructor(private accountsService: AccountsService) {
   }
 
   ngOnInit(): void {
-    this.createAccountForm = new FormGroup({
-      'name': new FormControl('')
-    });
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../../shared/accounts.service';
-import { AccountsGroup, AccountsGroupWithAccounts } from '../../shared/accounts-group.model';
+import { AccountsGroupWithAccounts } from '../../shared/accounts-group.model';
 
 @Component({
   selector: 'app-accounts-list',
@@ -16,7 +16,6 @@ export class AccountsListComponent implements OnInit {
 
   groups: AccountsGroupWithAccounts[] = [];
 
-  accounts = []
   //   [
   //   {
   //     group: 'Main accounts',
@@ -109,9 +108,9 @@ export class AccountsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accountsService
-      .loadGroupsWithAccounts()
-      .subscribe(accountsGroups => this.groups = accountsGroups)
+    //TODO Investigate if it is OK
+    this.accountsService.loadGroupsWithAccounts().subscribe();
+    this.accountsService.groups.subscribe(accountsGroups => this.groups = accountsGroups);
   }
 
 
@@ -135,12 +134,7 @@ export class AccountsListComponent implements OnInit {
     if (this.newGroupName.trim().length > 0) {
       this.accountsService
         .createGroup({name: this.newGroupName, orderingIndex: this.groups.length + 1})
-        .subscribe(
-          group => {
-            this.groups.push(AccountsGroupWithAccounts.fromGroup(group))
-            this.onClose()
-          }
-        )
+        .subscribe(group => this.onClose())
     }
   }
 
@@ -148,7 +142,6 @@ export class AccountsListComponent implements OnInit {
     if (group.updateName.trim().length > 0) {
       this.accountsService.updateGroup(group.id, {name: group.updateName})
         .subscribe({
-          next: (v) => group.saveUpdate(),
           error: (e) => group.discardUpdate(),
           complete: () => group.switchMode()
         });
@@ -161,11 +154,7 @@ export class AccountsListComponent implements OnInit {
   }
 
   onDeleteGroup(group: AccountsGroupWithAccounts) {
-    this.accountsService.deleteGroup(group.id)
-      .subscribe(next => {
-        console.log(this.groups.indexOf(group))
-        this.groups.splice(this.groups.indexOf(group), 1)
-      });
+    this.accountsService.deleteGroup(group.id).subscribe();
   }
 
 }
