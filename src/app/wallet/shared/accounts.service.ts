@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, mergeMap, Observable } from 'rxjs';
 import { Account, CreateAccount } from './account.model';
 import {
   AccountsGroup,
@@ -8,7 +8,7 @@ import {
   CreateAccountsGroup,
   UpdateAccountsGroup
 } from './accounts-group.model';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +63,9 @@ export class AccountsService {
   }
 
   createAccount(data: CreateAccount): Observable<Account> {
-    return this.http.post<Account>('/api/accounts', data);
+    return this.http.post<Account>('/api/accounts', data)
+      .pipe(
+        mergeMap(account => this.loadGroupsWithAccounts().pipe(map(g => account)))
+      );
   }
 }

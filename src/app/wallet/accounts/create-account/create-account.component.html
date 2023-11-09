@@ -7,27 +7,42 @@
 
   <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
-      <mat-form-field appearance="outline">
-        <mat-label>Accounts group</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Account name</mat-label>
-        <input matInput placeholder="Account name" formControlName="name">
-        <mat-icon matSuffix>account_balance_wallet</mat-icon>
+      <div class="input-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Accounts group</mat-label>
+          <mat-select formControlName="group">
+            <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-        <mat-error *ngIf="createAccountForm.controls['name'].invalid">Account name is required</mat-error>
-      </mat-form-field>
+      <div class="name-container input-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Account name</mat-label>
+          <input matInput placeholder="Account name" formControlName="name">
+          <mat-error *ngIf="createAccountForm.controls['name'].invalid">Account name is required</mat-error>
+        </mat-form-field>
 
+        <div>
+          <button type="button"
+                  class="icon-button"
+                  aria-label="Account icon"
+                  (click)="fileInput.click()">
+            <img
+              class="icon"
+              [src]="createAccountForm.controls['icon'].value"
+            />
+          </button>
+          <input hidden (change)="handleUpload($event)" #fileInput type="file" id="icon" accept="image/*">
+        </div>
+      </div>
     </mat-card-content>
 
     <mat-card-actions>
       <mat-card-actions>
-        <button mat-flat-button color="primary" [disabled]="createAccountForm.invalid">Create</button>
-        <button mat-flat-button [routerLink]="['/accounts']">Cancel</button>
+        <button type="submit" mat-flat-button color="primary" [disabled]="createAccountForm.invalid">Create</button>
+        <button type="button" mat-flat-button [routerLink]="['/accounts']">Cancel</button>
       </mat-card-actions>
     </mat-card-actions>
   </form>
