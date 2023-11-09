@@ -14,6 +14,26 @@ mat-form-field {
 mat-card-content {
   max-height: calc(100vh - 230px);
   overflow-y: auto;
+
+  /* Scrollbar Track */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: lightgray;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: lightgrey;
+  }
 }
 
 .two-actions {
