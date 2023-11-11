@@ -8,4 +8,7 @@ export interface Account {
 
 export interface CreateAccount {
   name: string;
+  group: string;
+  icon: string;
+  orderingIndex: string;
 }
