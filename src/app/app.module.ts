@@ -14,36 +14,19 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AccountsComponent } from './wallet/accounts/accounts.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTabsModule } from '@angular/material/tabs';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeFiltersComponent } from './wallet/wallet-home/home-filters/home-filters.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
 import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accounts-filter/accounts-filter.component';
-import { MatTreeModule } from '@angular/material/tree';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { AccountComponent } from './wallet/accounts/account/account.component';
 import { CreateAccountComponent } from './wallet/accounts/create-account/create-account.component';
 import { AccountInfoComponent } from './wallet/accounts/account/account-info/account-info.component';
 import { AccountRecordsComponent } from './wallet/accounts/account/account-records/account-records.component';
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
 import { AccountsListComponent } from './wallet/accounts/accounts-list/accounts-list.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipsModule } from '@angular/material/chips';
 import { TagsSelectorComponent } from './shared/utils/tags-selector/tags-selector.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -73,27 +56,9 @@ import { TagsSelectorComponent } from './shared/utils/tags-selector/tags-selecto
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    //material
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatTabsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatTreeModule,
-    MatSidenavModule,
-    MatListModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatChipsModule
   ],
   providers: [
     {
