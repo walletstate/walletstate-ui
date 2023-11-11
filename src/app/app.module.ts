@@ -41,6 +41,9 @@ import { AccountRecordsComponent } from './wallet/accounts/account/account-recor
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
 import { AccountsListComponent } from './wallet/accounts/accounts-list/accounts-list.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { TagsSelectorComponent } from './shared/utils/tags-selector/tags-selector.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +65,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AccountInfoComponent,
     AccountRecordsComponent,
     AccountImportsComponent,
-    AccountsListComponent
+    AccountsListComponent,
+    TagsSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +91,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTreeModule,
     MatSidenavModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatChipsModule
   ],
   providers: [
     {

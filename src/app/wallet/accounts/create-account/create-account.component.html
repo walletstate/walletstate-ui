@@ -37,6 +37,12 @@
           <input hidden (change)="handleUpload($event)" #fileInput type="file" id="icon" accept="image/*">
         </div>
       </div>
+
+      <app-tags-selector class="input-row"
+                         [allTags]="allTags"
+                         [selectedTags]="createAccountForm.value['tags']"
+                         (change)="onTagsChange($event)">
+      </app-tags-selector>
     </mat-card-content>
 
     <mat-card-actions>
