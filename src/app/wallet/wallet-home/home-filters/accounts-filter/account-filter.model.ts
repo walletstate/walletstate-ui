@@ -24,21 +24,21 @@ const TREE_DATA = {
     Current: {
       Cash: null,
       'Mono Black': null,
-      'Privat Universal': null
+      'Privat Universal': null,
     },
     Savings: {
       MonoUSD: null,
-      Deposits: ['DNT 1', 'DNT 2', 'DNT 3']
+      Deposits: ['DNT 1', 'DNT 2', 'DNT 3'],
     },
     Crypto: {
       Binance: {
-        Main: null
+        Main: null,
       },
       WhiteBit: {
-        Main: null
-      }
-    }
-  }
+        Main: null,
+      },
+    },
+  },
 };
 
 /**
@@ -47,7 +47,7 @@ const TREE_DATA = {
  * If a node is a category, it has children items and new items can be added under the category.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChecklistDatabase {
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
@@ -94,7 +94,7 @@ export class ChecklistDatabase {
   /** Add an item to to-do list */
   insertItem(parent: TodoItemNode, name: string) {
     if (parent.children) {
-      parent.children.push({item: name} as TodoItemNode);
+      parent.children.push({ item: name } as TodoItemNode);
       this.dataChange.next(this.data);
     }
   }
@@ -104,4 +104,3 @@ export class ChecklistDatabase {
     this.dataChange.next(this.data);
   }
 }
-

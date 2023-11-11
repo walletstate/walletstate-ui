@@ -7,7 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'app-accounts-filter',
   templateUrl: './accounts-filter.component.html',
-  styleUrls: ['./accounts-filter.component.scss']
+  styleUrls: ['./accounts-filter.component.scss'],
 })
 export class AccountsFilterComponent {
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
@@ -32,15 +32,9 @@ export class AccountsFilterComponent {
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
   constructor(private _database: ChecklistDatabase) {
-    this.treeFlattener = new MatTreeFlattener(
-      this.transformer,
-      this.getLevel,
-      this.isExpandable,
-      this.getChildren,
-    );
+    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
 
     _database.dataChange.subscribe(data => {
       this.dataSource.data = data;
@@ -63,8 +57,7 @@ export class AccountsFilterComponent {
    */
   transformer = (node: TodoItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
-    const flatNode =
-      existingNode && existingNode.item === node.item ? existingNode : new TodoItemFlatNode();
+    const flatNode = existingNode && existingNode.item === node.item ? existingNode : new TodoItemFlatNode();
     flatNode.item = node.item;
     flatNode.level = level;
     flatNode.expandable = !!node.children?.length;

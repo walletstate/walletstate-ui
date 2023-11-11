@@ -4,14 +4,12 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.scss']
+  styleUrls: ['./wallet.component.scss'],
 })
 export class WalletComponent {
-
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   onLogout() {
-    this.authService.logout()
+    this.authService.logout();
   }
 }

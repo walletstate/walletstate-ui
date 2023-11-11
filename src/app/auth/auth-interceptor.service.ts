@@ -1,4 +1,4 @@
-import { HttpEvent, HttpEventType, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -7,16 +7,16 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-
-  constructor(private router: Router, private authService: AuthService) {
-  }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-      .pipe(tap({next: this.onSuccess, error: this.onError.bind(this)}));
+    return next.handle(req).pipe(tap({ next: this.onSuccess, error: this.onError.bind(this) }));
   }
 
-  private onSuccess(event) {
+  private onSuccess() {
     // console.log(event);
   }
 
@@ -31,5 +31,4 @@ export class AuthInterceptorService implements HttpInterceptor {
       }
     }
   }
-
 }

@@ -2,34 +2,31 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WalletService } from '../../shared/wallet.service';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { User } from '../../auth/user.model';
 
 @Component({
   selector: 'app-wallet-home',
   templateUrl: './wallet-home.component.html',
-  styleUrls: ['./wallet-home.component.scss']
+  styleUrls: ['./wallet-home.component.scss'],
 })
 export class WalletHomeComponent implements OnInit, OnDestroy {
+  wallet;
+  user = null;
+  private userSubscription: Subscription;
 
-  wallet
-  user = null
-  private userSubscription: Subscription
+  invite;
 
-  invite
-
-
-  constructor(private walletService: WalletService, private authService: AuthService) {
-  }
+  constructor(
+    private walletService: WalletService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user.subscribe(user => this.user = user);
+    this.userSubscription = this.authService.user.subscribe(user => (this.user = user));
 
-    this.walletService.get().subscribe(
-      resp => {
-        console.log(resp)
-        this.wallet = resp
-      }
-    )
+    this.walletService.get().subscribe(resp => {
+      console.log(resp);
+      this.wallet = resp;
+    });
   }
 
   ngOnDestroy(): void {
@@ -41,7 +38,6 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
   }
 
   createInvite() {
-    this.walletService.createInvite().subscribe(invite => this.invite = invite);
+    this.walletService.createInvite().subscribe(invite => (this.invite = invite));
   }
-
 }

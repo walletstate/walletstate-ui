@@ -5,10 +5,9 @@ import { AccountsGroupWithAccounts } from '../../shared/accounts-group.model';
 @Component({
   selector: 'app-accounts-list',
   templateUrl: './accounts-list.component.html',
-  styleUrls: ['./accounts-list.component.scss']
+  styleUrls: ['./accounts-list.component.scss'],
 })
 export class AccountsListComponent implements OnInit {
-
   isAddGroupMode: boolean = false;
   isSearchMode: boolean = false;
 
@@ -103,16 +102,13 @@ export class AccountsListComponent implements OnInit {
   //   }
   // ]
 
-
-  constructor(private accountsService: AccountsService) {
-  }
+  constructor(private accountsService: AccountsService) {}
 
   ngOnInit(): void {
     //TODO Investigate if it is OK
     this.accountsService.loadGroupsWithAccounts().subscribe();
-    this.accountsService.groups.subscribe(accountsGroups => this.groups = accountsGroups);
+    this.accountsService.groups.subscribe(accountsGroups => (this.groups = accountsGroups));
   }
-
 
   onAddGroupClick() {
     this.isAddGroupMode = true;
@@ -133,18 +129,17 @@ export class AccountsListComponent implements OnInit {
   onAddGroup() {
     if (this.newGroupName.trim().length > 0) {
       this.accountsService
-        .createGroup({name: this.newGroupName, orderingIndex: this.groups.length + 1})
-        .subscribe(group => this.onClose())
+        .createGroup({ name: this.newGroupName, orderingIndex: this.groups.length + 1 })
+        .subscribe(() => this.onClose());
     }
   }
 
   onUpdateGroupName(group: AccountsGroupWithAccounts) {
     if (group.updateName.trim().length > 0) {
-      this.accountsService.updateGroup(group.id, {name: group.updateName})
-        .subscribe({
-          error: (e) => group.discardUpdate(),
-          complete: () => group.switchMode()
-        });
+      this.accountsService.updateGroup(group.id, { name: group.updateName }).subscribe({
+        error: () => group.discardUpdate(),
+        complete: () => group.switchMode(),
+      });
     }
   }
 
@@ -156,5 +151,4 @@ export class AccountsListComponent implements OnInit {
   onDeleteGroup(group: AccountsGroupWithAccounts) {
     this.accountsService.deleteGroup(group.id).subscribe();
   }
-
 }

@@ -49,7 +49,7 @@ import { MaterialModule } from './material.module';
     AccountRecordsComponent,
     AccountImportsComponent,
     AccountsListComponent,
-    TagsSelectorComponent
+    TagsSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,10 +64,9 @@ import { MaterialModule } from './material.module';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-sidenav-list',
   templateUrl: './sidenav-list.component.html',
-  styleUrls: ['./sidenav-list.component.scss']
+  styleUrls: ['./sidenav-list.component.scss'],
 })
 export class SidenavListComponent implements OnInit, OnDestroy {
   @Output() closeSidenav = new EventEmitter<void>();
@@ -15,17 +15,15 @@ export class SidenavListComponent implements OnInit, OnDestroy {
 
   userSubscription: Subscription;
 
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.userSubscription = this.authService.user.subscribe(user => this.user = user);
+    this.userSubscription = this.authService.user.subscribe(user => (this.user = user));
   }
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }
-
 
   onClose() {
     this.closeSidenav.emit();
@@ -35,5 +33,4 @@ export class SidenavListComponent implements OnInit, OnDestroy {
     this.authService.logout();
     this.closeSidenav.emit();
   }
-
 }
