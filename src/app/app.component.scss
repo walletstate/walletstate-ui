@@ -5,4 +5,5 @@ mat-sidenav-container {
 main {
   display: flex;
   padding: 30px 15px;
+  min-height: calc(100vh - 180px);
 }

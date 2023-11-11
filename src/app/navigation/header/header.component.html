@@ -14,10 +14,10 @@
 
     <ul class="navigation-items" *ngIf="!isSmallScreen">
       <li>
-        <a routerLink="/accounts">Accounts</a>
+        <a routerLink="/accounts" *ngIf="!!user?.wallet">Accounts</a>
       </li>
       <li>
-        <a routerLink="/settings">Settings</a>
+        <a routerLink="/settings" *ngIf="!!user?.wallet">Settings</a>
       </li>
       <li>
         <button class="icon-button"
