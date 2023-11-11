@@ -14,7 +14,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AccountsComponent } from './wallet/accounts/accounts.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FooterComponent } from './shared/footer/footer.component';
+import { FooterComponent } from './navigation/footer/footer.component';
 import { HomeFiltersComponent } from './wallet/wallet-home/home-filters/home-filters.component';
 import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accounts-filter/accounts-filter.component';
 import { HeaderComponent } from './navigation/header/header.component';
