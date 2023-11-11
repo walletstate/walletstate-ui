@@ -79,10 +79,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "walletstate:build:production"
+              "buildTarget": "walletstate:build:production"
             },
             "development": {
-              "browserTarget": "walletstate:build:development"
+              "buildTarget": "walletstate:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -93,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "walletstate:build"
+            "buildTarget": "walletstate:build"
           }
         },
         "test": {
