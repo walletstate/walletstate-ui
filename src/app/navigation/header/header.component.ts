@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidenavToggle = new EventEmitter<void>();
@@ -16,17 +16,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: User;
 
   userSubscription: Subscription;
-  breakpointsSubscription: Subscription
+  breakpointsSubscription: Subscription;
 
-  constructor(private responsive: BreakpointObserver, private authService: AuthService) {
-  }
+  constructor(
+    private responsive: BreakpointObserver,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    this.breakpointsSubscription = this.responsive.observe(Breakpoints.XSmall)
-      .subscribe(result => {
-        this.isSmallScreen = result.matches;
-      });
-    this.userSubscription = this.authService.user.subscribe(user => this.user = user);
+    this.breakpointsSubscription = this.responsive.observe(Breakpoints.XSmall).subscribe(result => {
+      this.isSmallScreen = result.matches;
+    });
+    this.userSubscription = this.authService.user.subscribe(user => (this.user = user));
   }
 
   ngOnDestroy(): void {
@@ -39,7 +40,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    this.authService.logout()
+    this.authService.logout();
   }
-
 }

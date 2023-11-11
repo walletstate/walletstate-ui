@@ -4,15 +4,13 @@
     <mat-card-subtitle>Create new account</mat-card-subtitle>
   </mat-card-header>
 
-
   <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
-
       <div class="input-row">
         <mat-form-field appearance="outline">
           <mat-label>Accounts group</mat-label>
           <mat-select formControlName="group">
-            <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
+            <mat-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -20,28 +18,23 @@
       <div class="name-container input-row">
         <mat-form-field appearance="outline">
           <mat-label>Account name</mat-label>
-          <input matInput placeholder="Account name" formControlName="name">
+          <input matInput placeholder="Account name" formControlName="name" />
           <mat-error *ngIf="createAccountForm.controls['name'].invalid">Account name is required</mat-error>
         </mat-form-field>
 
         <div>
-          <button type="button"
-                  class="icon-button"
-                  aria-label="Account icon"
-                  (click)="fileInput.click()">
-            <img
-              class="icon"
-              [src]="createAccountForm.controls['icon'].value"
-            />
+          <button type="button" class="icon-button" aria-label="Account icon" (click)="fileInput.click()">
+            <img class="icon" [src]="createAccountForm.controls['icon'].value" />
           </button>
-          <input hidden (change)="handleUpload($event)" #fileInput type="file" id="icon" accept="image/*">
+          <input hidden (change)="handleUpload($event)" #fileInput type="file" id="icon" accept="image/*" />
         </div>
       </div>
 
-      <app-tags-selector class="input-row"
-                         [allTags]="allTags"
-                         [selectedTags]="createAccountForm.value['tags']"
-                         (change)="onTagsChange($event)">
+      <app-tags-selector
+        class="input-row"
+        [allTags]="allTags"
+        [selectedTags]="createAccountForm.value['tags']"
+        (changeTags)="onTagsChange($event)">
       </app-tags-selector>
     </mat-card-content>
 
@@ -52,6 +45,4 @@
       </mat-card-actions>
     </mat-card-actions>
   </form>
-
-
 </mat-card>

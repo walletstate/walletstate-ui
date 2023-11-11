@@ -7,16 +7,17 @@ import { UserInfo } from './auth.model';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  user: BehaviorSubject<User> = new BehaviorSubject<User>(null)
+  user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   private autoLogoutTimer = null;
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   checkUserContextOrRedirect(): Observable<boolean> {
     return this.user.pipe(
@@ -46,7 +47,7 @@ export class AuthService {
   }
 
   initUserFromLocalStorage() {
-    const user = User.parse(localStorage.getItem('user'))
+    const user = User.parse(localStorage.getItem('user'));
     if (!!user && user.notExpired()) {
       this.user.next(user);
       this.autoLogout(user);
@@ -54,7 +55,7 @@ export class AuthService {
   }
 
   updateUserContext(user: User) {
-    if (!!user) {
+    if (user) {
       localStorage.setItem('user', user.toJsonString());
       this.autoLogout(user);
     } else {
@@ -88,26 +89,23 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<UserInfo>('/auth/login', {username, password}, {observe: 'response'})
-      .pipe(
-        tap(response => {
-          const user = User.build(response.body, +response.headers.get('X-Auth-Token-Expire-In'));
-          this.updateUserContext(user);
-          if (!!user.wallet) {
-            this.router.navigate(['/']);
-          } else {
-            this.router.navigate(['/wallet-init']);
-          }
-        })
-      );
+    return this.http.post<UserInfo>('/auth/login', { username, password }, { observe: 'response' }).pipe(
+      tap(response => {
+        const user = User.build(response.body, +response.headers.get('X-Auth-Token-Expire-In'));
+        this.updateUserContext(user);
+        if (user.wallet) {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/wallet-init']);
+        }
+      })
+    );
   }
 
   logout() {
-    this.http.post('/auth/logout', {}, {observe: 'response', responseType: 'text'})
-      .subscribe(r => {
-        this.updateUserContext(null);
-        this.router.navigate(['/login']);
-      });
+    this.http.post('/auth/logout', {}, { observe: 'response', responseType: 'text' }).subscribe(() => {
+      this.updateUserContext(null);
+      this.router.navigate(['/login']);
+    });
   }
-
 }

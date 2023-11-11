@@ -4,12 +4,10 @@ import { Observable } from 'rxjs';
 import { Category, CreateCategory } from './category.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoriesService {
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   get(): Observable<Category[]> {
     return this.http.get<Category[]>('/api/categories');

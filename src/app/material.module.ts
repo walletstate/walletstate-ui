@@ -37,7 +37,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatListModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   exports: [
     MatCardModule,
@@ -57,7 +57,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatListModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatChipsModule
-  ]
+    MatChipsModule,
+  ],
 })
 export class MaterialModule {}

@@ -5,22 +5,20 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   hidePassword: boolean = true;
   loginForm: FormGroup;
   loginError: string = null;
 
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      'username': new FormControl('', Validators.required),
-      'password': new FormControl('', Validators.required),
-      'rememberMe': new FormControl(false)
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      rememberMe: new FormControl(false),
     });
   }
 
@@ -28,7 +26,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm);
     this.authService
       .login(this.loginForm.value.username, this.loginForm.value.password)
-      .subscribe({error: this.onLoginError.bind(this)});
+      .subscribe({ error: this.onLoginError.bind(this) });
   }
 
   private onLoginError(error) {

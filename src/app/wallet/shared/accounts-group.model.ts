@@ -1,13 +1,13 @@
 export interface AccountsGroup {
-  id: string
-  name: string
-  orderingIndex: number
-  accounts?: SimpleAccount[]
+  id: string;
+  name: string;
+  orderingIndex: number;
+  accounts?: SimpleAccount[];
 }
 
 export interface CreateAccountsGroup {
-  name: string
-  orderingIndex: number
+  name: string;
+  orderingIndex: number;
 }
 
 export interface UpdateAccountsGroup {
@@ -15,15 +15,14 @@ export interface UpdateAccountsGroup {
 }
 
 export interface SimpleAccount {
-  id: string,
-  name: string,
-  orderingIndex: number,
-  icon: string,
-  tags: string[]
+  id: string;
+  name: string;
+  orderingIndex: number;
+  icon: string;
+  tags: string[];
 }
 
 export class AccountsGroupWithAccounts {
-
   _editMode: boolean = false;
   updateName: string;
 
@@ -45,7 +44,7 @@ export class AccountsGroupWithAccounts {
   }
 
   saveUpdate() {
-    this.name = this.updateName
+    this.name = this.updateName;
   }
 
   discardUpdate() {
@@ -53,8 +52,11 @@ export class AccountsGroupWithAccounts {
   }
 
   static fromGroup(group: AccountsGroup) {
-    return new AccountsGroupWithAccounts(group.id, group.name, group.orderingIndex, !!group.accounts ? group.accounts : [])
+    return new AccountsGroupWithAccounts(
+      group.id,
+      group.name,
+      group.orderingIndex,
+      group.accounts ? group.accounts : []
+    );
   }
 }
-
-
