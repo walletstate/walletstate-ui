@@ -1,37 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, mergeMap, Observable } from 'rxjs';
-import { Account, CreateAccount } from './account.model';
-import {
-  AccountsGroup,
-  AccountsGroupWithAccounts,
-  CreateAccountsGroup,
-  UpdateAccountsGroup,
-} from './accounts-group.model';
+import { Account, CreateAccount, GroupedAccounts } from './account.model';
 import { map } from 'rxjs/operators';
+import { CreateGroup, Group, GroupType, UpdateGroup } from './group.model';
+import { GroupsService } from './groups.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountsService {
-  groups: BehaviorSubject<AccountsGroupWithAccounts[]> = new BehaviorSubject<AccountsGroupWithAccounts[]>([]);
+  groups: BehaviorSubject<GroupedAccounts[]> = new BehaviorSubject<GroupedAccounts[]>([]);
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private groupsService: GroupsService
+  ) {}
 
-  loadGroupsWithAccounts(): Observable<AccountsGroupWithAccounts[]> {
-    return this.http.get<AccountsGroup[]>('/api/accounts/grouped').pipe(
+  loadGroupedAccounts(): Observable<GroupedAccounts[]> {
+    return this.http.get<Group<Account>[]>('/api/accounts/grouped').pipe(
       map(groups => {
-        const groupsWithAccounts = groups.map(group => AccountsGroupWithAccounts.fromGroup(group));
-        this.groups.next(groupsWithAccounts);
-        return groupsWithAccounts;
+        const groupedAccounts = groups.map(group => GroupedAccounts.fromGroup(group));
+        this.groups.next(groupedAccounts);
+        return groupedAccounts;
       })
     );
   }
 
-  createGroup(data: CreateAccountsGroup): Observable<AccountsGroupWithAccounts> {
-    return this.http.post<AccountsGroup>('/api/groups/accounts', data).pipe(
+  createGroup(data: CreateGroup): Observable<GroupedAccounts> {
+    return this.groupsService.createGroup<Account>(GroupType.Accounts, data).pipe(
       map(group => {
-        const newGroup = AccountsGroupWithAccounts.fromGroup(group);
+        const newGroup = GroupedAccounts.fromGroup(group);
         this.groups.value.push(newGroup);
         this.groups.next(this.groups.value);
         return newGroup;
@@ -39,8 +38,8 @@ export class AccountsService {
     );
   }
 
-  updateGroup(id: string, data: UpdateAccountsGroup): Observable<any> {
-    return this.http.put(`/api/groups/accounts/${id}`, data).pipe(
+  updateGroup(id: string, data: UpdateGroup): Observable<any> {
+    return this.groupsService.updateGroup<Account>(GroupType.Accounts, id, data).pipe(
       map(() => {
         //TODO: discard an update on http failure
         this.groups.value.find(g => g.id === id).saveUpdate();
@@ -50,7 +49,7 @@ export class AccountsService {
   }
 
   deleteGroup(id: string): Observable<any> {
-    return this.http.delete(`/api/groups/accounts/${id}`).pipe(
+    return this.groupsService.deleteGroup(GroupType.Accounts, id).pipe(
       map(() => {
         this.groups.value.splice(
           this.groups.value.findIndex(g => g.id === id),
@@ -64,6 +63,6 @@ export class AccountsService {
   createAccount(data: CreateAccount): Observable<Account> {
     return this.http
       .post<Account>('/api/accounts', data)
-      .pipe(mergeMap(account => this.loadGroupsWithAccounts().pipe(map(() => account))));
+      .pipe(mergeMap(account => this.loadGroupedAccounts().pipe(map(() => account))));
   }
 }
