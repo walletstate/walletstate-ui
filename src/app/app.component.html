@@ -1,6 +1,7 @@
-<router-outlet *ngIf="!user"></router-outlet>
-
-<mat-sidenav-container *ngIf="!!user">
+@if (!user) {
+<router-outlet></router-outlet>
+} @else {
+<mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <app-sidenav-list (closeSidenav)="sidenav.close()"></app-sidenav-list>
   </mat-sidenav>
@@ -15,3 +16,4 @@
     <app-footer></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
+}

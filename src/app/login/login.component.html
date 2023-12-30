@@ -12,7 +12,9 @@
           <input matInput placeholder="Username" formControlName="username" />
           <mat-icon matSuffix>account_circle</mat-icon>
 
-          <mat-error *ngIf="loginForm.controls['username'].invalid">Username is required</mat-error>
+          @if (loginForm.controls['username'].invalid) {
+          <mat-error>Username is required</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="login-input">
@@ -31,11 +33,15 @@
             [attr.aria-pressed]="hidePassword">
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="loginForm.controls['username'].invalid">Password is required</mat-error>
+          @if (loginForm.controls['username'].invalid) {
+          <mat-error>Password is required</mat-error>
+          }
         </mat-form-field>
 
         <mat-checkbox formControlName="rememberMe">Remember me!</mat-checkbox>
-        <mat-error *ngIf="loginError">{{ loginError }}</mat-error>
+        @if (loginError) {
+        <mat-error>{{ loginError }}</mat-error>
+        }
       </mat-card-content>
 
       <mat-card-actions align="end" class="login-action">

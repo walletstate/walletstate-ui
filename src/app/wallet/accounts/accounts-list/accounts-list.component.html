@@ -1,6 +1,7 @@
 <mat-card class="accounts">
   <mat-card-header>
-    <mat-card-title-group *ngIf="!isSearchMode && !isAddGroupMode">
+    @if (!isSearchMode && !isAddGroupMode) {
+    <mat-card-title-group>
       <mat-card-title>Accounts</mat-card-title>
       <div>
         <button mat-icon-button (click)="onSearchClick()" matTooltip="Search account">
@@ -17,8 +18,8 @@
         <!--        </button>-->
       </div>
     </mat-card-title-group>
-
-    <mat-card-title-group *ngIf="isSearchMode">
+    } @else if (isSearchMode) {
+    <mat-card-title-group>
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
         <input matInput placeholder="Search..." (keydown.escape)="onClose()" />
       </mat-form-field>
@@ -29,8 +30,8 @@
         </button>
       </div>
     </mat-card-title-group>
-
-    <mat-card-title-group *ngIf="isAddGroupMode">
+    } @else if (isAddGroupMode) {
+    <mat-card-title-group>
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
         <mat-label>Group name</mat-label>
         <input
@@ -50,12 +51,15 @@
         </button>
       </div>
     </mat-card-title-group>
+    }
   </mat-card-header>
 
   <mat-card-content>
     <mat-nav-list>
-      <div *ngFor="let group of groups">
-        <div class="group" *ngIf="!group.editMode">
+      @for (group of groups; track group) {
+      <div>
+        @if (!group.editMode) {
+        <div class="group">
           <h3 matSubheader class="group-header">{{ group.name }}</h3>
           <div class="group-actions hidden-actions">
             <button mat-icon-button (click)="group.switchMode()" matTooltip="Edit group name">
@@ -76,8 +80,8 @@
             </button>
           </div>
         </div>
-
-        <div class="group" *ngIf="group.editMode">
+        } @if (group.editMode) {
+        <div class="group">
           <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
             <input
               matInput
@@ -96,20 +100,19 @@
             </button>
           </div>
         </div>
-
-        <mat-list-item
-          *ngFor="let account of group.accounts"
-          routerLinkActive
-          #rla="routerLinkActive"
-          [activated]="rla.isActive"
-          [routerLink]="[account.id]">
+        } @for (account of group.accounts; track account) {
+        <mat-list-item routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLink]="[account.id]">
           <img matListItemAvatar [src]="account.icon" alt="account-icon" />
           <a matListItemTitle> {{ account.name }} </a>
           <p matListItemLine>
-            <span *ngFor="let tag of account.tags">#{{ tag }} </span>
+            @for (tag of account.tags; track tag) {
+            <span>#{{ tag }} </span>
+            }
           </p>
         </mat-list-item>
+        }
       </div>
+      }
     </mat-nav-list>
   </mat-card-content>
 </mat-card>

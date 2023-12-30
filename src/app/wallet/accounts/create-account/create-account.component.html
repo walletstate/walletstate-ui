@@ -10,7 +10,9 @@
         <mat-form-field appearance="outline">
           <mat-label>Accounts group</mat-label>
           <mat-select formControlName="group">
-            <mat-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</mat-option>
+            @for (group of groups; track group) {
+            <mat-option [value]="group.id">{{ group.name }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </div>
@@ -19,7 +21,9 @@
         <mat-form-field appearance="outline">
           <mat-label>Account name</mat-label>
           <input matInput placeholder="Account name" formControlName="name" />
-          <mat-error *ngIf="createAccountForm.controls['name'].invalid">Account name is required</mat-error>
+          @if (createAccountForm.controls['name'].invalid) {
+          <mat-error>Account name is required</mat-error>
+          }
         </mat-form-field>
 
         <div>

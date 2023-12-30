@@ -1,14 +1,10 @@
 <mat-card>
   <nav mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="start">
-    <a
-      mat-tab-link
-      *ngFor="let link of links"
-      routerLinkActive
-      #rla="routerLinkActive"
-      [active]="rla.isActive"
-      [routerLink]="[link.path]">
+    @for (link of links; track link) {
+    <a mat-tab-link routerLinkActive #rla="routerLinkActive" [active]="rla.isActive" [routerLink]="[link.path]">
       {{ link.title }}
     </a>
+    }
   </nav>
   <mat-tab-nav-panel #tabPanel class="mat-mdc-card mdc-card account">
     <router-outlet></router-outlet>
