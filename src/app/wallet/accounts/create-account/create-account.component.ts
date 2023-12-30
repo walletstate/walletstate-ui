@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountsService } from '../../shared/accounts.service';
-import { AccountsGroupWithAccounts } from '../../shared/accounts-group.model';
+import { GroupedAccounts } from '../../shared/account.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit {
-  groups: AccountsGroupWithAccounts[] = [];
+  groups: GroupedAccounts[] = [];
 
   createAccountForm: FormGroup;
 
