@@ -2,7 +2,7 @@ export interface AccountsGroup {
   id: string;
   name: string;
   orderingIndex: number;
-  accounts?: SimpleAccount[];
+  items?: SimpleAccount[];
 }
 
 export interface CreateAccountsGroup {
@@ -52,11 +52,6 @@ export class AccountsGroupWithAccounts {
   }
 
   static fromGroup(group: AccountsGroup) {
-    return new AccountsGroupWithAccounts(
-      group.id,
-      group.name,
-      group.orderingIndex,
-      group.accounts ? group.accounts : []
-    );
+    return new AccountsGroupWithAccounts(group.id, group.name, group.orderingIndex, group.items ? group.items : []);
   }
 }

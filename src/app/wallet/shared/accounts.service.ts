@@ -19,7 +19,7 @@ export class AccountsService {
   constructor(private http: HttpClient) {}
 
   loadGroupsWithAccounts(): Observable<AccountsGroupWithAccounts[]> {
-    return this.http.get<AccountsGroup[]>('/api/groups/with-accounts').pipe(
+    return this.http.get<AccountsGroup[]>('/api/accounts/grouped').pipe(
       map(groups => {
         const groupsWithAccounts = groups.map(group => AccountsGroupWithAccounts.fromGroup(group));
         this.groups.next(groupsWithAccounts);
@@ -29,7 +29,7 @@ export class AccountsService {
   }
 
   createGroup(data: CreateAccountsGroup): Observable<AccountsGroupWithAccounts> {
-    return this.http.post<AccountsGroup>('/api/groups', data).pipe(
+    return this.http.post<AccountsGroup>('/api/groups/accounts', data).pipe(
       map(group => {
         const newGroup = AccountsGroupWithAccounts.fromGroup(group);
         this.groups.value.push(newGroup);
@@ -40,7 +40,7 @@ export class AccountsService {
   }
 
   updateGroup(id: string, data: UpdateAccountsGroup): Observable<any> {
-    return this.http.put(`/api/groups/${id}`, data).pipe(
+    return this.http.put(`/api/groups/accounts/${id}`, data).pipe(
       map(() => {
         //TODO: discard an update on http failure
         this.groups.value.find(g => g.id === id).saveUpdate();
@@ -50,7 +50,7 @@ export class AccountsService {
   }
 
   deleteGroup(id: string): Observable<any> {
-    return this.http.delete(`/api/groups/${id}`).pipe(
+    return this.http.delete(`/api/groups/accounts/${id}`).pipe(
       map(() => {
         this.groups.value.splice(
           this.groups.value.findIndex(g => g.id === id),
