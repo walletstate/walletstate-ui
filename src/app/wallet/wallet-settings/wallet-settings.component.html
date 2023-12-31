@@ -1,0 +1,12 @@
+<mat-card>
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="start">
+    @for (tab of tabs; track tab) {
+    <a mat-tab-link routerLinkActive #rla="routerLinkActive" [active]="rla.isActive" [routerLink]="[tab.path]">
+      {{ tab.title }}
+    </a>
+    }
+  </nav>
+  <mat-tab-nav-panel #tabPanel class="mat-mdc-card mdc-card">
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</mat-card>

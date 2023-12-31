@@ -13,6 +13,10 @@ import { CreateAccountComponent } from './wallet/accounts/create-account/create-
 import { AccountInfoComponent } from './wallet/accounts/account/account-info/account-info.component';
 import { AccountRecordsComponent } from './wallet/accounts/account/account-records/account-records.component';
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
+import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-settings.component';
+import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
+import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -35,6 +39,17 @@ const routes: Routes = [
           { path: 'imports', component: AccountImportsComponent },
         ],
       },
+    ],
+  },
+  {
+    path: 'settings',
+    canActivate: [walletGuard],
+    component: WalletSettingsComponent,
+    children: [
+      { path: '', redirectTo: 'general', pathMatch: 'full' },
+      { path: 'general', component: GeneralSettingsComponent },
+      { path: 'categories', component: CategoriesSettingsComponent },
+      { path: 'assets', component: AssetsSettingsComponent },
     ],
   },
 
