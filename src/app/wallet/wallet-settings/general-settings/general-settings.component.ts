@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { WalletService } from '../../../shared/wallet.service';
+import { Wallet } from '../../../shared/wallet.model';
 
 @Component({
   selector: 'app-general-settings',
@@ -6,4 +8,14 @@ import { Component } from '@angular/core';
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.scss',
 })
-export class GeneralSettingsComponent {}
+export class GeneralSettingsComponent implements OnInit {
+  wallet: Wallet = undefined;
+
+  constructor(private walletService: WalletService) {}
+
+  ngOnInit() {
+    this.walletService.get().subscribe(wallet => {
+      this.wallet = wallet;
+    });
+  }
+}

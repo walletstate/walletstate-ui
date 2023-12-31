@@ -17,6 +17,7 @@ import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-setting
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
+import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -48,6 +49,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       { path: 'general', component: GeneralSettingsComponent },
+      { path: 'users', component: WalletUsersComponent },
       { path: 'categories', component: CategoriesSettingsComponent },
       { path: 'assets', component: AssetsSettingsComponent },
     ],

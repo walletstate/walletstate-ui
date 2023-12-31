@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 export class WalletSettingsComponent {
   tabs = [
     { title: 'General', path: 'general' },
+    { title: 'Users', path: 'users' },
     { title: 'Categories', path: 'categories' },
     { title: 'Assets', path: 'assets' },
   ];

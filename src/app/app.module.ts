@@ -31,6 +31,7 @@ import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-setting
 import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
+import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { GeneralSettingsComponent } from './wallet/wallet-settings/general-setti
     AssetsSettingsComponent,
     CategoriesSettingsComponent,
     GeneralSettingsComponent,
+    WalletUsersComponent,
   ],
   imports: [
     BrowserModule,
