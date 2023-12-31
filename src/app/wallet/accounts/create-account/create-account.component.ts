@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountsService } from '../../shared/accounts.service';
-import { GroupedAccounts } from '../../shared/account.model';
+import { Account } from '../../shared/account.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { GroupControl } from '../../shared/group.model';
 
 @Component({
   selector: 'app-create-account',
@@ -11,7 +12,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit {
-  groups: GroupedAccounts[] = [];
+  groups: GroupControl<Account>[] = [];
 
   createAccountForm: FormGroup;
 
@@ -33,7 +34,7 @@ export class CreateAccountComponent implements OnInit {
       this.groups = groups;
       console.log('groups updated', this.groups);
       this.allTags = groups
-        .flatMap(g => g.accounts.flatMap(a => a.tags))
+        .flatMap(g => g.items.flatMap(a => a.tags))
         .filter((v, i, self) => i === self.indexOf(v))
         .sort();
       console.log('all tags', this.allTags);
