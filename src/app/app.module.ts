@@ -32,6 +32,7 @@ import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-setting
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
+import { IconPipe } from './shared/icon.pipe';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wall
     MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    IconPipe,
   ],
   providers: [
     {

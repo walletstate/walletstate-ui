@@ -58,7 +58,7 @@
     <!--    -->
     @for (category of group.items; track category) {
     <mat-list-item>
-      <img matListItemAvatar [src]="category.icon" alt="category-icon" />
+      <img matListItemAvatar [src]="category.icon | iconUrl" alt="category-icon" />
       <a matListItemTitle> {{ category.name }} </a>
     </mat-list-item>
     }
