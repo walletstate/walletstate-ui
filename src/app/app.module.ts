@@ -33,6 +33,7 @@ import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 import { IconPipe } from './shared/icon.pipe';
+import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { IconPipe } from './shared/icon.pipe';
     CategoriesSettingsComponent,
     GeneralSettingsComponent,
     WalletUsersComponent,
+    IconsDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -66,8 +66,7 @@
     <!--      -->
     @if (group.addNewItemMode) {
     <mat-list-item>
-      <img matListItemAvatar class="icon" [src]="group.newItemIcon" (click)="fileInput.click()" />
-      <input hidden (change)="handleUpload($event, group)" #fileInput type="file" id="icon" accept="image/*" />
+      <img matListItemAvatar class="icon" [src]="group.newItemIcon | iconUrl" (click)="openIconsModal(group)" />
 
       <div matListItemTitle>
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
