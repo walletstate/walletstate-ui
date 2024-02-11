@@ -27,6 +27,13 @@ import { AccountImportsComponent } from './wallet/accounts/account/account-impor
 import { AccountsListComponent } from './wallet/accounts/accounts-list/accounts-list.component';
 import { TagsSelectorComponent } from './shared/utils/tags-selector/tags-selector.component';
 import { MaterialModule } from './material.module';
+import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-settings.component';
+import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
+import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
+import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
+import { IconPipe } from './shared/icon.pipe';
+import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +57,12 @@ import { MaterialModule } from './material.module';
     AccountImportsComponent,
     AccountsListComponent,
     TagsSelectorComponent,
+    WalletSettingsComponent,
+    AssetsSettingsComponent,
+    CategoriesSettingsComponent,
+    GeneralSettingsComponent,
+    WalletUsersComponent,
+    IconsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +72,7 @@ import { MaterialModule } from './material.module';
     MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    IconPipe,
   ],
   providers: [
     {

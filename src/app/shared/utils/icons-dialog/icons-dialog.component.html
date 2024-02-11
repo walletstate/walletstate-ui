@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Select icon</h2>
+
+<mat-dialog-content>
+  <div class="icons-container">
+    @for (icon of icons; track icon) {
+    <img [src]="icon | iconUrl" class="icon" (click)="onSelectIcon(icon)" />
+    }
+  </div>
+  <hr />
+
+  <img [src]="uploadNewImageIconId | iconUrl" class="icon" (click)="fileInput.click()" alt="Upload new icon" />
+  <input hidden (change)="handleUpload($event)" #fileInput type="file" id="icon" accept="image/*" />
+</mat-dialog-content>
+
+<!--<mat-dialog-actions align="end">-->
+<!--  <button mat-button mat-dialog-close>Cancel</button>-->
+<!--  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>-->
+<!--</mat-dialog-actions>-->

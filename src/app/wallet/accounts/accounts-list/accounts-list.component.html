@@ -68,7 +68,7 @@
             <button
               mat-icon-button
               (click)="onDeleteGroup(group)"
-              [disabled]="group.accounts.length > 0"
+              [disabled]="group.items.length > 0"
               matTooltip="Delete">
               <mat-icon>delete</mat-icon>
             </button>
@@ -80,7 +80,7 @@
             </button>
           </div>
         </div>
-        } @if (group.editMode) {
+        } @else {
         <div class="group">
           <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
             <input
@@ -100,9 +100,9 @@
             </button>
           </div>
         </div>
-        } @for (account of group.accounts; track account) {
+        } @for (account of group.items; track account) {
         <mat-list-item routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLink]="[account.id]">
-          <img matListItemAvatar [src]="account.icon" alt="account-icon" />
+          <img matListItemAvatar [src]="account.icon | iconUrl" alt="account-icon" />
           <a matListItemTitle> {{ account.name }} </a>
           <p matListItemLine>
             @for (tag of account.tags; track tag) {

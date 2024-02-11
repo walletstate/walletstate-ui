@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, mergeMap, Observable } from 'rxjs';
-import { Account, CreateAccount, GroupedAccounts } from './account.model';
+import { Account, CreateAccount } from './account.model';
 import { map } from 'rxjs/operators';
-import { CreateGroup, Group, GroupType, UpdateGroup } from './group.model';
+import { CreateGroup, Group, GroupControl, GroupType, UpdateGroup } from './group.model';
 import { GroupsService } from './groups.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountsService {
-  groups: BehaviorSubject<GroupedAccounts[]> = new BehaviorSubject<GroupedAccounts[]>([]);
+  groups: BehaviorSubject<GroupControl<Account>[]> = new BehaviorSubject<GroupControl<Account>[]>([]);
 
   constructor(
     private http: HttpClient,
     private groupsService: GroupsService
   ) {}
 
-  loadGroupedAccounts(): Observable<GroupedAccounts[]> {
+  loadGroupedAccounts(): Observable<GroupControl<Account>[]> {
     return this.http.get<Group<Account>[]>('/api/accounts/grouped').pipe(
       map(groups => {
-        const groupedAccounts = groups.map(group => GroupedAccounts.fromGroup(group));
+        const groupedAccounts = groups.map(group => GroupControl.fromGroup<Account>(group));
         this.groups.next(groupedAccounts);
         return groupedAccounts;
       })
     );
   }
 
-  createGroup(data: CreateGroup): Observable<GroupedAccounts> {
+  createGroup(data: CreateGroup): Observable<GroupControl<Account>> {
     return this.groupsService.createGroup<Account>(GroupType.Accounts, data).pipe(
       map(group => {
-        const newGroup = GroupedAccounts.fromGroup(group);
+        const newGroup = GroupControl.fromGroup(group);
         this.groups.value.push(newGroup);
         this.groups.next(this.groups.value);
         return newGroup;

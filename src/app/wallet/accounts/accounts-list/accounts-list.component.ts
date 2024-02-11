@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../../shared/accounts.service';
-import { GroupedAccounts } from '../../shared/account.model';
+import { Account } from '../../shared/account.model';
+import { GroupControl } from '../../shared/group.model';
 
 @Component({
   selector: 'app-accounts-list',
@@ -13,7 +14,7 @@ export class AccountsListComponent implements OnInit {
 
   newGroupName: string = '';
 
-  groups: GroupedAccounts[] = [];
+  groups: GroupControl<Account>[] = [];
 
   constructor(private accountsService: AccountsService) {}
 
@@ -47,21 +48,26 @@ export class AccountsListComponent implements OnInit {
     }
   }
 
-  onUpdateGroupName(group: GroupedAccounts) {
+  onUpdateGroupName(group: GroupControl<Account>) {
     if (group.updateName.trim().length > 0) {
-      this.accountsService.updateGroup(group.id, { name: group.updateName }).subscribe({
-        error: () => group.discardUpdate(),
-        complete: () => group.switchMode(),
-      });
+      this.accountsService
+        .updateGroup(group.id, {
+          name: group.updateName,
+          orderingIndex: group.orderingIndex,
+        })
+        .subscribe({
+          error: () => group.discardUpdate(),
+          complete: () => group.switchMode(),
+        });
     }
   }
 
-  onDiscardGroupUpdate(group: GroupedAccounts) {
+  onDiscardGroupUpdate(group: GroupControl<Account>) {
     group.discardUpdate();
     group.switchMode();
   }
 
-  onDeleteGroup(group: GroupedAccounts) {
+  onDeleteGroup(group: GroupControl<Account>) {
     this.accountsService.deleteGroup(group.id).subscribe();
   }
 }

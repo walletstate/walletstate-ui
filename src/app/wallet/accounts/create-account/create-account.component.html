@@ -27,10 +27,9 @@
         </mat-form-field>
 
         <div>
-          <button type="button" class="icon-button" aria-label="Account icon" (click)="fileInput.click()">
-            <img class="icon" [src]="createAccountForm.controls['icon'].value" />
+          <button type="button" class="icon-button" aria-label="Account icon" (click)="openIconsModal()">
+            <img class="icon" [src]="createAccountForm.controls['icon'].value | iconUrl: defaultIconId" />
           </button>
-          <input hidden (change)="handleUpload($event)" #fileInput type="file" id="icon" accept="image/*" />
         </div>
       </div>
 
