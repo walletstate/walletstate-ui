@@ -3,7 +3,8 @@ import { GroupControl } from '../../shared/group.model';
 import { CategoriesService } from '../../shared/categories.service';
 import { IconsDialogComponent } from '../../../shared/utils/icons-dialog/icons-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Category } from '@walletstate/angular-client';
+import { Category, Grouped } from '@walletstate/angular-client';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-categories-settings',
@@ -12,13 +13,14 @@ import { Category } from '@walletstate/angular-client';
   styleUrl: './categories-settings.component.scss',
 })
 export class CategoriesSettingsComponent implements OnInit {
-  groups: GroupControl<Category>[] = [];
+  groups: Grouped<Category>[] = [];
 
-  isNewGroupFormVisible: boolean = false;
-  newGroupName: string = '';
-  newGroupIdx: number = 0;
+  selectedGroup: Grouped<Category> = null;
 
-  defaultCategoryIcon = '';
+  addNewGroup: boolean = false;
+  editGroup: boolean = false;
+
+  showNewCategoryForm: boolean = false;
 
   constructor(
     private categoriesService: CategoriesService,
@@ -27,44 +29,46 @@ export class CategoriesSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoriesService.getGrouped().subscribe();
-    this.categoriesService.groups.subscribe(categoriesGroups => (this.groups = categoriesGroups));
+    this.categoriesService.groups.subscribe(categoriesGroups => {
+      this.groups = categoriesGroups;
+      if (!this.selectedGroup && categoriesGroups.length) {
+        this.selectedGroup = categoriesGroups[0];
+      }
+    });
   }
 
-  onUpdateGroup(group: GroupControl<Category>) {
-    if (group.updateName.trim().length > 0) {
-      this.categoriesService.updateGroup(group.id, group.updateName, group.updateIdx).subscribe({
-        error: () => group.discardUpdate(),
-        complete: () => group.switchMode(),
-      });
-    }
+  onSelectGroup(group: Grouped<Category>) {
+    this.discardGroupEdit(); //TODO add dialog to confirm
+    this.selectedGroup = group;
   }
 
-  onDiscardGroupUpdate(group: GroupControl<Category>) {
-    group.discardUpdate();
-    group.switchMode();
+  onAddNewGroup() {
+    this.addNewGroup = true;
   }
 
-  onDeleteGroup(group: GroupControl<Category>) {
-    console.log(group);
+  onEditGroup() {
+    this.editGroup = true;
   }
 
-  showNewGroupForm() {
-    this.newGroupName = '';
-    this.isNewGroupFormVisible = true;
+  createNewGroup(name: string) {
+    this.categoriesService.createGroup(name, this.groups.length + 1).subscribe(grouped => {
+      console.log(grouped);
+      this.discardGroupEdit();
+      this.selectedGroup = grouped;
+    });
   }
 
-  hideNewGroupForm() {
-    this.isNewGroupFormVisible = false;
+  updateGroup(id: string, name: string) {
+    this.categoriesService.updateGroup(id, name, this.selectedGroup.idx).subscribe(() => this.discardGroupEdit());
   }
 
-  createNewGroup() {
-    if (this.newGroupName.trim().length > 0) {
-      this.categoriesService.createGroup(this.newGroupName.trim(), this.newGroupIdx).subscribe({
-        error: () => this.hideNewGroupForm(),
-        complete: () => this.hideNewGroupForm(),
-      });
-    }
+  discardGroupEdit() {
+    this.addNewGroup = false;
+    this.editGroup = false;
   }
+
+  /////////////
+  onAddCategory() {}
 
   openIconsModal(group: GroupControl<Category>): void {
     const dialogRef = this.dialog.open(IconsDialogComponent, {

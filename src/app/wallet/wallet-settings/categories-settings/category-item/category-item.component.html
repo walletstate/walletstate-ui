@@ -1,0 +1,46 @@
+@if (!editMode) {
+<mat-list-item class="show-on-hover-container">
+  <img matListItemAvatar [src]="category.icon | iconUrl" alt="..." />
+  <h3 matListItemTitle>{{ category.name }}</h3>
+  <p matListItemLine>
+    <span>{{ category.idx }}</span>
+  </p>
+  <div matListItemMeta class="show-on-hover-item">
+    <button mat-icon-button (click)="onEdit()"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button><mat-icon>delete</mat-icon></button>
+    <mat-icon>drag_indicator</mat-icon>
+  </div>
+</mat-list-item>
+} @else {
+<!--<mat-list-item>-->
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <!--    <img matListItemAvatar [src]="category?.icon | iconUrl" />-->
+
+  <div>
+    <button type="button" class="icon-button" aria-label="Category icon" (click)="openIconsModal()">
+      <img class="icon" [src]="categoryForm.controls['icon'].value | iconUrl" />
+    </button>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Category name</mat-label>
+    <input matInput placeholder="Category name" formControlName="name" />
+    @if (categoryForm.controls['name'].invalid) {
+    <mat-error>Category name is required</mat-error>
+    }
+  </mat-form-field>
+
+  <app-tags-selector
+    class="input-row"
+    [allTags]="[]"
+    [selectedTags]="categoryForm.value['tags']"
+    (changeTags)="onTags($event)">
+  </app-tags-selector>
+
+  <div>
+    <button type="submit" mat-icon-button><mat-icon>done</mat-icon></button>
+    <button type="button" mat-icon-button><mat-icon>cancel</mat-icon></button>
+  </div>
+</form>
+<!--</mat-list-item>-->
+}

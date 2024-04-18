@@ -1,139 +1,50 @@
-<mat-nav-list>
-  @for (group of groups; track group) {
-  <div>
-    @if (!group.editMode) {
-    <div class="group">
-      <h3 matSubheader class="group-header">{{ group.name }}</h3>
-      <div class="group-actions hidden-actions">
-        <button mat-icon-button (click)="group.switchMode()" matTooltip="Edit category group name">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="onDeleteGroup(group)"
-          [disabled]="group.items.length > 0"
-          matTooltip="Delete group">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="group.addNewItem(defaultCategoryIcon)"
-          [disabled]="group.addNewItemMode"
-          matTooltip="Create category in group">
-          <mat-icon>add</mat-icon>
-        </button>
+<div class="container">
+  <mat-nav-list class="groups-list">
+    @for (group of groups; track group) {
+    <mat-list-item
+      class="show-on-hover-container"
+      (click)="onSelectGroup(group)"
+      [activated]="selectedGroup?.id === group.id">
+      <a matListItemTitle>
+        {{ group.name }}
+      </a>
+      <div matListItemMeta class="show-on-hover-item">
+        <mat-icon>drag_indicator</mat-icon>
       </div>
-    </div>
+    </mat-list-item>
+    }
+    <button mat-button (click)="onAddNewGroup()"><mat-icon>add</mat-icon>Add new category group</button>
+  </mat-nav-list>
+
+  <div class="group-detail">
+    @if (addNewGroup) {
+    <app-edit-group-form (save)="createNewGroup($event)" (cancel)="discardGroupEdit()"></app-edit-group-form>
+    } @else if (selectedGroup) { @if(editGroup) {
+    <app-edit-group-form
+      [name]="selectedGroup.name"
+      (save)="updateGroup(selectedGroup.id, $event)"
+      (cancel)="discardGroupEdit()"></app-edit-group-form>
     } @else {
-    <div class="group">
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-        <input
-          matInput
-          placeholder="Group name"
-          [(ngModel)]="group.updateName"
-          (keydown.enter)="onUpdateGroup(group)"
-          (keydown.escape)="onDiscardGroupUpdate(group)" />
-      </mat-form-field>
-      <!--      todo in future it should be implemented using drag and drop-->
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-        <input
-          matInput
-          type="number"
-          placeholder="Ordering index"
-          [(ngModel)]="group.updateIdx"
-          (keydown.enter)="onUpdateGroup(group)"
-          (keydown.escape)="onDiscardGroupUpdate(group)" />
-      </mat-form-field>
-
-      <div class="group-actions two-actions">
-        <button mat-icon-button (click)="onUpdateGroup(group)" matTooltip="Save">
-          <mat-icon>done</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onDiscardGroupUpdate(group)" matTooltip="Discard">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </div>
-    }
-    <!--    -->
-    @for (category of group.items; track category) {
-    <mat-list-item>
-      <img matListItemAvatar [src]="category.icon | iconUrl" alt="category-icon" />
-      <a matListItemTitle> {{ category.name }} </a>
-    </mat-list-item>
-    }
-
-    <!--      -->
-    @if (group.addNewItemMode) {
-    <mat-list-item>
-      <img matListItemAvatar class="icon" [src]="group.newItemIcon | iconUrl" (click)="openIconsModal(group)" />
-
-      <div matListItemTitle>
-        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-          <input
-            matInput
-            placeholder="Category name"
-            [(ngModel)]="group.newItemName"
-            (keydown.enter)="onUpdateGroup(group)"
-            (keydown.escape)="onDiscardGroupUpdate(group)" />
-        </mat-form-field>
-        <!--      todo in future it should be implemented using drag and drop-->
-        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-          <input
-            matInput
-            type="number"
-            placeholder="Category ordering index"
-            [(ngModel)]="group.newItemIdx"
-            (keydown.enter)="onUpdateGroup(group)"
-            (keydown.escape)="onDiscardGroupUpdate(group)" />
-        </mat-form-field>
-
-        <button mat-icon-button (click)="onUpdateGroup(group)" matTooltip="Create">
-          <mat-icon>done</mat-icon>
-        </button>
-        <button mat-icon-button (click)="group.discardNewItem()" matTooltip="Discard">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </mat-list-item>
-    }
-  </div>
-
-  <hr />
-  }
-  <!--  -->
-  @if (isNewGroupFormVisible) {
-  <div class="group">
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-      <input
-        matInput
-        placeholder="Group name"
-        [(ngModel)]="newGroupName"
-        (keydown.enter)="createNewGroup()"
-        (keydown.escape)="hideNewGroupForm()" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-      <input
-        matInput
-        type="number"
-        placeholder="Group name"
-        [(ngModel)]="newGroupIdx"
-        (keydown.enter)="createNewGroup()"
-        (keydown.escape)="hideNewGroupForm()" />
-    </mat-form-field>
-
-    <div class="group-actions two-actions">
-      <button mat-icon-button (click)="createNewGroup()" matTooltip="Create">
-        <mat-icon>done</mat-icon>
-      </button>
-      <button mat-icon-button (click)="hideNewGroupForm()" matTooltip="Discard">
-        <mat-icon>close</mat-icon>
+    <div class="group-name show-on-hover-container">
+      <h2 style="margin: 0">{{ selectedGroup.name }}</h2>
+      <button mat-icon-button (click)="onEditGroup()" class="opacity-60 show-on-hover-item">
+        <mat-icon>edit</mat-icon>
       </button>
     </div>
-  </div>
+    }
 
-  } @else {
-  <button mat-button (click)="showNewGroupForm()">Add new group</button>
-  }
-</mat-nav-list>
+    <mat-list>
+      @for (category of selectedGroup.items; track category) {
+      <app-category-item [category]="category"></app-category-item>
+      }
+    </mat-list>
+    @if(showNewCategoryForm) {
+    <app-category-item
+      [group]="selectedGroup.id"
+      [idx]="selectedGroup.items.length + 1"
+      [editMode]="true"></app-category-item>
+    } @else {
+    <button mat-button (click)="showNewCategoryForm = true"><mat-icon>add</mat-icon> Add category</button>
+    } }
+  </div>
+</div>

@@ -54,3 +54,11 @@ body {
 a {
   text-decoration: none;
 }
+
+.show-on-hover-container:not(:hover) .show-on-hover-item {
+  visibility: hidden;
+}
+
+.opacity-60 {
+  opacity: 60%;
+}

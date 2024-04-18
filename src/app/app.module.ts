@@ -34,6 +34,9 @@ import { GeneralSettingsComponent } from './wallet/wallet-settings/general-setti
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 import { IconPipe } from './shared/icon.pipe';
 import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.component';
+import { CategoryItemComponent } from './wallet/wallet-settings/categories-settings/category-item/category-item.component';
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
+import { EditGroupFormComponent } from './wallet/wallet-settings/categories-settings/edit-group-form/edit-group-form.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,8 @@ import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.c
     GeneralSettingsComponent,
     WalletUsersComponent,
     IconsDialogComponent,
+    CategoryItemComponent,
+    EditGroupFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +78,7 @@ import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.c
     AppRoutingModule,
     BrowserAnimationsModule,
     IconPipe,
+    CdkDropListGroup,
   ],
   providers: [
     {

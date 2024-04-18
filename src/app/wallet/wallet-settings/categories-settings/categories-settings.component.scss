@@ -1,27 +1,20 @@
-
-.group {
+.container {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
+}
+
+.groups-list {
+  min-width: 290px;
+  box-shadow: 3px 0 5px -5px #333;
+}
+
+.group-detail {
+  width: 100%;
+  padding: 20px 10px;
+}
+
+.group-name {
+  display: flex;
   align-items: center;
-}
-
-.group-header {
-  margin: 0;
-  font-size: 18px;
-}
-
-.group-actions {
-
-}
-
-.group-action {
-
-}
-
-.hidden-actions {
-  visibility: hidden;
-}
-
-.group:hover .hidden-actions {
-  visibility: visible;
+  gap: 5px;
 }

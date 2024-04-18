@@ -1,0 +1,12 @@
+<form [formGroup]="groupForm" (ngSubmit)="onSave()" class="group-form">
+  <mat-form-field appearance="outline" class="narrow-form-field" style="width: 100%">
+    <mat-label>Group name</mat-label>
+    <input matInput placeholder="Group name" formControlName="name" />
+    @if (groupForm.controls['name'].invalid) {
+    <mat-error>Group name is required</mat-error>
+    }
+  </mat-form-field>
+
+  <button type="submit" mat-raised-button color="primary" [disabled]="groupForm.invalid">Save</button>
+  <button type="button" mat-raised-button color="warning" (click)="onCancel()">Cancel</button>
+</form>

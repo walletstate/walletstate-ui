@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GroupControl } from './group.model';
 import { map } from 'rxjs/operators';
 import {
   CategoriesHttpClient,
   Category,
   CreateCategory,
+  Grouped,
   GroupsHttpClient,
   GroupType,
 } from '@walletstate/angular-client';
@@ -14,17 +14,16 @@ import {
   providedIn: 'root',
 })
 export class CategoriesService {
-  groups: BehaviorSubject<GroupControl<Category>[]> = new BehaviorSubject<GroupControl<Category>[]>([]);
+  groups: BehaviorSubject<Grouped<Category>[]> = new BehaviorSubject<Grouped<Category>[]>([]);
 
   constructor(
     private categoriesClient: CategoriesHttpClient,
     private groupsClient: GroupsHttpClient
   ) {}
 
-  getGrouped(): Observable<GroupControl<Category>[]> {
+  getGrouped(): Observable<Grouped<Category>[]> {
     return this.categoriesClient.listGrouped().pipe(
-      map(groups => {
-        const groupedCategories = groups.map(group => GroupControl.fromGrouped<Category>(group));
+      map(groupedCategories => {
         this.groups.next(groupedCategories);
         return groupedCategories;
       })
@@ -33,11 +32,11 @@ export class CategoriesService {
 
   createGroup(name: string, idx: number) {
     return this.groupsClient.create({ type: GroupType.Categories, name, idx }).pipe(
-      map(group => {
-        const newGroup = GroupControl.fromGroup<Category>(group);
-        this.groups.value.push(newGroup);
+      map(newGroup => {
+        const newGroupedCategories: Grouped<Category> = { ...newGroup, items: [] };
+        this.groups.value.push(newGroupedCategories);
         this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
-        return newGroup;
+        return newGroupedCategories;
       })
     );
   }
@@ -45,14 +44,22 @@ export class CategoriesService {
   updateGroup(id: string, name: string, idx: number) {
     return this.groupsClient.update(id, { name, idx }).pipe(
       map(() => {
-        //TODO: discard an update on http failure
-        this.groups.value.find(g => g.id === id).saveUpdate();
+        const groupForUpdate = this.groups.value.find(g => g.id === id);
+        groupForUpdate.name = name;
+        groupForUpdate.idx = idx;
         this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
       })
     );
   }
 
   create(data: CreateCategory): Observable<Category> {
-    return this.categoriesClient.create(data);
+    return this.categoriesClient.create(data).pipe(
+      map(category => {
+        const group = this.groups.value.find(g => g.id === data.group);
+        group.items.push(category);
+        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
+        return category;
+      })
+    );
   }
 }
