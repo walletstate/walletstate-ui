@@ -1,44 +1,24 @@
-export enum GroupType {
-  Accounts = 'accounts',
-  Categories = 'categories',
-}
-
-export interface Group<T> {
-  id: string;
-  name: string;
-  orderingIndex: number;
-  items?: T[];
-}
-
-export interface CreateGroup {
-  name: string;
-  orderingIndex: number;
-}
-
-export interface UpdateGroup {
-  name: string;
-  orderingIndex: number;
-}
+import { Group, Grouped } from '@walletstate/angular-client';
 
 export class GroupControl<T> {
   _editMode: boolean = false;
   _addNewItemMode: boolean = false;
 
   updateName: string;
-  updateOrderingIndex: number;
+  updateIdx: number;
 
   newItemName: string = '';
   newItemIcon: string = '';
-  newItemOrderingIndex: number = 0;
+  newItemIdx: number = 0;
 
   constructor(
     public id: string,
     public name: string,
-    public orderingIndex: number,
+    public idx: number,
     public items: T[]
   ) {
     this.updateName = name;
-    this.updateOrderingIndex = orderingIndex;
+    this.updateIdx = idx;
   }
 
   get editMode() {
@@ -54,18 +34,18 @@ export class GroupControl<T> {
 
   saveUpdate() {
     this.name = this.updateName;
-    this.orderingIndex = this.updateOrderingIndex;
+    this.idx = this.updateIdx;
   }
 
   discardUpdate() {
     this.updateName = this.name;
-    this.updateOrderingIndex = this.orderingIndex;
+    this.updateIdx = this.idx;
   }
 
   addNewItem(defaultIcon: string = '') {
     this.newItemName = '';
     this.newItemIcon = defaultIcon ?? '';
-    this.newItemOrderingIndex = 0;
+    this.newItemIdx = 0;
     this._addNewItemMode = true;
   }
 
@@ -78,7 +58,11 @@ export class GroupControl<T> {
     this._addNewItemMode = false;
   }
 
-  static fromGroup<A>(group: Group<A>): GroupControl<A> {
-    return new GroupControl(group.id, group.name, group.orderingIndex, group.items ?? []);
+  static fromGrouped<A>(group: Grouped<A>): GroupControl<A> {
+    return new GroupControl(group.id, group.name, group.idx, group.items);
+  }
+
+  static fromGroup<A>(group: Group): GroupControl<A> {
+    return new GroupControl(group.id, group.name, group.idx, []);
   }
 }

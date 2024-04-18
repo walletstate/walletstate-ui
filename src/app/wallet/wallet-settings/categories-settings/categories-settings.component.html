@@ -40,7 +40,7 @@
           matInput
           type="number"
           placeholder="Ordering index"
-          [(ngModel)]="group.updateOrderingIndex"
+          [(ngModel)]="group.updateIdx"
           (keydown.enter)="onUpdateGroup(group)"
           (keydown.escape)="onDiscardGroupUpdate(group)" />
       </mat-form-field>
@@ -83,7 +83,7 @@
             matInput
             type="number"
             placeholder="Category ordering index"
-            [(ngModel)]="group.newItemOrderingIndex"
+            [(ngModel)]="group.newItemIdx"
             (keydown.enter)="onUpdateGroup(group)"
             (keydown.escape)="onDiscardGroupUpdate(group)" />
         </mat-form-field>
@@ -118,7 +118,7 @@
         matInput
         type="number"
         placeholder="Group name"
-        [(ngModel)]="newGroupOrderingIndex"
+        [(ngModel)]="newGroupIdx"
         (keydown.enter)="createNewGroup()"
         (keydown.escape)="hideNewGroupForm()" />
     </mat-form-field>

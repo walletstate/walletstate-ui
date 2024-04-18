@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WalletService } from '../../../shared/wallet.service';
-import { Wallet } from '../../../shared/wallet.model';
+import { Wallet } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-general-settings',

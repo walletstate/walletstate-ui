@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountsService } from '../../shared/accounts.service';
-import { Account } from '../../shared/account.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { GroupControl } from '../../shared/group.model';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../shared/utils/icons-dialog/icons-dialog.component';
+import { Account } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-create-account',
@@ -45,7 +45,7 @@ export class CreateAccountComponent implements OnInit {
     this.createAccountForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       group: new FormControl(null, [Validators.required]),
-      orderingIndex: new FormControl(1, [Validators.required]),
+      idx: new FormControl(1, [Validators.required]),
       icon: new FormControl(null, []),
       tags: new FormControl([], []),
     });

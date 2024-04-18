@@ -68,7 +68,7 @@
             <button
               mat-icon-button
               (click)="onDeleteGroup(group)"
-              [disabled]="group.items.length > 0"
+              [disabled]="group.items?.length > 0"
               matTooltip="Delete">
               <mat-icon>delete</mat-icon>
             </button>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../../shared/accounts.service';
-import { Account } from '../../shared/account.model';
 import { GroupControl } from '../../shared/group.model';
+import { Account, GroupType } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-accounts-list',
@@ -43,7 +43,7 @@ export class AccountsListComponent implements OnInit {
   onAddGroup() {
     if (this.newGroupName.trim().length > 0) {
       this.accountsService
-        .createGroup({ name: this.newGroupName, orderingIndex: this.groups.length + 1 })
+        .createGroup({ type: GroupType.Accounts, name: this.newGroupName, idx: this.groups.length + 1 })
         .subscribe(() => this.onClose());
     }
   }
@@ -53,7 +53,7 @@ export class AccountsListComponent implements OnInit {
       this.accountsService
         .updateGroup(group.id, {
           name: group.updateName,
-          orderingIndex: group.orderingIndex,
+          idx: group.idx,
         })
         .subscribe({
           error: () => group.discardUpdate(),
