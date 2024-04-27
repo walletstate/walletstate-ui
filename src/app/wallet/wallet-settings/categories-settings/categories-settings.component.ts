@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupControl } from '../../shared/group.model';
-import { Category } from '../../shared/category.model';
 import { CategoriesService } from '../../shared/categories.service';
 import { IconsDialogComponent } from '../../../shared/utils/icons-dialog/icons-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Category } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-categories-settings',
@@ -16,7 +16,7 @@ export class CategoriesSettingsComponent implements OnInit {
 
   isNewGroupFormVisible: boolean = false;
   newGroupName: string = '';
-  newGroupOrderingIndex: number = 0;
+  newGroupIdx: number = 0;
 
   defaultCategoryIcon = '';
 
@@ -32,7 +32,7 @@ export class CategoriesSettingsComponent implements OnInit {
 
   onUpdateGroup(group: GroupControl<Category>) {
     if (group.updateName.trim().length > 0) {
-      this.categoriesService.updateGroup(group.id, group.updateName, group.updateOrderingIndex).subscribe({
+      this.categoriesService.updateGroup(group.id, group.updateName, group.updateIdx).subscribe({
         error: () => group.discardUpdate(),
         complete: () => group.switchMode(),
       });
@@ -45,7 +45,7 @@ export class CategoriesSettingsComponent implements OnInit {
   }
 
   onDeleteGroup(group: GroupControl<Category>) {
-    // this.accountsService.deleteGroup(group.id).subscribe();
+    console.log(group);
   }
 
   showNewGroupForm() {
@@ -59,7 +59,7 @@ export class CategoriesSettingsComponent implements OnInit {
 
   createNewGroup() {
     if (this.newGroupName.trim().length > 0) {
-      this.categoriesService.createGroup(this.newGroupName.trim(), this.newGroupOrderingIndex).subscribe({
+      this.categoriesService.createGroup(this.newGroupName.trim(), this.newGroupIdx).subscribe({
         error: () => this.hideNewGroupForm(),
         complete: () => this.hideNewGroupForm(),
       });

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CreateWallet, JoinWallet, Wallet, WalletInvite } from './wallet.model';
-import { Observable } from 'rxjs';
+import { concatMap, Observable } from 'rxjs';
 import { exhaustMap, map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { CreateWallet, JoinWallet, Wallet, WalletInvite, WalletsHttpClient } from '@walletstate/angular-client';
 
 @Injectable({
   providedIn: 'root',
@@ -11,34 +11,45 @@ import { AuthService } from '../auth/auth.service';
 export class WalletService {
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private walletsClient: WalletsHttpClient
   ) {}
 
-  get() {
-    return this.http.get<Wallet>('api/wallets/current');
+  get(): Observable<Wallet> {
+    return this.walletsClient.getCurrent();
   }
 
   create(data: CreateWallet): Observable<Wallet> {
-    return this.http.post<Wallet>('/api/wallets', data, { observe: 'response' }).pipe(
-      exhaustMap(response => {
-        return this.authService
-          .setWallet(response.body.id, +response.headers.get('X-Auth-Token-Expire-In'))
-          .pipe(map(() => response.body));
+    return this.walletsClient.create(data).pipe(
+      concatMap(wallet => {
+        return this.requestWalletAuthCookies(wallet.id).pipe(
+          exhaustMap(tokenExpireIn => {
+            return this.authService.setWallet(wallet.id, tokenExpireIn).pipe(map(() => wallet));
+          })
+        );
       })
     );
   }
 
   join(data: JoinWallet): Observable<Wallet> {
-    return this.http.post<Wallet>('/api/wallets/join', data, { observe: 'response' }).pipe(
-      exhaustMap(response => {
-        return this.authService
-          .setWallet(response.body.id, +response.headers.get('X-Auth-Token-Expire-In'))
-          .pipe(map(() => response.body));
+    return this.walletsClient.join(data).pipe(
+      concatMap(wallet => {
+        return this.requestWalletAuthCookies(wallet.id).pipe(
+          exhaustMap(tokenExpireIn => {
+            return this.authService.setWallet(wallet.id, tokenExpireIn).pipe(map(() => wallet));
+          })
+        );
       })
     );
   }
 
+  requestWalletAuthCookies(walletId: string): Observable<number> {
+    return this.http
+      .post(`/auth/wallet/${walletId}`, {}, { observe: 'response' })
+      .pipe(map(response => +response.headers.get('X-Auth-Token-Expire-In')));
+  }
+
   createInvite(): Observable<WalletInvite> {
-    return this.http.post<WalletInvite>('/api/wallets/invite', {});
+    return this.walletsClient.createInvite();
   }
 }
