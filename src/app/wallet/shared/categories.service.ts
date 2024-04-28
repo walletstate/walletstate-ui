@@ -42,4 +42,21 @@ export class CategoriesService extends GroupsService<Category> implements Groupe
       })
     );
   }
+
+  update(id: string, group: string, data: CreateCategory): Observable<Category> {
+    return this.categoriesClient.update(id, data).pipe(
+      map(category => {
+        const groupForDelete = this.groups.value.find(g => g.id === group);
+        const index = groupForDelete.items.indexOf(groupForDelete.items.find(c => c.id === id));
+        groupForDelete.items.splice(index, 1);
+
+        const groupForAdd = this.groups.value.find(g => g.id === data.group);
+        groupForAdd.items ? groupForAdd.items.push(category) : (groupForAdd.items = [category]);
+        groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
+
+        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
+        return category;
+      })
+    );
+  }
 }

@@ -1,17 +1,39 @@
 <app-grouped-entities [groupedService]="categoriesService" (groupSelected)="onSelectGroup($event)">
   @if (group) {
-  <mat-list>
+
+  <mat-accordion hideToggle>
     @for (category of group.items; track category) {
-    <app-category-item [category]="category"></app-category-item>
+    <!--    <app-category-item [category]="category"></app-category-item>-->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <img [src]="category.icon | iconUrl" class="category-icon" />
+          <h3 style="margin: 0">{{ category.name }}</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <app-category-item
+          [category]="category"
+          (save)="updateCategory(category.id, group.id, $event)"></app-category-item>
+      </ng-template>
+    </mat-expansion-panel>
     }
-  </mat-list>
-  @if(showNewCategoryForm) {
-  <app-category-item
-    [group]="group.id"
-    [idx]="group.items?.length + 1"
-    [editMode]="true"
-    (save)="createCategory($event)"></app-category-item>
-  } @else {
-  <button mat-button (click)="showNewCategoryForm = true"><mat-icon>add</mat-icon> Add category</button>
-  } }
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>add</mat-icon>
+          Add new category
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <app-category-item
+          [group]="group.id"
+          [idx]="group.items?.length + 1"
+          (save)="createCategory($event)"></app-category-item>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+  }
 </app-grouped-entities>

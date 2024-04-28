@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
 import { Category, CreateCategory } from '@walletstate/angular-client';
@@ -13,11 +13,13 @@ export class CategoryItemComponent implements OnInit {
   @Input() category?: Category = null;
   @Input() group?: string = null;
   @Input() idx?: number = null;
-  @Input() editMode: boolean = false;
 
   @Output() save = new EventEmitter<CreateCategory>();
+  @Output() discard = new EventEmitter<void>();
 
+  defaultIcon = 'b0a03cea92532d56e7dec9848fb81c51b4c80a55721b17fd245bfc90f94df314';
   categoryForm;
+
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog
@@ -29,7 +31,7 @@ export class CategoryItemComponent implements OnInit {
 
   buildForm() {
     return this.fb.group({
-      name: this.fb.control(this.category?.name),
+      name: this.fb.control(this.category?.name, [Validators.required]),
       icon: this.fb.control(this.category?.icon),
       tags: this.fb.control([]),
       group: this.fb.control(this.category?.group ?? this.group),
@@ -37,13 +39,13 @@ export class CategoryItemComponent implements OnInit {
     });
   }
 
-  onEdit() {
-    this.editMode = true;
-  }
-
   onSubmit() {
     console.log(this.categoryForm);
     this.save.emit(this.categoryForm.value);
+  }
+
+  onCancel(): void {
+    this.discard.emit();
   }
 
   openIconsModal(): void {
@@ -55,9 +57,5 @@ export class CategoryItemComponent implements OnInit {
     dialogRef.afterClosed().subscribe(iconId => {
       if (iconId) this.categoryForm.patchValue({ icon: iconId });
     });
-  }
-
-  onTags(e) {
-    console.log(e);
   }
 }
