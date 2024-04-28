@@ -29,14 +29,16 @@ import { TagsSelectorComponent } from './shared/utils/tags-selector/tags-selecto
 import { MaterialModule } from './material.module';
 import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-settings.component';
 import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
-import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { GroupedEntitiesComponent } from './wallet/wallet-settings/shared/grouped-entities/grouped-entities.component';
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 import { IconPipe } from './shared/icon.pipe';
 import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.component';
 import { CategoryItemComponent } from './wallet/wallet-settings/categories-settings/category-item/category-item.component';
 import { CdkDropListGroup } from '@angular/cdk/drag-drop';
-import { EditGroupFormComponent } from './wallet/wallet-settings/categories-settings/edit-group-form/edit-group-form.component';
+import { EditGroupFormComponent } from './wallet/wallet-settings/shared/grouped-entities/edit-group-form/edit-group-form.component';
+import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
+import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 
 @NgModule({
   declarations: [
@@ -62,12 +64,14 @@ import { EditGroupFormComponent } from './wallet/wallet-settings/categories-sett
     TagsSelectorComponent,
     WalletSettingsComponent,
     AssetsSettingsComponent,
-    CategoriesSettingsComponent,
     GeneralSettingsComponent,
     WalletUsersComponent,
     IconsDialogComponent,
     CategoryItemComponent,
     EditGroupFormComponent,
+    GroupedEntitiesComponent,
+    AccountsSettingsComponent,
+    CategoriesSettingsComponent,
   ],
   imports: [
     BrowserModule,

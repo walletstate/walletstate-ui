@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
-import { Category } from '@walletstate/angular-client';
+import { Category, CreateCategory } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-category-item',
@@ -14,6 +14,8 @@ export class CategoryItemComponent implements OnInit {
   @Input() group?: string = null;
   @Input() idx?: number = null;
   @Input() editMode: boolean = false;
+
+  @Output() save = new EventEmitter<CreateCategory>();
 
   categoryForm;
   constructor(
@@ -29,7 +31,7 @@ export class CategoryItemComponent implements OnInit {
     return this.fb.group({
       name: this.fb.control(this.category?.name),
       icon: this.fb.control(this.category?.icon),
-      tags: this.fb.control(null),
+      tags: this.fb.control([]),
       group: this.fb.control(this.category?.group ?? this.group),
       idx: this.fb.control(this.category?.idx ?? this.idx),
     });
@@ -41,6 +43,7 @@ export class CategoryItemComponent implements OnInit {
 
   onSubmit() {
     console.log(this.categoryForm);
+    this.save.emit(this.categoryForm.value);
   }
 
   openIconsModal(): void {

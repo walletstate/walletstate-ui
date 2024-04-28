@@ -3,10 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountsService } from '../../shared/accounts.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
-import { GroupControl } from '../../shared/group.model';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../shared/utils/icons-dialog/icons-dialog.component';
-import { Account } from '@walletstate/angular-client';
+import { Account, Grouped } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-create-account',
@@ -14,7 +13,7 @@ import { Account } from '@walletstate/angular-client';
   styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit {
-  groups: GroupControl<Account>[] = [];
+  groups: Grouped<Account>[] = [];
 
   createAccountForm: FormGroup;
 
@@ -63,7 +62,7 @@ export class CreateAccountComponent implements OnInit {
 
   onSubmit() {
     this.accountsService
-      .createAccount(this.createAccountForm.value)
+      .create(this.createAccountForm.value)
       .subscribe(acc => this.router.navigate(['accounts', acc.id]));
   }
 

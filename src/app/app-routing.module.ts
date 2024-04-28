@@ -15,9 +15,11 @@ import { AccountRecordsComponent } from './wallet/accounts/account/account-recor
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
 import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-settings.component';
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
-import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { GroupedEntitiesComponent } from './wallet/wallet-settings/shared/grouped-entities/grouped-entities.component';
 import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
+import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -50,6 +52,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       { path: 'general', component: GeneralSettingsComponent },
       { path: 'users', component: WalletUsersComponent },
+      { path: 'accounts', component: AccountsSettingsComponent },
       { path: 'categories', component: CategoriesSettingsComponent },
       { path: 'assets', component: AssetsSettingsComponent },
     ],
