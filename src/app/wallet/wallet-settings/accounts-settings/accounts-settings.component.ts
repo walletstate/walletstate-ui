@@ -14,7 +14,6 @@ export class AccountsSettingsComponent {
   constructor(public accountsService: AccountsService) {}
 
   onSelectGroup(grouped: Grouped<Account>) {
-    console.log('selected', grouped);
     this.group = grouped;
   }
 

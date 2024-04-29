@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  gap: 10px;
+}
+
+.asset-types-list {
+  min-width: 300px;
+  box-shadow: 3px 0 5px -5px #333;
+}
+
+.assets-detail {
+  width: 100%;
+  padding: 20px 10px;
+}
+
+.asset-type-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.asset-icon {
+  width: 36px;
+  border-radius: 50%;
+  margin-right: 20px;
+}

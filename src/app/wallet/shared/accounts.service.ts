@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import {
   Account,
   AccountsHttpClient,
-  Category,
   CreateAccount,
-  CreateCategory,
   Grouped,
   GroupsHttpClient,
   GroupType,
@@ -41,11 +39,13 @@ export class AccountsService extends GroupsService<Account> implements GroupedIn
 
   update(id: string, group: string, data: UpdateAccount): Observable<Account> {
     return this.accountsClient.update(id, data).pipe(
-      map(account => {
+      map(() => {
+        //maybe just reload grouped accounts
         const groupForDelete = this.groups.value.find(g => g.id === group);
-        const index = groupForDelete.items.indexOf(groupForDelete.items.find(c => c.id === id));
+        const account = groupForDelete.items.find(c => c.id === id);
+        const index = groupForDelete.items.indexOf(account);
         groupForDelete.items.splice(index, 1);
-
+        Object.assign(account, data);
         const groupForAdd = this.groups.value.find(g => g.id === data.group);
         groupForAdd.items ? groupForAdd.items.push(account) : (groupForAdd.items = [account]);
         groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
