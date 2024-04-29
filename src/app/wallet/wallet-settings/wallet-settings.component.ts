@@ -10,6 +10,7 @@ export class WalletSettingsComponent {
   tabs = [
     { title: 'General', path: 'general' },
     { title: 'Users', path: 'users' },
+    { title: 'Accounts', path: 'accounts' },
     { title: 'Categories', path: 'categories' },
     { title: 'Assets', path: 'assets' },
   ];

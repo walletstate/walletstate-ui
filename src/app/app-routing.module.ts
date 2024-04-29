@@ -9,15 +9,15 @@ import { walletGuard } from './auth/wallet.guard';
 import { UserComponent } from './user/user.component';
 import { AccountsComponent } from './wallet/accounts/accounts.component';
 import { AccountComponent } from './wallet/accounts/account/account.component';
-import { CreateAccountComponent } from './wallet/accounts/create-account/create-account.component';
 import { AccountInfoComponent } from './wallet/accounts/account/account-info/account-info.component';
 import { AccountRecordsComponent } from './wallet/accounts/account/account-records/account-records.component';
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
 import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-settings.component';
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
-import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
+import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,7 +29,6 @@ const routes: Routes = [
     canActivate: [walletGuard],
     component: AccountsComponent,
     children: [
-      { path: 'create', component: CreateAccountComponent },
       {
         path: ':id',
         component: AccountComponent,
@@ -50,6 +49,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       { path: 'general', component: GeneralSettingsComponent },
       { path: 'users', component: WalletUsersComponent },
+      { path: 'accounts', component: AccountsSettingsComponent },
       { path: 'categories', component: CategoriesSettingsComponent },
       { path: 'assets', component: AssetsSettingsComponent },
     ],

@@ -20,7 +20,6 @@ import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accou
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { AccountComponent } from './wallet/accounts/account/account.component';
-import { CreateAccountComponent } from './wallet/accounts/create-account/create-account.component';
 import { AccountInfoComponent } from './wallet/accounts/account/account-info/account-info.component';
 import { AccountRecordsComponent } from './wallet/accounts/account/account-records/account-records.component';
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
@@ -29,11 +28,17 @@ import { TagsSelectorComponent } from './shared/utils/tags-selector/tags-selecto
 import { MaterialModule } from './material.module';
 import { WalletSettingsComponent } from './wallet/wallet-settings/wallet-settings.component';
 import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-settings/assets-settings.component';
-import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { GroupedEntitiesComponent } from './wallet/wallet-settings/shared/grouped-entities/grouped-entities.component';
 import { GeneralSettingsComponent } from './wallet/wallet-settings/general-settings/general-settings.component';
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 import { IconPipe } from './shared/icon.pipe';
 import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.component';
+import { EditCategoryComponent } from './wallet/wallet-settings/categories-settings/edit-category/edit-category.component';
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
+import { EditGroupFormComponent } from './wallet/wallet-settings/shared/grouped-entities/edit-group-form/edit-group-form.component';
+import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
+import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings/edit-account/edit-account.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,6 @@ import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.c
     HeaderComponent,
     SidenavListComponent,
     AccountComponent,
-    CreateAccountComponent,
     AccountInfoComponent,
     AccountRecordsComponent,
     AccountImportsComponent,
@@ -59,10 +63,15 @@ import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.c
     TagsSelectorComponent,
     WalletSettingsComponent,
     AssetsSettingsComponent,
-    CategoriesSettingsComponent,
     GeneralSettingsComponent,
     WalletUsersComponent,
     IconsDialogComponent,
+    EditAccountComponent,
+    EditCategoryComponent,
+    EditGroupFormComponent,
+    GroupedEntitiesComponent,
+    AccountsSettingsComponent,
+    CategoriesSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +82,7 @@ import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.c
     AppRoutingModule,
     BrowserAnimationsModule,
     IconPipe,
+    CdkDropListGroup,
   ],
   providers: [
     {

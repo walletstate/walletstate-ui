@@ -1,44 +1,44 @@
-<app-grouped-entities [groupedService]="categoriesService" (groupSelected)="onSelectGroup($event)">
+<app-grouped-entities [groupedService]="accountsService" (groupSelected)="onSelectGroup($event)">
   @if (group) {
   <mat-accordion hideToggle>
-    @for (category of group.items; track category.id) {
-    <!--    <app-edit-category [category]="category"></app-edit-category>-->
-    <mat-expansion-panel [id]="category.id" #panel>
+    @for (account of group.items; track account.id) {
+
+    <mat-expansion-panel [id]="account.id" #panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <img [src]="category.icon | iconUrl" class="category-icon" />
-          <h3 style="margin: 0">{{ category.name }}</h3>
+          <img [src]="account.icon | iconUrl" class="account-icon" />
+          <h3 style="margin: 0">{{ account.name }}</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <ng-template matExpansionPanelContent>
         <!--workaround to destroy component after collapse -->
         @if (panel.expanded) {
-        <app-edit-category
-          [category]="category"
+        <app-edit-account
+          [account]="account"
           (discard)="panel.close()"
-          (save)="updateCategory(category.id, group.id, $event)"></app-edit-category>
+          (save)="updateAccount(account.id, group.id, $event)"></app-edit-account>
         }
       </ng-template>
     </mat-expansion-panel>
     }
 
-    <mat-expansion-panel id="new-category" #newPanel>
+    <mat-expansion-panel id="new-account" #newPanel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon>add</mat-icon>
-          Add new category
+          Add new account
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <ng-template matExpansionPanelContent>
         <!--workaround to destroy component after collapse -->
         @if (newPanel.expanded) {
-        <app-edit-category
+        <app-edit-account
           [group]="group.id"
           [idx]="group.items?.length + 1"
-          (save)="createCategory($event, newPanel)"
-          (discard)="newPanel.close()"></app-edit-category>
+          (save)="createAccount($event, newPanel)"
+          (discard)="newPanel.close()"></app-edit-account>
         }
       </ng-template>
     </mat-expansion-panel>

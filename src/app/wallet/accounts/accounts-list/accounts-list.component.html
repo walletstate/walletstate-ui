@@ -1,18 +1,15 @@
 <mat-card class="accounts">
   <mat-card-header>
-    @if (!isSearchMode && !isAddGroupMode) {
+    @if (!isSearchMode ) {
     <mat-card-title-group>
       <mat-card-title>Accounts</mat-card-title>
       <div>
         <button mat-icon-button (click)="onSearchClick()" matTooltip="Search account">
           <mat-icon>search</mat-icon>
         </button>
-        <button mat-icon-button (click)="onAddGroupClick()" matTooltip="Create new accounts group">
-          <mat-icon>create_new_folder</mat-icon>
-        </button>
-        <button mat-icon-button [routerLink]="['create']" matTooltip="Create new account">
-          <mat-icon>add</mat-icon>
-        </button>
+        <!--        <button mat-icon-button [routerLink]="['create']" matTooltip="Create new account">-->
+        <!--          <mat-icon>add</mat-icon>-->
+        <!--        </button>-->
         <!--        <button mat-icon-button>-->
         <!--          <mat-icon>swap_vert</mat-icon>-->
         <!--        </button>-->
@@ -30,27 +27,6 @@
         </button>
       </div>
     </mat-card-title-group>
-    } @else if (isAddGroupMode) {
-    <mat-card-title-group>
-      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-        <mat-label>Group name</mat-label>
-        <input
-          matInput
-          placeholder="New group name"
-          [(ngModel)]="newGroupName"
-          (keydown.enter)="onAddGroup()"
-          (keydown.escape)="onClose()" />
-      </mat-form-field>
-
-      <div class="two-actions">
-        <button mat-icon-button (click)="onAddGroup()" matTooltip="Create">
-          <mat-icon>done</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onClose()" matTooltip="Discard">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </mat-card-title-group>
     }
   </mat-card-header>
 
@@ -58,49 +34,11 @@
     <mat-nav-list>
       @for (group of groups; track group) {
       <div>
-        @if (!group.editMode) {
         <div class="group">
           <h3 matSubheader class="group-header">{{ group.name }}</h3>
-          <div class="group-actions hidden-actions">
-            <button mat-icon-button (click)="group.switchMode()" matTooltip="Edit group name">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              (click)="onDeleteGroup(group)"
-              [disabled]="group.items?.length > 0"
-              matTooltip="Delete">
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              [routerLink]="['create', { groupId: group.id }]"
-              matTooltip="Create account in group">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
         </div>
-        } @else {
-        <div class="group">
-          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="narrow-form-field">
-            <input
-              matInput
-              placeholder="Group name"
-              [(ngModel)]="group.updateName"
-              (keydown.enter)="onUpdateGroupName(group)"
-              (keydown.escape)="onDiscardGroupUpdate(group)" />
-          </mat-form-field>
 
-          <div class="group-actions two-actions">
-            <button mat-icon-button (click)="onUpdateGroupName(group)" matTooltip="Save">
-              <mat-icon>done</mat-icon>
-            </button>
-            <button mat-icon-button (click)="onDiscardGroupUpdate(group)" matTooltip="Discard">
-              <mat-icon>close</mat-icon>
-            </button>
-          </div>
-        </div>
-        } @for (account of group.items; track account) {
+        @for (account of group.items; track account) {
         <mat-list-item routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLink]="[account.id]">
           <img matListItemAvatar [src]="account.icon | iconUrl" alt="account-icon" />
           <a matListItemTitle> {{ account.name }} </a>

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  gap: 10px;
+}
+
+.groups-list {
+  min-width: 300px;
+  box-shadow: 3px 0 5px -5px #333;
+}
+
+.group-detail {
+  width: 100%;
+  padding: 20px 10px;
+}
+
+.group-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

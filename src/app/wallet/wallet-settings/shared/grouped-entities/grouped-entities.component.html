@@ -1,0 +1,50 @@
+<div class="container">
+  <mat-nav-list class="groups-list">
+    @for (group of groups; track group) {
+    <mat-list-item
+      class="show-on-hover-container"
+      (click)="selectGroup(group)"
+      [activated]="selectedGroup?.id === group.id">
+      <a matListItemTitle>
+        {{ group.name }}
+      </a>
+      <!--      <div matListItemMeta class="show-on-hover-item">-->
+      <!--        <mat-icon>drag_indicator</mat-icon>-->
+      <!--      </div>-->
+    </mat-list-item>
+    }
+    <button mat-button (click)="onAddNewGroup()">
+      <mat-icon>add</mat-icon>
+      Add new group
+    </button>
+  </mat-nav-list>
+
+  <div class="group-detail">
+    @if (addNewGroup) {
+    <app-edit-group-form (save)="createNewGroup($event)" (cancel)="discardGroupEdit()"></app-edit-group-form>
+    } @else if (selectedGroup) {
+    <div style="margin-bottom: 20px">
+      @if (editGroup) {
+      <app-edit-group-form
+        [name]="selectedGroup.name"
+        (save)="updateGroup(selectedGroup.id, $event)"
+        (cancel)="discardGroupEdit()"></app-edit-group-form>
+      } @else {
+      <div class="group-name show-on-hover-container">
+        <h2 style="margin: 0">{{ selectedGroup.name }}</h2>
+        <button mat-icon-button (click)="onEditGroup()" class="opacity-60 show-on-hover-item">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      }
+    </div>
+
+    <ng-content></ng-content>
+
+    } @else {
+    <div class="group-name opacity-60">
+      <h2 style="margin: 0">Please select existing or create new group</h2>
+    </div>
+    }
+  </div>
+</div>

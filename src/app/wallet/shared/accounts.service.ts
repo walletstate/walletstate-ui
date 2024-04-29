@@ -1,73 +1,58 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, mergeMap, Observable } from 'rxjs';
+import { mergeMap, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   Account,
   AccountsHttpClient,
+  Category,
   CreateAccount,
-  CreateGroup,
+  CreateCategory,
+  Grouped,
   GroupsHttpClient,
-  UpdateGroup,
+  GroupType,
+  UpdateAccount,
 } from '@walletstate/angular-client';
-import { GroupControl } from './group.model';
+import { GroupsService } from './groups.service';
+import { GroupedInterface } from './grouped.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AccountsService {
-  groups: BehaviorSubject<GroupControl<Account>[]> = new BehaviorSubject<GroupControl<Account>[]>([]);
-
+export class AccountsService extends GroupsService<Account> implements GroupedInterface<Account> {
   constructor(
     private accountsClient: AccountsHttpClient,
-    private groupsClient: GroupsHttpClient
-  ) {}
+    groupsClient: GroupsHttpClient
+  ) {
+    super(groupsClient, GroupType.Accounts);
+  }
 
-  loadGroupedAccounts(): Observable<GroupControl<Account>[]> {
+  getGrouped(): Observable<Grouped<Account>[]> {
     return this.accountsClient.listGrouped().pipe(
-      map(groups => {
-        const groupedAccounts = groups.map(group => GroupControl.fromGrouped<Account>(group));
+      map(groupedAccounts => {
         this.groups.next(groupedAccounts);
         return groupedAccounts;
       })
     );
   }
 
-  createGroup(data: CreateGroup): Observable<GroupControl<Account>> {
-    return this.groupsClient.create(data).pipe(
-      map(group => {
-        const newGroup = GroupControl.fromGroup<Account>(group);
-        this.groups.value.push(newGroup);
-        this.groups.next(this.groups.value);
-        return newGroup;
-      })
-    );
+  create(data: CreateAccount): Observable<Account> {
+    return this.accountsClient.create(data).pipe(mergeMap(account => this.getGrouped().pipe(map(() => account))));
   }
 
-  updateGroup(id: string, data: UpdateGroup): Observable<any> {
-    return this.groupsClient.update(id, data).pipe(
-      map(() => {
-        //TODO: discard an update on http failure
-        this.groups.value.find(g => g.id === id).saveUpdate();
-        this.groups.next(this.groups.value);
+  update(id: string, group: string, data: UpdateAccount): Observable<Account> {
+    return this.accountsClient.update(id, data).pipe(
+      map(account => {
+        const groupForDelete = this.groups.value.find(g => g.id === group);
+        const index = groupForDelete.items.indexOf(groupForDelete.items.find(c => c.id === id));
+        groupForDelete.items.splice(index, 1);
+
+        const groupForAdd = this.groups.value.find(g => g.id === data.group);
+        groupForAdd.items ? groupForAdd.items.push(account) : (groupForAdd.items = [account]);
+        groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
+
+        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
+        return account;
       })
     );
-  }
-
-  deleteGroup(id: string): Observable<any> {
-    return this.groupsClient.delete(id).pipe(
-      map(() => {
-        this.groups.value.splice(
-          this.groups.value.findIndex(g => g.id === id),
-          1
-        );
-        this.groups.next(this.groups.value);
-      })
-    );
-  }
-
-  createAccount(data: CreateAccount): Observable<Account> {
-    return this.accountsClient
-      .create(data)
-      .pipe(mergeMap(account => this.loadGroupedAccounts().pipe(map(() => account))));
   }
 }

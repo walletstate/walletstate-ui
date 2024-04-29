@@ -18,6 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -40,6 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatAutocompleteModule,
     MatChipsModule,
     MatDialogModule,
+    MatExpansionModule,
+    DragDropModule,
   ],
   exports: [
     MatCardModule,
@@ -61,6 +65,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatAutocompleteModule,
     MatChipsModule,
     MatDialogModule,
+    MatExpansionModule,
+    DragDropModule,
   ],
 })
 export class MaterialModule {}
