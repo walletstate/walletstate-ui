@@ -8,6 +8,7 @@ import {
   Grouped,
   GroupsHttpClient,
   GroupType,
+  UpdateCategory,
 } from '@walletstate/angular-client';
 import { GroupsService } from './groups.service';
 import { GroupedInterface } from './grouped.interface';
@@ -43,7 +44,7 @@ export class CategoriesService extends GroupsService<Category> implements Groupe
     );
   }
 
-  update(id: string, group: string, data: CreateCategory): Observable<Category> {
+  update(id: string, group: string, data: UpdateCategory): Observable<Category> {
     return this.categoriesClient.update(id, data).pipe(
       map(category => {
         const groupForDelete = this.groups.value.find(g => g.id === group);

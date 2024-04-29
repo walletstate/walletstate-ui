@@ -20,7 +20,6 @@ import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accou
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { AccountComponent } from './wallet/accounts/account/account.component';
-import { CreateAccountComponent } from './wallet/accounts/create-account/create-account.component';
 import { AccountInfoComponent } from './wallet/accounts/account/account-info/account-info.component';
 import { AccountRecordsComponent } from './wallet/accounts/account/account-records/account-records.component';
 import { AccountImportsComponent } from './wallet/accounts/account/account-imports/account-imports.component';
@@ -34,11 +33,12 @@ import { GeneralSettingsComponent } from './wallet/wallet-settings/general-setti
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 import { IconPipe } from './shared/icon.pipe';
 import { IconsDialogComponent } from './shared/utils/icons-dialog/icons-dialog.component';
-import { CategoryItemComponent } from './wallet/wallet-settings/categories-settings/category-item/category-item.component';
+import { EditCategoryComponent } from './wallet/wallet-settings/categories-settings/edit-category/edit-category.component';
 import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { EditGroupFormComponent } from './wallet/wallet-settings/shared/grouped-entities/edit-group-form/edit-group-form.component';
 import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
+import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings/edit-account/edit-account.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,6 @@ import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories
     HeaderComponent,
     SidenavListComponent,
     AccountComponent,
-    CreateAccountComponent,
     AccountInfoComponent,
     AccountRecordsComponent,
     AccountImportsComponent,
@@ -67,7 +66,8 @@ import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories
     GeneralSettingsComponent,
     WalletUsersComponent,
     IconsDialogComponent,
-    CategoryItemComponent,
+    EditAccountComponent,
+    EditCategoryComponent,
     EditGroupFormComponent,
     GroupedEntitiesComponent,
     AccountsSettingsComponent,

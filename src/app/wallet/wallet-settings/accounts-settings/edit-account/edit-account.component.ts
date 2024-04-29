@@ -1,24 +1,24 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Account, CreateAccount } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
-import { Category, CreateCategory } from '@walletstate/angular-client';
 
 @Component({
-  selector: 'app-category-item',
-  templateUrl: './category-item.component.html',
-  styleUrl: './category-item.component.scss',
+  selector: 'app-edit-account',
+  templateUrl: './edit-account.component.html',
+  styleUrl: './edit-account.component.scss',
 })
-export class CategoryItemComponent implements OnInit {
-  @Input() category?: Category = null;
+export class EditAccountComponent implements OnInit {
+  @Input() account?: Account = null;
   @Input() group?: string = null;
   @Input() idx?: number = null;
 
-  @Output() save = new EventEmitter<CreateCategory>();
+  @Output() save = new EventEmitter<CreateAccount>();
   @Output() discard = new EventEmitter<void>();
 
   defaultIcon = 'b0a03cea92532d56e7dec9848fb81c51b4c80a55721b17fd245bfc90f94df314';
-  categoryForm;
+  accountForm;
 
   constructor(
     private fb: FormBuilder,
@@ -26,25 +26,24 @@ export class CategoryItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.categoryForm = this.buildForm();
+    this.accountForm = this.buildForm();
   }
 
   buildForm() {
     return this.fb.group({
-      name: this.fb.control(this.category?.name, [Validators.required]),
-      icon: this.fb.control(this.category?.icon),
-      tags: this.fb.control([]),
-      group: this.fb.control(this.category?.group ?? this.group),
-      idx: this.fb.control(this.category?.idx ?? this.idx),
+      name: this.fb.control(this.account?.name, [Validators.required]),
+      icon: this.fb.control(this.account?.icon),
+      tags: this.fb.control([...(this.account?.tags ?? [])]),
+      group: this.fb.control(this.account?.group ?? this.group),
+      idx: this.fb.control(this.account?.idx ?? this.idx),
     });
   }
 
   onSubmit() {
-    console.log(this.categoryForm);
-    this.save.emit(this.categoryForm.value);
+    this.save.emit(this.accountForm.value);
   }
 
-  onCancel(): void {
+  onClose(): void {
     this.discard.emit();
   }
 
@@ -55,7 +54,7 @@ export class CategoryItemComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(iconId => {
-      if (iconId) this.categoryForm.patchValue({ icon: iconId });
+      if (iconId) this.accountForm.patchValue({ icon: iconId });
     });
   }
 }

@@ -24,9 +24,10 @@ export class GroupedEntitiesComponent<T> implements OnInit {
     this.groupedService.getGrouped().subscribe();
     this.groupedService.groups.subscribe(groupsItems => {
       this.groups = groupsItems;
-      if (!this.selectedGroup && groupsItems.length) {
-        this.selectGroup(groupsItems[0]);
-      }
+      // TODO Investigate issue with editing items for preselected group
+      // if (!this.selectedGroup && groupsItems.length) {
+      //   this.selectGroup(groupsItems[0]);
+      // }
     });
   }
 

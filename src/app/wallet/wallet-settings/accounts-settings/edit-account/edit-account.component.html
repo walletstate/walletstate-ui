@@ -1,0 +1,25 @@
+<form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+  <div class="input-row">
+    <div style="margin-right: 20px">
+      <button type="button" class="icon-button" aria-label="Account icon" (click)="openIconsModal()">
+        <img class="icon" [src]="accountForm.controls['icon'].value | iconUrl: defaultIcon" />
+      </button>
+    </div>
+
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Category name</mat-label>
+      <input matInput placeholder="Account name" formControlName="name" />
+      @if (accountForm.controls['name'].invalid) {
+      <mat-error>Account name is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="accountForm.value['tags']"></app-tags-selector>
+
+  <mat-action-row>
+    <button type="submit" mat-raised-button [disabled]="accountForm.invalid">Save</button>
+    <button type="button" mat-button (click)="onClose()">Close</button>
+    <!--    <button mat-button color="primary">Delete</button>-->
+  </mat-action-row>
+</form>

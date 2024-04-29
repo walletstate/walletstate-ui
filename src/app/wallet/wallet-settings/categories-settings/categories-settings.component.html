@@ -1,10 +1,9 @@
 <app-grouped-entities [groupedService]="categoriesService" (groupSelected)="onSelectGroup($event)">
   @if (group) {
-
   <mat-accordion hideToggle>
-    @for (category of group.items; track category) {
-    <!--    <app-category-item [category]="category"></app-category-item>-->
-    <mat-expansion-panel>
+    @for (category of group.items; track category.id) {
+    <!--    <app-edit-category [category]="category"></app-edit-category>-->
+    <mat-expansion-panel [id]="category.id" #panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <img [src]="category.icon | iconUrl" class="category-icon" />
@@ -13,25 +12,34 @@
       </mat-expansion-panel-header>
 
       <ng-template matExpansionPanelContent>
-        <app-category-item
+        <!--workaround to destroy component after collapse -->
+        @if (panel.expanded) {
+        <app-edit-category
           [category]="category"
-          (save)="updateCategory(category.id, group.id, $event)"></app-category-item>
+          (discard)="panel.close()"
+          (save)="updateCategory(category.id, group.id, $event)"></app-edit-category>
+        }
       </ng-template>
     </mat-expansion-panel>
     }
 
-    <mat-expansion-panel>
+    <mat-expansion-panel id="new-category" #newPanel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon>add</mat-icon>
           Add new category
         </mat-panel-title>
       </mat-expansion-panel-header>
+
       <ng-template matExpansionPanelContent>
-        <app-category-item
+        <!--workaround to destroy component after collapse -->
+        @if (newPanel.expanded) {
+        <app-edit-category
           [group]="group.id"
           [idx]="group.items?.length + 1"
-          (save)="createCategory($event)"></app-category-item>
+          (save)="createCategory($event, newPanel)"
+          (discard)="newPanel.close()"></app-edit-category>
+        }
       </ng-template>
     </mat-expansion-panel>
   </mat-accordion>

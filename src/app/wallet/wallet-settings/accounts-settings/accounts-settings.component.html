@@ -1,3 +1,47 @@
 <app-grouped-entities [groupedService]="accountsService" (groupSelected)="onSelectGroup($event)">
-  <p>accounts-settings works!</p>
+  @if (group) {
+  <mat-accordion hideToggle>
+    @for (account of group.items; track account.id) {
+
+    <mat-expansion-panel [id]="account.id" #panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <img [src]="account.icon | iconUrl" class="account-icon" />
+          <h3 style="margin: 0">{{ account.name }}</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <!--workaround to destroy component after collapse -->
+        @if (panel.expanded) {
+        <app-edit-account
+          [account]="account"
+          (discard)="panel.close()"
+          (save)="updateAccount(account.id, group.id, $event)"></app-edit-account>
+        }
+      </ng-template>
+    </mat-expansion-panel>
+    }
+
+    <mat-expansion-panel id="new-account" #newPanel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>add</mat-icon>
+          Add new account
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <!--workaround to destroy component after collapse -->
+        @if (newPanel.expanded) {
+        <app-edit-account
+          [group]="group.id"
+          [idx]="group.items?.length + 1"
+          (save)="createAccount($event, newPanel)"
+          (discard)="newPanel.close()"></app-edit-account>
+        }
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+  }
 </app-grouped-entities>
