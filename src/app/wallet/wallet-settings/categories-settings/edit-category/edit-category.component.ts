@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
-import { Category, CreateCategory } from '@walletstate/angular-client';
+import { Category, CreateCategory, UpdateCategory } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-edit-category',
@@ -14,7 +14,7 @@ export class EditCategoryComponent implements OnInit {
   @Input() group?: string = null;
   @Input() idx?: number = null;
 
-  @Output() save = new EventEmitter<CreateCategory>();
+  @Output() save = new EventEmitter<CreateCategory | UpdateCategory>();
   @Output() discard = new EventEmitter<void>();
 
   defaultIcon = 'b0a03cea92532d56e7dec9848fb81c51b4c80a55721b17fd245bfc90f94df314';

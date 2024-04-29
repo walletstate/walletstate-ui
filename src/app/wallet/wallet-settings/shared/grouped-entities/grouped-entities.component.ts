@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Grouped } from '@walletstate/angular-client';
 import { GroupedInterface } from '../../../shared/grouped.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grouped-entities',
   templateUrl: './grouped-entities.component.html',
   styleUrl: './grouped-entities.component.scss',
 })
-export class GroupedEntitiesComponent<T> implements OnInit {
+export class GroupedEntitiesComponent<T> implements OnInit, OnDestroy {
   @Input() groupedService: GroupedInterface<T>;
   @Output() groupSelected: EventEmitter<Grouped<T>> = new EventEmitter<Grouped<T>>();
 
@@ -18,17 +19,25 @@ export class GroupedEntitiesComponent<T> implements OnInit {
   addNewGroup: boolean = false;
   editGroup: boolean = false;
 
+  groupsSubscription: Subscription;
+
   constructor() {}
 
   ngOnInit(): void {
-    this.groupedService.getGrouped().subscribe();
-    this.groupedService.groups.subscribe(groupsItems => {
+    this.groupsSubscription = this.groupedService.groups.subscribe(groupsItems => {
       this.groups = groupsItems;
       // TODO Investigate issue with editing items for preselected group
       // if (!this.selectedGroup && groupsItems.length) {
       //   this.selectGroup(groupsItems[0]);
       // }
     });
+    this.groupedService.getGrouped().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if (this.groupsSubscription) {
+      this.groupsSubscription.unsubscribe();
+    }
   }
 
   selectGroup(group: Grouped<T>) {

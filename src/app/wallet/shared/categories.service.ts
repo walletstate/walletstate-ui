@@ -46,10 +46,13 @@ export class CategoriesService extends GroupsService<Category> implements Groupe
 
   update(id: string, group: string, data: UpdateCategory): Observable<Category> {
     return this.categoriesClient.update(id, data).pipe(
-      map(category => {
+      map(() => {
+        //maybe just reload grouped categories
         const groupForDelete = this.groups.value.find(g => g.id === group);
-        const index = groupForDelete.items.indexOf(groupForDelete.items.find(c => c.id === id));
+        const category = groupForDelete.items.find(c => c.id === id);
+        const index = groupForDelete.items.indexOf(category);
         groupForDelete.items.splice(index, 1);
+        Object.assign(category, data);
 
         const groupForAdd = this.groups.value.find(g => g.id === data.group);
         groupForAdd.items ? groupForAdd.items.push(category) : (groupForAdd.items = [category]);

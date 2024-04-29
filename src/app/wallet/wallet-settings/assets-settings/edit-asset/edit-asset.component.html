@@ -1,0 +1,33 @@
+<form [formGroup]="assetForm" (ngSubmit)="onSubmit()">
+  <div class="input-row">
+    <div>
+      <button type="button" class="icon-button" aria-label="Asset icon" (click)="openIconsModal()">
+        <img class="icon" [src]="assetForm.controls['icon'].value | iconUrl: defaultIcon" />
+      </button>
+    </div>
+
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Ticker</mat-label>
+      <input matInput placeholder="Ticker" formControlName="ticker" />
+      @if (assetForm.controls['ticker'].invalid) {
+      <mat-error>Ticker is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Asset name</mat-label>
+      <input matInput placeholder="Asset name" formControlName="name" />
+      @if (assetForm.controls['name'].invalid) {
+      <mat-error>Category name is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="assetForm.value['tags']"></app-tags-selector>
+
+  <mat-action-row>
+    <button type="submit" mat-raised-button [disabled]="assetForm.invalid">Save</button>
+    <button type="button" mat-button (click)="onClose()">Close</button>
+    <!--    <button mat-button color="primary">Delete</button>-->
+  </mat-action-row>
+</form>

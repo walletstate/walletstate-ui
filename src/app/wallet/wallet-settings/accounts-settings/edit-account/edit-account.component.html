@@ -1,6 +1,6 @@
 <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
   <div class="input-row">
-    <div style="margin-right: 20px">
+    <div>
       <button type="button" class="icon-button" aria-label="Account icon" (click)="openIconsModal()">
         <img class="icon" [src]="accountForm.controls['icon'].value | iconUrl: defaultIcon" />
       </button>

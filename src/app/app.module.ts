@@ -39,6 +39,8 @@ import { EditGroupFormComponent } from './wallet/wallet-settings/shared/grouped-
 import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings/edit-account/edit-account.component';
+import { AssetsFilterPipe } from './shared/assets-filter.pipe';
+import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edit-asset/edit-asset.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,7 @@ import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings
     EditAccountComponent,
     EditCategoryComponent,
     EditGroupFormComponent,
+    EditAssetComponent,
     GroupedEntitiesComponent,
     AccountsSettingsComponent,
     CategoriesSettingsComponent,
@@ -83,6 +86,7 @@ import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings
     BrowserAnimationsModule,
     IconPipe,
     CdkDropListGroup,
+    AssetsFilterPipe,
   ],
   providers: [
     {
