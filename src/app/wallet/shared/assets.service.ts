@@ -8,6 +8,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class AssetsService {
   assets: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
+  assetsMap: Observable<Map<string, Asset>> = this.assets.pipe(map(arr => new Map(arr.map(a => [a.id, a]))));
 
   constructor(private assetsClient: AssetsHttpClient) {}
 

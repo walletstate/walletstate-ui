@@ -21,6 +21,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatDialogModule,
     MatExpansionModule,
     MatButtonToggleModule,
+    MatTableModule,
     DragDropModule,
   ],
   exports: [
@@ -69,6 +71,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatDialogModule,
     MatExpansionModule,
     MatButtonToggleModule,
+    MatTableModule,
     DragDropModule,
   ],
 })
