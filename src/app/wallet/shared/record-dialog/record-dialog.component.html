@@ -1,0 +1,142 @@
+<form [formGroup]="recordForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <mat-button-toggle-group formControlName="type">
+          <mat-button-toggle [value]="recordType.Income" aria-label="Income">Income</mat-button-toggle>
+          <mat-button-toggle [value]="recordType.Spending" aria-label="Spending">Spending</mat-button-toggle>
+          <mat-button-toggle [value]="recordType.Transfer" aria-label="Transfer">Transfer</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!--      from to-->
+      <div class="row">
+        <!--        from-->
+        <div formGroupName="from" class="account-asset-amount">
+          <p [class.opacity-60]="recordForm.get('from').disabled">From</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Account</mat-label>
+            <mat-select formControlName="account">
+              @for (group of accounts | async; track group) {
+              <mat-optgroup [label]="group.name">
+                @for (account of group.items ?? []; track account) {
+                <mat-option [value]="account.id">
+                  <img [alt]="account.name" class="mat-option-icon" [src]="account.icon | iconUrl" height="25" />
+                  <span class="mat-option-text">{{ account.name }}</span>
+                </mat-option>
+                }
+              </mat-optgroup>
+              }
+            </mat-select>
+          </mat-form-field>
+          <div class="asset-amount">
+            <mat-form-field appearance="outline" class="asset">
+              <mat-label>Asset</mat-label>
+              <mat-select formControlName="asset">
+                @for (assetType of assetTypes; track assetType) {
+                <mat-optgroup [label]="assetType">
+                  @for (asset of assets | async | assetsFilter:assetType; track asset) {
+                  <mat-option [value]="asset.id">
+                    <img [alt]="asset.name" class="mat-option-icon" [src]="asset.icon | iconUrl" height="25" />
+                    <span class="mat-option-text">{{ asset.ticker }}</span>
+                  </mat-option>
+                  }
+                </mat-optgroup>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="amount">
+              <mat-label>Amount</mat-label>
+              <input type="number" matInput formControlName="amount" />
+            </mat-form-field>
+          </div>
+        </div>
+        <!--        to-->
+        <div formGroupName="to" class="account-asset-amount">
+          <p [class.opacity-60]="recordForm.get('to').disabled">To</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Account</mat-label>
+            <mat-select formControlName="account">
+              @for (group of accounts | async; track group) {
+              <mat-optgroup [label]="group.name">
+                @for (account of group.items ?? []; track account) {
+                <mat-option [value]="account.id">
+                  <img [alt]="account.name" class="mat-option-icon" [src]="account.icon | iconUrl" height="25" />
+                  <span class="mat-option-text">{{ account.name }}</span>
+                </mat-option>
+                }
+              </mat-optgroup>
+              }
+            </mat-select>
+          </mat-form-field>
+          <div class="asset-amount">
+            <mat-form-field appearance="outline" class="asset">
+              <mat-label>Asset</mat-label>
+              <mat-select formControlName="asset">
+                @for (assetType of assetTypes; track assetType) {
+                <mat-optgroup [label]="assetType">
+                  @for (asset of assets | async | assetsFilter:assetType; track asset) {
+                  <mat-option [value]="asset.id">
+                    <img [alt]="asset.name" class="mat-option-icon" [src]="asset.icon | iconUrl" height="25" />
+                    <span class="mat-option-text">{{ asset.ticker }}</span>
+                  </mat-option>
+                  }
+                </mat-optgroup>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="amount">
+              <mat-label>Amount</mat-label>
+              <input type="number" matInput formControlName="amount" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!--      category/ time -->
+      <div class="row">
+        <mat-form-field appearance="outline" class="category">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            @for (group of categories | async; track group) {
+            <mat-optgroup [label]="group.name">
+              @for (category of group.items ?? []; track category) {
+              <mat-option [value]="category.id">
+                <img [alt]="category.name" class="mat-option-icon" [src]="category.icon | iconUrl" height="25" />
+                <span class="mat-option-text">{{ category.name }}</span>
+              </mat-option>
+              }
+            </mat-optgroup>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="date">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="datetime" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!--      description -->
+      <div class="row">
+        <mat-form-field appearance="outline" class="description">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <!--      tags-->
+      <div class="row">
+        <app-tags-selector [allTags]="[]" [selectedTags]="recordForm.value['tags']" class="tags"></app-tags-selector>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button type="submit" mat-button color="primary" [disabled]="recordForm.invalid">Save</button>
+      <button type="button" mat-button color="warn" (click)="onCancel()">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

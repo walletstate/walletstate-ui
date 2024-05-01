@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WalletService } from '../../shared/wallet.service';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { IconsDialogComponent } from '../../shared/utils/icons-dialog/icons-dialog.component';
+import { RecordDialogComponent } from '../shared/record-dialog/record-dialog.component';
 
 @Component({
   selector: 'app-wallet-home',
@@ -17,7 +20,8 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private walletService: WalletService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -33,11 +37,12 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
     this.userSubscription && this.userSubscription.unsubscribe();
   }
 
-  onLogout() {
-    this.authService.logout();
-  }
+  openTransactionsDialog(): void {
+    const dialogRef = this.dialog.open(RecordDialogComponent, {
+      // height: '400px',
+      width: '800px',
+    });
 
-  createInvite() {
-    this.walletService.createInvite().subscribe(invite => (this.invite = invite));
+    dialogRef.afterClosed().subscribe(() => console.log('closed'));
   }
 }

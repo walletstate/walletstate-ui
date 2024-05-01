@@ -41,6 +41,7 @@ import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories
 import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings/edit-account/edit-account.component';
 import { AssetsFilterPipe } from './shared/assets-filter.pipe';
 import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edit-asset/edit-asset.component';
+import { RecordDialogComponent } from './wallet/shared/record-dialog/record-dialog.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edi
     GroupedEntitiesComponent,
     AccountsSettingsComponent,
     CategoriesSettingsComponent,
+    RecordDialogComponent,
   ],
   imports: [
     BrowserModule,
