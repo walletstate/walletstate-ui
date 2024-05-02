@@ -17,6 +17,10 @@ import { GroupedInterface } from './grouped.interface';
   providedIn: 'root',
 })
 export class CategoriesService extends GroupsService<Category> implements GroupedInterface<Category> {
+  categoriesMap: Observable<Map<string, Category>> = this.groups.pipe(
+    map(arr => new Map(arr.flatMap(g => g.items.map(c => [c.id, c]))))
+  );
+
   constructor(
     private categoriesClient: CategoriesHttpClient,
     groupsClient: GroupsHttpClient

@@ -10,8 +10,6 @@ import { AssetsService } from '../../../shared/assets.service';
   styleUrls: ['./account-info.component.scss'],
 })
 export class AccountInfoComponent implements OnInit, OnDestroy {
-  @Input() id = '';
-
   balances: AssetBalance[] = [];
   assetsMap: Map<string, Asset>;
 

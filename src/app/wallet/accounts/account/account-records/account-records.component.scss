@@ -1,0 +1,49 @@
+.viewport {
+  height: calc(100vh - 210px);
+  width: 100%;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: stretch;
+}
+
+.record-type-icon {
+  width: 36px;
+  height: 36px;
+
+  vertical-align: middle;
+}
+
+.type-icon {
+  width: 36px;
+  margin-right: 15px;
+}
+
+.datetime {
+  margin-right: 15px;
+  width: 150px;
+}
+
+.category {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.transaction {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+  gap: 5px;
+}
+
+.amount {
+  width: 120px;
+  text-align: right;
+}

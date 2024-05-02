@@ -3,7 +3,6 @@ import { WalletService } from '../../shared/wallet.service';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { IconsDialogComponent } from '../../shared/utils/icons-dialog/icons-dialog.component';
 import { RecordDialogComponent } from '../shared/record-dialog/record-dialog.component';
 
 @Component({

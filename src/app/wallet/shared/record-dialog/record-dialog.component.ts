@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AccountsService } from '../accounts.service';
 import { CategoriesService } from '../categories.service';
 import { AssetsService } from '../assets.service';
@@ -13,6 +13,7 @@ import {
   RecordsHttpClient,
   RecordType,
   FullRecord,
+  TransactionData,
 } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -38,8 +39,11 @@ export class RecordDialogComponent implements OnInit {
     private assetsService: AssetsService,
     private recordsClient: RecordsHttpClient,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RecordDialogComponent>
-  ) {}
+    private dialogRef: MatDialogRef<RecordDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { record: FullRecord }
+  ) {
+    this.record = data?.record;
+  }
 
   ngOnInit(): void {
     this.assets = this.assetsService.assets.asObservable();
@@ -50,66 +54,80 @@ export class RecordDialogComponent implements OnInit {
     this.accountsService.getGrouped().subscribe();
     this.categoriesService.getGrouped().subscribe();
 
-    this.recordForm = this.initForm(RecordType.Spending);
-    this.recordForm.get('to').disable();
-    this.recordForm.controls['type'].valueChanges.subscribe(v => {
-      switch (v) {
-        case RecordType.Income:
-          this.recordForm.get('from').reset();
-          this.recordForm.get('from').disable();
-          this.recordForm.get('to').enable();
-          this.recordForm.get('to').patchValue(this.record?.to);
-          break;
-        case RecordType.Spending:
-          this.recordForm.get('from').enable();
-          this.recordForm.get('from').patchValue(this.record?.to);
-          this.recordForm.get('to').reset();
-          this.recordForm.get('to').disable();
-          break;
-        case RecordType.Transfer:
-          this.recordForm.get('from').enable();
-          this.recordForm.get('from').patchValue(this.record?.to);
-          this.recordForm.get('to').enable();
-          this.recordForm.get('to').patchValue(this.record?.to);
-          break;
-      }
-    });
+    console.log('record', this.record);
+    this.recordForm = this.initForm(this.record);
+    this.disableFormFields(this.recordForm.get('type').value ?? RecordType.Transfer);
+
+    //todo unsubscribe
+    this.recordForm.controls['type'].valueChanges.subscribe(v => this.disableFormFields(v));
   }
 
-  initForm(type: RecordType) {
+  initForm(record?: FullRecord) {
     return this.fb.group({
-      type: [type, [Validators.required]],
-      from: this.fromToGroup(),
-      to: this.fromToGroup(),
-      category: [null, [Validators.required]],
-      datetime: [new Date(), [Validators.required]],
-      description: ['', []],
-      tags: [[], []],
-      externalId: [null],
-      spentOn: [null],
-      generatedBy: [null],
+      type: [record?.type ?? RecordType.Transfer, [Validators.required]],
+      from: this.fromToGroup(record?.from),
+      to: this.fromToGroup(record?.to),
+      category: [record?.category, [Validators.required]],
+      datetime: [record?.datetime ?? new Date(), [Validators.required]],
+      description: [record?.description, []],
+      tags: [[...(record?.tags ?? [])], []],
+      externalId: [record?.externalId],
+      spentOn: [record?.spentOn],
+      generatedBy: [record?.generatedBy],
     });
   }
 
-  fromToGroup() {
+  fromToGroup(data?: TransactionData) {
     return this.fb.group(
       {
-        account: [null, [Validators.required]],
-        asset: [null, [Validators.required]],
-        amount: [null, [Validators.required]],
+        account: [data?.account, [Validators.required]],
+        asset: [data?.asset, [Validators.required]],
+        amount: [data?.amount, [Validators.required]],
       },
       {}
     );
   }
 
   onSubmit() {
-    this.recordsClient.create(this.recordForm.value).subscribe(rs => {
-      console.log(rs);
-      this.dialogRef.close();
-    });
+    if (this.record) {
+      this.recordsClient.update(this.record.id, this.recordForm.value).subscribe(rs => {
+        console.log('updated', rs);
+        //todo handle this more correctly
+        Object.assign(this.record, rs);
+        this.dialogRef.close();
+      });
+    } else {
+      this.recordsClient.create(this.recordForm.value).subscribe(rs => {
+        console.log('created', rs);
+        this.dialogRef.close();
+      });
+    }
   }
 
   onCancel() {
     this.dialogRef.close();
+  }
+
+  disableFormFields(type: RecordType) {
+    switch (type) {
+      case RecordType.Income:
+        this.recordForm.get('from').reset();
+        this.recordForm.get('from').disable();
+        this.recordForm.get('to').enable();
+        this.recordForm.get('to').patchValue(this.record?.to);
+        break;
+      case RecordType.Spending:
+        this.recordForm.get('from').enable();
+        this.recordForm.get('from').patchValue(this.record?.from);
+        this.recordForm.get('to').reset();
+        this.recordForm.get('to').disable();
+        break;
+      case RecordType.Transfer:
+        this.recordForm.get('from').enable();
+        this.recordForm.get('from').patchValue(this.record?.from);
+        this.recordForm.get('to').enable();
+        this.recordForm.get('to').patchValue(this.record?.to);
+        break;
+    }
   }
 }
