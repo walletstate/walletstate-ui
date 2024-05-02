@@ -1,6 +1,6 @@
 <cdk-virtual-scroll-viewport itemSize="50" class="viewport" (scrolledIndexChange)="loadMore($event)">
   <mat-action-list>
-    <mat-list-item *cdkVirtualFor="let record of records">
+    <mat-list-item *cdkVirtualFor="let record of records; let i = index">
       <div matLine class="line" (click)="editRecord(record)">
         <div class="type-icon">
           <img [src]="recordTypeIcon(record.type) | iconUrl" class="record-type-icon" />
@@ -68,7 +68,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>
+            <button mat-menu-item (click)="deleteRecord(record.id)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>

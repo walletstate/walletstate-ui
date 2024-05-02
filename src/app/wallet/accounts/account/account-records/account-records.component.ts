@@ -8,6 +8,7 @@ import {
   Category,
   FullRecord,
   Page,
+  RecordsHttpClient,
   RecordType,
 } from '@walletstate/angular-client';
 import { ActivatedRoute } from '@angular/router';
@@ -46,6 +47,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
     private categoriesService: CategoriesService,
     private accountsService: AccountsService,
     private accountsClient: AccountsHttpClient,
+    private recordsClient: RecordsHttpClient,
     private dialog: MatDialog,
     private route: ActivatedRoute
   ) {}
@@ -136,5 +138,11 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(() => console.log('closed'));
+  }
+
+  deleteRecord(id: string) {
+    this.recordsClient.delete(id).subscribe(() => {
+      this.records = this.records.filter(r => r.id !== id);
+    });
   }
 }

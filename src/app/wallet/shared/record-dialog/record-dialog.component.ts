@@ -92,7 +92,7 @@ export class RecordDialogComponent implements OnInit {
     if (this.record) {
       this.recordsClient.update(this.record.id, this.recordForm.value).subscribe(rs => {
         console.log('updated', rs);
-        //todo handle this more correctly
+        //todo handle this more correctly/remove from list if current account changed/sort if date changes
         Object.assign(this.record, rs);
         this.dialogRef.close();
       });
