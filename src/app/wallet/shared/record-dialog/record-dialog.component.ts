@@ -1,9 +1,9 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AccountsService } from '../accounts.service';
 import { CategoriesService } from '../categories.service';
 import { AssetsService } from '../assets.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {
   Account,
   Asset,
@@ -22,16 +22,19 @@ import { FormBuilder, Validators } from '@angular/forms';
   templateUrl: './record-dialog.component.html',
   styleUrl: './record-dialog.component.scss',
 })
-export class RecordDialogComponent implements OnInit {
+export class RecordDialogComponent implements OnInit, OnDestroy {
   @Input() record?: FullRecord = null;
 
   assets: Observable<Asset[]>;
   accounts: Observable<Grouped<Account>[]>;
+  accountsMap: Map<string, Account>;
   categories: Observable<Grouped<Category>[]>;
 
   recordType = RecordType;
   assetTypes: AssetType[] = Object.values(AssetType);
   recordForm;
+
+  accountsMapSubscription: Subscription;
 
   constructor(
     private accountsService: AccountsService,
@@ -49,17 +52,39 @@ export class RecordDialogComponent implements OnInit {
     this.assets = this.assetsService.assets.asObservable();
     this.accounts = this.accountsService.groups.asObservable();
     this.categories = this.categoriesService.groups.asObservable();
+    this.accountsMapSubscription = this.accountsService.accountsMap.subscribe(map => (this.accountsMap = map));
 
     this.assetsService.list().subscribe();
     this.accountsService.getGrouped().subscribe();
     this.categoriesService.getGrouped().subscribe();
 
-    console.log('record', this.record);
     this.recordForm = this.initForm(this.record);
     this.disableFormFields(this.recordForm.get('type').value ?? RecordType.Transfer);
 
     //todo unsubscribe
     this.recordForm.controls['type'].valueChanges.subscribe(v => this.disableFormFields(v));
+    this.recordForm
+      .get('from')
+      .get('account')
+      .valueChanges.subscribe(account => {
+        if (account && !this.recordForm.get('from').get('asset').touched) {
+          this.recordForm.get('from').get('asset').patchValue(this.accountsMap.get(account).defaultAsset);
+        }
+      });
+    this.recordForm
+      .get('to')
+      .get('account')
+      .valueChanges.subscribe(account => {
+        if (account && !this.recordForm.get('to').get('asset').touched) {
+          this.recordForm.get('to').get('asset').patchValue(this.accountsMap.get(account).defaultAsset);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.accountsMapSubscription) {
+      this.accountsMapSubscription.unsubscribe();
+    }
   }
 
   initForm(record?: FullRecord) {

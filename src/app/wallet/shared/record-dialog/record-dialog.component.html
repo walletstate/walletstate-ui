@@ -20,7 +20,7 @@
               @for (group of accounts | async; track group) {
               <mat-optgroup [label]="group.name">
                 @for (account of group.items ?? []; track account) {
-                <mat-option [value]="account.id">
+                <mat-option [value]="account.id" class="mat-option-with-icon">
                   <img [alt]="account.name" class="mat-option-icon" [src]="account.icon | iconUrl" height="25" />
                   <span class="mat-option-text">{{ account.name }}</span>
                 </mat-option>
@@ -36,7 +36,7 @@
                 @for (assetType of assetTypes; track assetType) {
                 <mat-optgroup [label]="assetType">
                   @for (asset of assets | async | assetsFilter:assetType; track asset) {
-                  <mat-option [value]="asset.id">
+                  <mat-option [value]="asset.id" class="mat-option-with-icon">
                     <img [alt]="asset.name" class="mat-option-icon" [src]="asset.icon | iconUrl" height="25" />
                     <span class="mat-option-text">{{ asset.ticker }}</span>
                   </mat-option>
@@ -60,7 +60,7 @@
               @for (group of accounts | async; track group) {
               <mat-optgroup [label]="group.name">
                 @for (account of group.items ?? []; track account) {
-                <mat-option [value]="account.id">
+                <mat-option [value]="account.id" class="mat-option-with-icon">
                   <img [alt]="account.name" class="mat-option-icon" [src]="account.icon | iconUrl" height="25" />
                   <span class="mat-option-text">{{ account.name }}</span>
                 </mat-option>
@@ -76,7 +76,7 @@
                 @for (assetType of assetTypes; track assetType) {
                 <mat-optgroup [label]="assetType">
                   @for (asset of assets | async | assetsFilter:assetType; track asset) {
-                  <mat-option [value]="asset.id">
+                  <mat-option [value]="asset.id" class="mat-option-with-icon">
                     <img [alt]="asset.name" class="mat-option-icon" [src]="asset.icon | iconUrl" height="25" />
                     <span class="mat-option-text">{{ asset.ticker }}</span>
                   </mat-option>
@@ -101,7 +101,7 @@
             @for (group of categories | async; track group) {
             <mat-optgroup [label]="group.name">
               @for (category of group.items ?? []; track category) {
-              <mat-option [value]="category.id">
+              <mat-option [value]="category.id" class="mat-option-with-icon">
                 <img [alt]="category.name" class="mat-option-icon" [src]="category.icon | iconUrl" height="25" />
                 <span class="mat-option-text">{{ category.name }}</span>
               </mat-option>

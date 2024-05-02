@@ -55,7 +55,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.assetsMapSubscription = this.assetsService.assetsMap.subscribe(map => (this.assetsMap = map));
     this.categoriesMapSubscription = this.categoriesService.categoriesMap.subscribe(map => (this.categoriesMap = map));
-    this.assetsMapSubscription = this.accountsService.accountsMap.subscribe(map => (this.accountsMap = map));
+    this.accountsMapSubscription = this.accountsService.accountsMap.subscribe(map => (this.accountsMap = map));
     this.assetsService.list().subscribe();
     this.categoriesService.getGrouped().subscribe();
     this.accountsService.getGrouped().subscribe();
