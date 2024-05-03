@@ -50,6 +50,7 @@ export class EditAssetComponent implements OnInit {
     const dialogRef = this.dialog.open(IconsDialogComponent, {
       height: '400px',
       width: '600px',
+      data: { tag: this.asset?.type.toLowerCase() ?? this.assetType?.toLowerCase() },
     });
 
     dialogRef.afterClosed().subscribe(iconId => {

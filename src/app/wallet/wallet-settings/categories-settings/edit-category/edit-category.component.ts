@@ -51,6 +51,7 @@ export class EditCategoryComponent implements OnInit {
     const dialogRef = this.dialog.open(IconsDialogComponent, {
       height: '400px',
       width: '600px',
+      data: { tag: 'categories' },
     });
 
     dialogRef.afterClosed().subscribe(iconId => {
