@@ -88,12 +88,14 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   }
 
   initForm(record?: FullRecord) {
+    const datetime = record?.datetime ? new Date(record.datetime) : new Date();
     return this.fb.group({
       type: [record?.type ?? RecordType.Transfer, [Validators.required]],
       from: this.fromToGroup(record?.from),
       to: this.fromToGroup(record?.to),
       category: [record?.category, [Validators.required]],
-      datetime: [record?.datetime ?? new Date(), [Validators.required]],
+      datetime: [datetime, [Validators.required]],
+      time: [this.getTime(datetime), [Validators.required]],
       description: [record?.description, []],
       tags: [[...(record?.tags ?? [])], []],
       externalId: [record?.externalId],
@@ -114,6 +116,9 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    const [hours, minutes] = this.recordForm.get('time').value.split(':');
+    this.recordForm.get('datetime').value.setHours(hours, minutes);
+
     if (this.record) {
       this.recordsClient.update(this.record.id, this.recordForm.value).subscribe(rs => {
         console.log('updated', rs);
@@ -133,7 +138,11 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  disableFormFields(type: RecordType) {
+  private getTime(dateTime: Date) {
+    return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+  }
+
+  private disableFormFields(type: RecordType) {
     switch (type) {
       case RecordType.Income:
         this.recordForm.get('from').reset();

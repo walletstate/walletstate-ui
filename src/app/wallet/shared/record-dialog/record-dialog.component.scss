@@ -42,15 +42,23 @@ mat-button-toggle-group {
 }
 
 .category {
-  flex: 1;
+  flex: 5;
   min-width: 180px;
   width: 180px;
 }
 
 .date {
-  flex: 1;
-  min-width: 180px;
-  width: 180px;
+  flex: 3;
+  min-width: 130px;
+  width: 150px;
+  max-width: 240px;
+}
+
+.time {
+  flex: 2;
+  min-width: 80px;
+  width: 90px;
+  max-width: 130px;
 }
 
 .description {
