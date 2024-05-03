@@ -1,118 +1,13 @@
+<button mat-fab color="accent" aria-label="Add new record" class="add-record-button" (click)="createRecordDialog()">
+  <mat-icon>add</mat-icon>
+</button>
+
+<h2>Dashboard</h2>
+<p class="opacity-60">Very simple for now. More widgets in future</p>
 <div class="container">
-  <div class="filters">
-    <app-home-filters></app-home-filters>
-  </div>
-
-  <div class="dashboard">
-    <div class="header">
-      <div>
-        <mat-form-field appearance="outline" class="time-filter narrow-form-field">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" />
-            <input matEndDate placeholder="End date" />
-          </mat-date-range-input>
-          <!--          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>-->
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field appearance="outline" class="narrow-form-field">
-          <mat-label>Dashboard</mat-label>
-          <mat-select>
-            <mat-option value="default">Default</mat-option>
-            <mat-option value="two">Some another</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="content">
-      <mat-card class="dash-card-large">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Shiba Inu</mat-card-title>
-            <mat-card-subtitle>Small</mat-card-subtitle>
-            <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" />
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content> sdfdsfsd fdsfsdfsdf sdfsdf </mat-card-content>
-      </mat-card>
-
-      <mat-card class="dash-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Shiba Inu</mat-card-title>
-            <mat-card-subtitle>Medium</mat-card-subtitle>
-            <img
-              mat-card-md-image
-              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Image of a Shiba Inu" />
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content> sdfdsfsd sdfs dfsdfsdf </mat-card-content>
-      </mat-card>
-
-      <mat-card class="dash-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Shiba Inu</mat-card-title>
-            <mat-card-subtitle>Large</mat-card-subtitle>
-            <img mat-card-lg-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" />
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content> testststs dfsdfsdf </mat-card-content>
-      </mat-card>
-
-      <mat-card class="dash-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Shiba Inu</mat-card-title>
-            <mat-card-subtitle>Extra large</mat-card-subtitle>
-            <img mat-card-xl-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" />
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content> sdfsdf fsdfdsfdsf sdsfdf </mat-card-content>
-      </mat-card>
-
-      <mat-card class="dash-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Wallet</mat-card-title>
-            <mat-card-subtitle>Extra large</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-          {{ wallet | json }}
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="dash-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>User</mat-card-title>
-            <mat-card-subtitle>Extra large</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-          {{ user | json }}
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="dash-card">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Invite</mat-card-title>
-            <mat-card-subtitle>Extra large</mat-card-subtitle>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-          {{ invite | json }}
-          <hr />
-          <button (click)="createInvite()">Create invite</button>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
+  @for (accountsGroup of accounts | async; track accountsGroup) {
+  <!--    -->
+  @for (account of accountsGroup.items; track account) {
+  <app-account-balance-widget [account]="account" class="widget"></app-account-balance-widget>
+  } }
 </div>

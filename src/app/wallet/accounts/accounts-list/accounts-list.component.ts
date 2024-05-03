@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../../shared/accounts.service';
 import { Account, Grouped } from '@walletstate/angular-client';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-accounts-list',
@@ -12,7 +13,10 @@ export class AccountsListComponent implements OnInit {
 
   groups: Grouped<Account>[] = [];
 
-  constructor(private accountsService: AccountsService) {}
+  constructor(
+    private accountsService: AccountsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     //TODO Investigate if it is OK

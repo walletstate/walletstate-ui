@@ -1,0 +1,76 @@
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+mat-button-toggle-group {
+  margin: 0 auto;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.account-asset-amount {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-amount {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.asset {
+  flex: 3;
+  min-width: 110px;
+  width: 110px;
+}
+
+.amount {
+  flex: 5;
+  min-width: 130px;
+  width: 130px;
+}
+
+.category {
+  flex: 5;
+  min-width: 180px;
+  width: 180px;
+}
+
+.date {
+  flex: 3;
+  min-width: 130px;
+  width: 150px;
+  max-width: 240px;
+}
+
+.time {
+  flex: 2;
+  min-width: 80px;
+  width: 90px;
+  max-width: 130px;
+}
+
+.description {
+    flex: 1;
+    min-width: 180px;
+    width: 180px;
+}
+
+.tags {
+  flex: 1;
+  min-width: 180px;
+  width: 180px;
+}
+
+

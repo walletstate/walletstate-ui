@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import {
   Account,
   AccountsHttpClient,
+  Category,
   CreateAccount,
   Grouped,
   GroupsHttpClient,
@@ -17,6 +18,10 @@ import { GroupedInterface } from './grouped.interface';
   providedIn: 'root',
 })
 export class AccountsService extends GroupsService<Account> implements GroupedInterface<Account> {
+  accountsMap: Observable<Map<string, Account>> = this.groups.pipe(
+    map(arr => new Map(arr.flatMap(g => g.items.map(a => [a.id, a]))))
+  );
+
   constructor(
     private accountsClient: AccountsHttpClient,
     groupsClient: GroupsHttpClient

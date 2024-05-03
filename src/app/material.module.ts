@@ -20,6 +20,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   imports: [
@@ -43,7 +47,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatChipsModule,
     MatDialogModule,
     MatExpansionModule,
+    MatButtonToggleModule,
+    MatTableModule,
+    MatGridListModule,
     DragDropModule,
+    ScrollingModule,
   ],
   exports: [
     MatCardModule,
@@ -66,7 +74,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatChipsModule,
     MatDialogModule,
     MatExpansionModule,
+    MatButtonToggleModule,
+    MatTableModule,
+    MatGridListModule,
     DragDropModule,
+    ScrollingModule,
   ],
 })
 export class MaterialModule {}

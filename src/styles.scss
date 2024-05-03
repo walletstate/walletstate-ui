@@ -62,3 +62,34 @@ a {
 .opacity-60 {
   opacity: 60%;
 }
+
+.icon-36 {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.icon-28 {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.icon-42 {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.mat-option-with-icon {
+  padding-left: 10px !important;
+}
+
+.mat-option-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+  border-radius: 50%;
+}

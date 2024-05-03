@@ -7,11 +7,27 @@
     </div>
 
     <mat-form-field appearance="outline" style="width: 100%">
-      <mat-label>Category name</mat-label>
+      <mat-label>Account name</mat-label>
       <input matInput placeholder="Account name" formControlName="name" />
       @if (accountForm.controls['name'].invalid) {
       <mat-error>Account name is required</mat-error>
       }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="asset">
+      <mat-label>Default asset</mat-label>
+      <mat-select formControlName="defaultAsset">
+        @for (assetType of assetTypes; track assetType) {
+        <mat-optgroup [label]="assetType">
+          @for (asset of assets | async | assetsFilter:assetType; track asset) {
+          <mat-option [value]="asset.id" class="mat-option-with-icon">
+            <img [alt]="asset.name" class="mat-option-icon" [src]="asset.icon | iconUrl" height="25" />
+            <span class="mat-option-text">{{ asset.ticker }}</span>
+          </mat-option>
+          }
+        </mat-optgroup>
+        }
+      </mat-select>
     </mat-form-field>
   </div>
 

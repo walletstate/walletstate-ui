@@ -15,8 +15,6 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AccountsComponent } from './wallet/accounts/accounts.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './navigation/footer/footer.component';
-import { HomeFiltersComponent } from './wallet/wallet-home/home-filters/home-filters.component';
-import { AccountsFilterComponent } from './wallet/wallet-home/home-filters/accounts-filter/accounts-filter.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { AccountComponent } from './wallet/accounts/account/account.component';
@@ -41,6 +39,8 @@ import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories
 import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings/edit-account/edit-account.component';
 import { AssetsFilterPipe } from './shared/assets-filter.pipe';
 import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edit-asset/edit-asset.component';
+import { RecordDialogComponent } from './wallet/shared/record-dialog/record-dialog.component';
+import { AccountBalanceWidgetComponent } from './wallet/wallet-home/account-balance-widget/account-balance-widget.component';
 
 @NgModule({
   declarations: [
@@ -51,10 +51,9 @@ import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edi
     WalletComponent,
     UserComponent,
     WalletHomeComponent,
+    AccountBalanceWidgetComponent,
     AccountsComponent,
     FooterComponent,
-    HomeFiltersComponent,
-    AccountsFilterComponent,
     HeaderComponent,
     SidenavListComponent,
     AccountComponent,
@@ -75,6 +74,7 @@ import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edi
     GroupedEntitiesComponent,
     AccountsSettingsComponent,
     CategoriesSettingsComponent,
+    RecordDialogComponent,
   ],
   imports: [
     BrowserModule,
