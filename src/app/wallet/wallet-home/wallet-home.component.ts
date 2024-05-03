@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WalletService } from '../../shared/wallet.service';
-import { AuthService } from '../../auth/auth.service';
-import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { RecordDialogComponent } from '../shared/record-dialog/record-dialog.component';
+import { AccountsService } from '../shared/accounts.service';
+import { Account, Grouped } from '@walletstate/angular-client';
+import { Observable } from 'rxjs';
+import { AssetsService } from '../shared/assets.service';
 
 @Component({
   selector: 'app-wallet-home',
@@ -11,32 +12,22 @@ import { RecordDialogComponent } from '../shared/record-dialog/record-dialog.com
   styleUrls: ['./wallet-home.component.scss'],
 })
 export class WalletHomeComponent implements OnInit, OnDestroy {
-  wallet;
-  user = null;
-  private userSubscription: Subscription;
-
-  invite;
+  accounts: Observable<Grouped<Account>[]>;
 
   constructor(
-    private walletService: WalletService,
-    private authService: AuthService,
+    private accountsService: AccountsService,
+    private assetsService: AssetsService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user.subscribe(user => (this.user = user));
-
-    this.walletService.get().subscribe(resp => {
-      console.log(resp);
-      this.wallet = resp;
-    });
+    this.accounts = this.accountsService.getGrouped();
+    this.assetsService.list().subscribe(); //prefetch assets for widgets
   }
 
-  ngOnDestroy(): void {
-    this.userSubscription && this.userSubscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
-  openTransactionsDialog(): void {
+  createRecordDialog(): void {
     const dialogRef = this.dialog.open(RecordDialogComponent, {
       // height: '400px',
       width: '800px',
