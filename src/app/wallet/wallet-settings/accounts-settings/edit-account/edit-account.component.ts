@@ -61,6 +61,7 @@ export class EditAccountComponent implements OnInit {
     const dialogRef = this.dialog.open(IconsDialogComponent, {
       height: '400px',
       width: '600px',
+      data: { tag: 'accounts' },
     });
 
     dialogRef.afterClosed().subscribe(iconId => {
