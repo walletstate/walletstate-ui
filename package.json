@@ -1,13 +1,20 @@
 {
   "name": "walletstate",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "config": {
+    "img": "ghcr.io/walletstate/walletstate-ui"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "docker:publish": "docker build -f Dockerfile -t $npm_package_config_img:$npm_package_version . && docker tag $npm_package_config_img:$npm_package_version $npm_package_config_img:latest && docker push $npm_package_config_img:$npm_package_version && docker push $npm_package_config_img:latest",
+    "publish:patch": "npm version patch -m \"Upgrade version to v%s\" && git push --tags",
+    "publish:minor": "npm version minor -m \"Upgrade version to v%s\" && git push --tags",
+    "publish:major": "npm version major -m \"Upgrade version to v%s\" && git push --tags"
   },
   "private": true,
   "dependencies": {
