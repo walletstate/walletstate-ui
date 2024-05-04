@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user.model';
 import { Subscription } from 'rxjs';
+import { ProfileIcon } from '../../shared/icons';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   isSmallScreen: boolean = false;
   user: User;
+
+  userProfileIcon = ProfileIcon;
 
   userSubscription: Subscription;
   breakpointsSubscription: Subscription;

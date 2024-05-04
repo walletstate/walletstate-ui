@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AccountsService } from '../../shared/accounts.service';
 import { Account, CreateAccount, Grouped, UpdateAccount } from '@walletstate/angular-client';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { AccountIcon } from '../../../shared/icons';
 
 @Component({
   selector: 'app-accounts-settings',
@@ -10,6 +11,8 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 })
 export class AccountsSettingsComponent {
   group: Grouped<Account> = null;
+
+  readonly defaultIcon = AccountIcon;
 
   constructor(public accountsService: AccountsService) {}
 

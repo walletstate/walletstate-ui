@@ -3,7 +3,7 @@
   <ng-container matColumnDef="asset">
     <th mat-header-cell *matHeaderCellDef>Asset</th>
     <td mat-cell *matCellDef="let element">
-      <img [src]="assetsMap.get(element.asset)?.icon | iconUrl" class="icon-36" />
+      <img [src]="assetsMap.get(element.asset)?.icon | iconUrl: defaultAssetIcon" class="icon-36" />
       {{ assetsMap.get(element.asset)?.ticker }}
     </td>
   </ng-container>

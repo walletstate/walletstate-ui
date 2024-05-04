@@ -39,7 +39,14 @@ export class AccountsService extends GroupsService<Account> implements GroupedIn
   }
 
   create(data: CreateAccount): Observable<Account> {
-    return this.accountsClient.create(data).pipe(mergeMap(account => this.getGrouped().pipe(map(() => account))));
+    return this.accountsClient.create(data).pipe(
+      map(account => {
+        const group = this.groups.value.find(g => g.id === data.group);
+        group.items ? group.items.push(account) : (group.items = [account]);
+        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
+        return account;
+      })
+    );
   }
 
   update(id: string, group: string, data: UpdateAccount): Observable<Account> {

@@ -14,7 +14,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
 import { CategoriesService } from '../../../shared/categories.service';
-import { IncomeIcon, SpendingIcon, TransferIcon } from '../../../../shared/icons';
+import { AccountIcon, AssetIcon, CategoryIcon, IncomeIcon, SpendingIcon, TransferIcon } from '../../../../shared/icons';
 import { AccountsService } from '../../../shared/accounts.service';
 import { RecordDialogComponent } from '../../../shared/record-dialog/record-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,6 +36,9 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   accountsMap: Map<string, Account>;
 
   readonly recordType = RecordType;
+  readonly defaultAssetIcon = AssetIcon;
+  readonly defaultAccountIcon = AccountIcon;
+  readonly defaultCategoryIcon = CategoryIcon;
 
   paramsSubscription: Subscription;
   assetsMapSubscription: Subscription;
