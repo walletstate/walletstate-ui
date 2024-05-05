@@ -16,6 +16,7 @@ import {
   TransactionData,
 } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
+import { AccountIcon, AssetIcon, CategoryIcon } from '../../../shared/icons';
 
 @Component({
   selector: 'app-record-dialog',
@@ -33,6 +34,10 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   recordType = RecordType;
   assetTypes: AssetType[] = Object.values(AssetType);
   recordForm;
+
+  readonly defaultAssetIcon = AssetIcon;
+  readonly defaultAccountIcon = AccountIcon;
+  readonly defaultCategoryIcon = CategoryIcon;
 
   accountsMapSubscription: Subscription;
 

@@ -6,7 +6,7 @@
     <mat-expansion-panel [id]="category.id" #panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <img [src]="category.icon | iconUrl" class="category-icon" />
+          <img [src]="category.icon | iconUrl: defaultIcon" class="category-icon" />
           <h3 style="margin: 0">{{ category.name }}</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>

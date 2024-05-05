@@ -6,7 +6,7 @@
     <mat-expansion-panel [id]="account.id" #panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <img [src]="account.icon | iconUrl" class="account-icon" />
+          <img [src]="account.icon | iconUrl: defaultIcon" class="account-icon" />
           <h3 style="margin: 0">{{ account.name }}</h3>
         </mat-panel-title>
       </mat-expansion-panel-header>

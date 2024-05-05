@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../../shared/accounts.service';
 import { Account, Grouped } from '@walletstate/angular-client';
 import { ActivatedRoute } from '@angular/router';
+import { AccountIcon } from '../../../shared/icons';
 
 @Component({
   selector: 'app-accounts-list',
@@ -12,6 +13,8 @@ export class AccountsListComponent implements OnInit {
   isSearchMode: boolean = false;
 
   groups: Grouped<Account>[] = [];
+
+  defaultAccountIcon = AccountIcon;
 
   constructor(
     private accountsService: AccountsService,

@@ -9,7 +9,7 @@
         <div class="datetime">{{ record.datetime | date: 'YYYY/MM/dd HH:mm' }}</div>
 
         <div class="category">
-          <img [src]="getCategory(record.category).icon | iconUrl" class="icon-36" />
+          <img [src]="getCategory(record.category).icon | iconUrl: defaultCategoryIcon" class="icon-36" />
           <div>{{ getCategory(record.category).name }}</div>
         </div>
 
@@ -18,13 +18,13 @@
           <!--income-->
           @case (recordType.Income) {
           <div class="amount">{{ record.to.amount }}</div>
-          <img [src]="getAsset(record.to.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.to.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <!--          <div>{{ getAsset(record.to.asset).ticker }}</div>-->
           }
           <!--spending-->
           @case (recordType.Spending) {
           <div class="amount">{{ record.from.amount }}</div>
-          <img [src]="getAsset(record.from.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.from.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <!--          <div>{{ getAsset(record.from.asset).ticker }}</div>-->
           }
           <!--transfer-->
@@ -32,35 +32,35 @@
           <!--transfer in one account-->
           @if (record.from.account === account && record.to.account === account) {
           <div class="amount">{{ record.from.amount }}</div>
-          <img [src]="getAsset(record.from.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.from.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <div>
             <mat-icon>arrow_forward</mat-icon>
           </div>
           <div class="amount">{{ record.to.amount }}</div>
-          <img [src]="getAsset(record.to.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.to.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           } @else if (record.to.account === account) {
 
           <!--transfer to current account-->
           <div>{{ getAccount(record.from.account).name }}</div>
-          <img [src]="getAccount(record.from.account).icon | iconUrl" class="icon-28" />
+          <img [src]="getAccount(record.from.account).icon | iconUrl: defaultAccountIcon" class="icon-28" />
           <div class="amount">{{ record.from.amount }}</div>
-          <img [src]="getAsset(record.from.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.from.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <div>
             <mat-icon>arrow_forward</mat-icon>
           </div>
           <div class="amount">{{ record.to.amount }}</div>
-          <img [src]="getAsset(record.to.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.to.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           } @else {
           <!--transfer from current account-->
           <div>{{ getAccount(record.to.account).name }}</div>
-          <img [src]="getAccount(record.to.account).icon | iconUrl" class="icon-28" />
+          <img [src]="getAccount(record.to.account).icon | iconUrl: defaultAccountIcon" class="icon-28" />
           <div class="amount">{{ record.to.amount }}</div>
-          <img [src]="getAsset(record.to.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.to.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <div>
             <mat-icon>arrow_back</mat-icon>
           </div>
           <div class="amount">{{ record.from.amount }}</div>
-          <img [src]="getAsset(record.from.asset).icon | iconUrl" class="icon-28" />
+          <img [src]="getAsset(record.from.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           } } }
         </div>
         <div class="actions">

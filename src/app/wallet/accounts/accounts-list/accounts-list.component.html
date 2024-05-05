@@ -40,7 +40,7 @@
 
         @for (account of group.items; track account) {
         <mat-list-item routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive" [routerLink]="[account.id]">
-          <img matListItemAvatar [src]="account.icon | iconUrl" alt="account-icon" />
+          <img matListItemAvatar [src]="account.icon | iconUrl: defaultAccountIcon" alt="account-icon" />
           <a matListItemTitle> {{ account.name }} </a>
           <p matListItemLine>
             @for (tag of account.tags; track tag) {

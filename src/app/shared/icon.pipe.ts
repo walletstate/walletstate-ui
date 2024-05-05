@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { CategoryIcon } from './icons';
 
 @Pipe({
   name: 'iconUrl',
@@ -11,7 +12,7 @@ export class IconPipe implements PipeTransform {
     } else if (defaultIcon && defaultIcon.length === 64) {
       return `/api/icons/${defaultIcon}`;
     } else {
-      return '/api/icons/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
+      return `/api/icons/${CategoryIcon}`; //TODO Change for some common icon
     }
   }
 }

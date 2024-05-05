@@ -3,6 +3,7 @@ import { AssetsService } from '../../shared/assets.service';
 import { Asset, AssetType, CreateAsset, UpdateAsset } from '@walletstate/angular-client';
 import { Observable, Subscription } from 'rxjs';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { AssetIcon } from '../../../shared/icons';
 
 @Component({
   selector: 'app-assets-settings',
@@ -15,6 +16,8 @@ export class AssetsSettingsComponent implements OnInit, OnDestroy {
 
   assetTypes: AssetType[] = Object.values(AssetType);
   selectedAssetType: AssetType;
+
+  readonly defaultIcon = AssetIcon;
 
   constructor(private assetsService: AssetsService) {}
 

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AccountsHttpClient, Asset, AssetBalance } from '@walletstate/angular-client';
 import { Subscription, switchMap } from 'rxjs';
 import { AssetsService } from '../../../shared/assets.service';
+import { AssetIcon } from '../../../../shared/icons';
 
 @Component({
   selector: 'app-account-info',
@@ -14,6 +15,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
   assetsMap: Map<string, Asset>;
 
   paramsSubscription: Subscription;
+  defaultAssetIcon = AssetIcon;
 
   displayedColumns = ['asset', 'amount'];
 

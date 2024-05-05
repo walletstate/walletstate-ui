@@ -18,7 +18,7 @@
       <mat-expansion-panel [id]="asset.id" #panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <img [src]="asset.icon | iconUrl" class="asset-icon" />
+            <img [src]="asset.icon | iconUrl: defaultIcon" class="asset-icon" />
             <h3 style="margin: 0">{{ asset.ticker }}</h3>
           </mat-panel-title>
           <mat-panel-description>
