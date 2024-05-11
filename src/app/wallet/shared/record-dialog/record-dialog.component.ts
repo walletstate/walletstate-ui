@@ -156,18 +156,30 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
         this.recordForm.get('from').disable();
         this.recordForm.get('to').enable();
         this.recordForm.get('to').patchValue(this.record?.to);
+        this.recordForm.get('spentOn').reset();
+        this.recordForm.get('spentOn').disable();
+        this.recordForm.get('generatedBy').enable();
+        this.recordForm.get('generatedBy').patchValue(this.record?.generatedBy);
         break;
       case RecordType.Spending:
         this.recordForm.get('from').enable();
         this.recordForm.get('from').patchValue(this.record?.from);
         this.recordForm.get('to').reset();
         this.recordForm.get('to').disable();
+        this.recordForm.get('spentOn').enable();
+        this.recordForm.get('spentOn').patchValue(this.record?.spentOn);
+        this.recordForm.get('generatedBy').disable();
+        this.recordForm.get('generatedBy').reset();
         break;
       case RecordType.Transfer:
         this.recordForm.get('from').enable();
         this.recordForm.get('from').patchValue(this.record?.from);
         this.recordForm.get('to').enable();
         this.recordForm.get('to').patchValue(this.record?.to);
+        this.recordForm.get('spentOn').enable();
+        this.recordForm.get('spentOn').patchValue(this.record?.spentOn);
+        this.recordForm.get('generatedBy').enable();
+        this.recordForm.get('generatedBy').patchValue(this.record?.generatedBy);
         break;
     }
   }
