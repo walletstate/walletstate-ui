@@ -102,7 +102,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
     if (this.account && this.nextPageToken && !this.isLoading && this.limitForLoadingReached(index)) {
       this.isLoading = true;
       this.accountsClient.listRecords(this.account, this.nextPageToken).subscribe(page => {
-        this.records = this.records.concat(page.items);
+        this.records = page.items ? this.records.concat(page.items) : this.records;
         this.isLoading = false;
         this.nextPageToken = page.nextPage;
         console.log('load more');
