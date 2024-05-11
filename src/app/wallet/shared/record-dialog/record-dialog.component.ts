@@ -144,7 +144,9 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   }
 
   private getTime(dateTime: Date) {
-    return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+    const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes();
+    return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
   }
 
   private disableFormFields(type: RecordType) {
