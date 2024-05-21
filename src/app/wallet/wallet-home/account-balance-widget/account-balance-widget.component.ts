@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Account, AccountsHttpClient, Asset, AssetBalance } from '@walletstate/angular-client';
+import { Account, AccountsHttpClient, Asset, AssetAmount } from '@walletstate/angular-client';
 import { Observable } from 'rxjs';
 import { AssetsService } from '../../shared/assets.service';
 import { AccountIcon, AssetIcon } from '../../../shared/icons';
@@ -12,7 +12,7 @@ import { AccountIcon, AssetIcon } from '../../../shared/icons';
 export class AccountBalanceWidgetComponent implements OnInit {
   @Input() account: Account;
 
-  balances: Observable<AssetBalance[]>;
+  balances: Observable<AssetAmount[]>;
 
   readonly defaultAssetIcon = AssetIcon;
   readonly defaultAccountIcon = AccountIcon;

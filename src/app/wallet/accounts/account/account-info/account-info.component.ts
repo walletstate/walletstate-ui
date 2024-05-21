@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AccountsHttpClient, Asset, AssetBalance } from '@walletstate/angular-client';
+import { AccountsHttpClient, Asset, AssetAmount } from '@walletstate/angular-client';
 import { Subscription, switchMap } from 'rxjs';
 import { AssetsService } from '../../../shared/assets.service';
 import { AssetIcon } from '../../../../shared/icons';
@@ -11,7 +11,7 @@ import { AssetIcon } from '../../../../shared/icons';
   styleUrls: ['./account-info.component.scss'],
 })
 export class AccountInfoComponent implements OnInit, OnDestroy {
-  balances: AssetBalance[] = [];
+  balances: AssetAmount[] = [];
   assetsMap: Map<string, Asset>;
 
   paramsSubscription: Subscription;
