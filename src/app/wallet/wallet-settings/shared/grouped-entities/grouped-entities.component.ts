@@ -31,7 +31,7 @@ export class GroupedEntitiesComponent<T> implements OnInit, OnDestroy {
       //   this.selectGroup(groupsItems[0]);
       // }
     });
-    this.groupedService.getGrouped().subscribe();
+    this.groupedService.loadGrouped().subscribe();
   }
 
   ngOnDestroy(): void {

@@ -41,6 +41,9 @@ import { AssetsFilterPipe } from './shared/assets-filter.pipe';
 import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edit-asset/edit-asset.component';
 import { RecordDialogComponent } from './wallet/shared/record-dialog/record-dialog.component';
 import { AccountBalanceWidgetComponent } from './wallet/wallet-home/account-balance-widget/account-balance-widget.component';
+import { AnalyticsComponent } from './wallet/analytics/analytics.component';
+import { AnalyticsFilterComponent } from './wallet/analytics/analytics-filter/analytics-filter.component';
+import { AnalyticsByCategoryTableComponent } from './wallet/analytics/analytics-by-category-table/analytics-by-category-table.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +78,9 @@ import { AccountBalanceWidgetComponent } from './wallet/wallet-home/account-bala
     AccountsSettingsComponent,
     CategoriesSettingsComponent,
     RecordDialogComponent,
+    AnalyticsComponent,
+    AnalyticsFilterComponent,
+    AnalyticsByCategoryTableComponent,
   ],
   imports: [
     BrowserModule,

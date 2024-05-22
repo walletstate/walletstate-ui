@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="filter">
+    <app-analytics-filter (applyFilter)="onApplyFilter($event)"></app-analytics-filter>
+  </div>
+
+  <mat-tab-group class="content">
+    <mat-tab label="Categories Table">
+      <ng-template matTabContent>
+        <app-analytics-by-category-table [filter]="filter"></app-analytics-by-category-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Bar Chart">
+      <ng-template matTabContent> Content 2 - Loaded: TBD </ng-template>
+    </mat-tab>
+    <mat-tab label="Pie Chart">
+      <ng-template matTabContent> Content 3 - Loaded: TBD </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

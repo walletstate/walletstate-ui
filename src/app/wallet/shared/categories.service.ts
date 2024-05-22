@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
+  Account,
   CategoriesHttpClient,
   Category,
   CreateCategory,
@@ -17,9 +18,7 @@ import { GroupedInterface } from './grouped.interface';
   providedIn: 'root',
 })
 export class CategoriesService extends GroupsService<Category> implements GroupedInterface<Category> {
-  categoriesMap: Observable<Map<string, Category>> = this.groups.pipe(
-    map(arr => new Map(arr.flatMap(g => g.items.map(c => [c.id, c]))))
-  );
+  private _categoriesMap: Map<string, Category> = new Map();
 
   constructor(
     private categoriesClient: CategoriesHttpClient,
@@ -28,42 +27,59 @@ export class CategoriesService extends GroupsService<Category> implements Groupe
     super(groupsClient, GroupType.Categories);
   }
 
-  getGrouped(): Observable<Grouped<Category>[]> {
+  category(id: string): Category {
+    return this._categoriesMap.get(id);
+  }
+
+  protected override updateLocalState(
+    newGroupsFn: (currentGroups: Grouped<Category>[]) => Grouped<Category>[]
+  ): Grouped<Category>[] {
+    const updateStateFunc = (current: Grouped<Category>[]) => {
+      const updated = newGroupsFn(current);
+      this._categoriesMap = new Map(updated.flatMap(g => (g.items ?? []).map(c => [c.id, c])));
+      return updated;
+    };
+
+    return super.updateLocalState(updateStateFunc);
+  }
+
+  loadGrouped(): Observable<Grouped<Category>[]> {
     return this.categoriesClient.listGrouped().pipe(
-      map(groupedCategories => {
-        this.groups.next(groupedCategories);
-        return groupedCategories;
+      tap(groupedCategories => {
+        this.updateLocalState(() => groupedCategories);
       })
     );
   }
 
   create(data: CreateCategory): Observable<Category> {
     return this.categoriesClient.create(data).pipe(
-      map(category => {
-        const group = this.groups.value.find(g => g.id === data.group);
-        group.items ? group.items.push(category) : (group.items = [category]);
-        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
-        return category;
+      tap(category => {
+        this.updateLocalState((current: Grouped<Category>[]) => {
+          const group = current.find(g => g.id === data.group);
+          group.items ? group.items.push(category) : (group.items = [category]);
+          return current.sort((g1, g2) => g1.idx - g2.idx);
+        });
       })
     );
   }
 
-  update(id: string, group: string, data: UpdateCategory): Observable<Category> {
+  update(id: string, group: string, data: UpdateCategory): Observable<void> {
     return this.categoriesClient.update(id, data).pipe(
-      map(() => {
-        //maybe just reload grouped categories
-        const groupForDelete = this.groups.value.find(g => g.id === group);
-        const category = groupForDelete.items.find(c => c.id === id);
-        const index = groupForDelete.items.indexOf(category);
-        groupForDelete.items.splice(index, 1);
-        Object.assign(category, data);
+      tap(() => {
+        this.updateLocalState((current: Grouped<Category>[]) => {
+          //maybe just reload grouped categories
+          const groupForDelete = current.find(g => g.id === group);
+          const category = groupForDelete.items.find(c => c.id === id);
+          const index = groupForDelete.items.indexOf(category);
+          groupForDelete.items.splice(index, 1);
+          Object.assign(category, data);
 
-        const groupForAdd = this.groups.value.find(g => g.id === data.group);
-        groupForAdd.items ? groupForAdd.items.push(category) : (groupForAdd.items = [category]);
-        groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
+          const groupForAdd = current.find(g => g.id === data.group);
+          groupForAdd.items ? groupForAdd.items.push(category) : (groupForAdd.items = [category]);
+          groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
 
-        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
-        return category;
+          return current.sort((g1, g2) => g1.idx - g2.idx);
+        });
       })
     );
   }

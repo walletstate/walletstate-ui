@@ -28,7 +28,6 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
 
   assets: Observable<Asset[]>;
   accounts: Observable<Grouped<Account>[]>;
-  accountsMap: Map<string, Account>;
   categories: Observable<Grouped<Category>[]>;
 
   recordType = RecordType;
@@ -54,14 +53,13 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.assets = this.assetsService.assets.asObservable();
-    this.accounts = this.accountsService.groups.asObservable();
-    this.categories = this.categoriesService.groups.asObservable();
-    this.accountsMapSubscription = this.accountsService.accountsMap.subscribe(map => (this.accountsMap = map));
+    this.assets = this.assetsService.assets;
+    this.accounts = this.accountsService.groups;
+    this.categories = this.categoriesService.groups;
 
-    this.assetsService.list().subscribe();
-    this.accountsService.getGrouped().subscribe();
-    this.categoriesService.getGrouped().subscribe();
+    this.assetsService.loadAssets().subscribe();
+    this.accountsService.loadGrouped().subscribe();
+    this.categoriesService.loadGrouped().subscribe();
 
     this.recordForm = this.initForm(this.record);
     this.disableFormFields(this.recordForm.get('type').value ?? RecordType.Transfer);
@@ -71,17 +69,17 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
     this.recordForm
       .get('from')
       .get('account')
-      .valueChanges.subscribe(account => {
-        if (account && !this.recordForm.get('from').get('asset').touched) {
-          this.recordForm.get('from').get('asset').patchValue(this.accountsMap.get(account).defaultAsset);
+      .valueChanges.subscribe(accountId => {
+        if (accountId && !this.recordForm.get('from').get('asset').touched) {
+          this.recordForm.get('from').get('asset').patchValue(this.accountsService.account(accountId).defaultAsset);
         }
       });
     this.recordForm
       .get('to')
       .get('account')
-      .valueChanges.subscribe(account => {
-        if (account && !this.recordForm.get('to').get('asset').touched) {
-          this.recordForm.get('to').get('asset').patchValue(this.accountsMap.get(account).defaultAsset);
+      .valueChanges.subscribe(accountId => {
+        if (accountId && !this.recordForm.get('to').get('asset').touched) {
+          this.recordForm.get('to').get('asset').patchValue(this.accountsService.account(accountId).defaultAsset);
         }
       });
   }

@@ -24,6 +24,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -52,6 +54,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatGridListModule,
     DragDropModule,
     ScrollingModule,
+    MatProgressBarModule,
   ],
   exports: [
     MatCardModule,
@@ -79,6 +82,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatGridListModule,
     DragDropModule,
     ScrollingModule,
+    MatProgressBarModule,
   ],
 })
 export class MaterialModule {}

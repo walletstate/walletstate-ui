@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AssetsService } from '../../shared/assets.service';
 import { Asset, AssetType, CreateAsset, UpdateAsset } from '@walletstate/angular-client';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AssetIcon } from '../../../shared/icons';
 
@@ -22,8 +22,8 @@ export class AssetsSettingsComponent implements OnInit, OnDestroy {
   constructor(private assetsService: AssetsService) {}
 
   ngOnInit(): void {
-    this.assets = this.assetsService.assets.asObservable();
-    this.assetsService.list().subscribe();
+    this.assets = this.assetsService.assets;
+    this.assetsService.loadAssets().subscribe();
   }
 
   ngOnDestroy(): void {}

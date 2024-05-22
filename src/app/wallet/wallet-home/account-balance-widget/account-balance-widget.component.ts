@@ -27,6 +27,6 @@ export class AccountBalanceWidgetComponent implements OnInit {
   }
 
   getAsset(id: string): Asset {
-    return this.assetsService.assetsMap.value.get(id);
+    return this.assetsService.asset(id);
   }
 }

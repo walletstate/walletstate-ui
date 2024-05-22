@@ -32,8 +32,8 @@ export class EditAccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.assets = this.assetsService.assets.asObservable();
-    this.assetsService.list().subscribe();
+    this.assets = this.assetsService.assets;
+    this.assetsService.loadAssets().subscribe();
 
     this.accountForm = this.buildForm();
   }

@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Filter</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [matTreeNodePaddingIndent]="15">
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        <mat-checkbox
+          color="primary"
+          [checked]="checklistSelection.isSelected(node)"
+          (change)="leafSelectionToggle(node)">
+          {{ node.name }}
+        </mat-checkbox>
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding [matTreeNodePaddingIndent]="15">
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+          <mat-icon>
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+          </mat-icon>
+        </button>
+        <mat-checkbox
+          color="primary"
+          [checked]="descendantsAllSelected(node)"
+          [indeterminate]="descendantsPartiallySelected(node)"
+          (change)="nodeSelectionToggle(node)">
+          {{ node.name }}
+        </mat-checkbox>
+      </mat-tree-node>
+    </mat-tree>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="onApply()">Apply</button>
+  </mat-card-actions>
+</mat-card>

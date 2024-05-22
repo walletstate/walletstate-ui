@@ -1,0 +1,24 @@
+:host {
+  width: 100%;
+}
+
+mat-card {
+  width: 100%;
+}
+
+mat-card-content {
+  height: calc(100vh - 280px);
+  overflow-y: scroll;
+}
+
+.filter-l1 label {
+  font-weight: 600!important;
+}
+
+.filter-l2 {
+  font-weight: 500!important;
+}
+
+.filter-l3 {
+  font-weight: normal!important;
+}

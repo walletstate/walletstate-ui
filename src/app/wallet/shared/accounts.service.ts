@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { mergeMap, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import {
   Account,
   AccountsHttpClient,
-  Category,
   CreateAccount,
   Grouped,
   GroupsHttpClient,
@@ -18,9 +17,7 @@ import { GroupedInterface } from './grouped.interface';
   providedIn: 'root',
 })
 export class AccountsService extends GroupsService<Account> implements GroupedInterface<Account> {
-  accountsMap: Observable<Map<string, Account>> = this.groups.pipe(
-    map(arr => new Map(arr.flatMap(g => g.items.map(a => [a.id, a]))))
-  );
+  private _accountsMap: Map<string, Account> = new Map();
 
   constructor(
     private accountsClient: AccountsHttpClient,
@@ -29,41 +26,58 @@ export class AccountsService extends GroupsService<Account> implements GroupedIn
     super(groupsClient, GroupType.Accounts);
   }
 
-  getGrouped(): Observable<Grouped<Account>[]> {
+  account(id: string): Account {
+    return this._accountsMap.get(id);
+  }
+
+  protected override updateLocalState(
+    newGroupsFn: (currentGroups: Grouped<Account>[]) => Grouped<Account>[]
+  ): Grouped<Account>[] {
+    const updateStateFunc = (current: Grouped<Account>[]) => {
+      const updated = newGroupsFn(current);
+      this._accountsMap = new Map(updated.flatMap(g => (g.items ?? []).map(a => [a.id, a])));
+      return updated;
+    };
+
+    return super.updateLocalState(updateStateFunc);
+  }
+
+  loadGrouped(): Observable<Grouped<Account>[]> {
     return this.accountsClient.listGrouped().pipe(
-      map(groupedAccounts => {
-        this.groups.next(groupedAccounts);
-        return groupedAccounts;
+      tap(groupedAccounts => {
+        this.updateLocalState(() => groupedAccounts);
       })
     );
   }
 
   create(data: CreateAccount): Observable<Account> {
     return this.accountsClient.create(data).pipe(
-      map(account => {
-        const group = this.groups.value.find(g => g.id === data.group);
-        group.items ? group.items.push(account) : (group.items = [account]);
-        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
-        return account;
+      tap(account => {
+        this.updateLocalState((current: Grouped<Account>[]) => {
+          const group = current.find(g => g.id === data.group);
+          group.items ? group.items.push(account) : (group.items = [account]);
+          return current.sort((g1, g2) => g1.idx - g2.idx);
+        });
       })
     );
   }
 
-  update(id: string, group: string, data: UpdateAccount): Observable<Account> {
+  update(id: string, group: string, data: UpdateAccount): Observable<void> {
     return this.accountsClient.update(id, data).pipe(
-      map(() => {
-        //maybe just reload grouped accounts
-        const groupForDelete = this.groups.value.find(g => g.id === group);
-        const account = groupForDelete.items.find(c => c.id === id);
-        const index = groupForDelete.items.indexOf(account);
-        groupForDelete.items.splice(index, 1);
-        Object.assign(account, data);
-        const groupForAdd = this.groups.value.find(g => g.id === data.group);
-        groupForAdd.items ? groupForAdd.items.push(account) : (groupForAdd.items = [account]);
-        groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
+      tap(() => {
+        this.updateLocalState((current: Grouped<Account>[]) => {
+          //maybe just reload grouped accounts
+          const groupForDelete = current.find(g => g.id === group);
+          const account = groupForDelete.items.find(c => c.id === id);
+          const index = groupForDelete.items.indexOf(account);
+          groupForDelete.items.splice(index, 1);
+          Object.assign(account, data);
+          const groupForAdd = current.find(g => g.id === data.group);
+          groupForAdd.items ? groupForAdd.items.push(account) : (groupForAdd.items = [account]);
+          groupForAdd.items.sort((c1, c2) => c1.idx - c2.idx);
 
-        this.groups.next(this.groups.value.sort((g1, g2) => g1.idx - g2.idx));
-        return account;
+          return current.sort((g1, g2) => g1.idx - g2.idx);
+        });
       })
     );
   }
