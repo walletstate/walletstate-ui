@@ -32,7 +32,7 @@
 
   <mat-card-content>
     <mat-nav-list>
-      @for (group of groups; track group) {
+      @for (group of groups | async; track group) {
       <div>
         <div class="group">
           <h3 matSubheader class="group-header">{{ group.name }}</h3>

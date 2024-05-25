@@ -18,6 +18,7 @@ import { AssetsSettingsComponent } from './wallet/wallet-settings/assets-setting
 import { WalletUsersComponent } from './wallet/wallet-settings/wallet-users/wallet-users.component';
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
+import { AnalyticsComponent } from './wallet/analytics/analytics.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -54,6 +55,7 @@ const routes: Routes = [
       { path: 'assets', component: AssetsSettingsComponent },
     ],
   },
+  { path: 'analytics', canActivate: [walletGuard], component: AnalyticsComponent },
 
   { path: '**', component: NotFoundComponent },
 ];

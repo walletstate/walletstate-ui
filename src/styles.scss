@@ -63,16 +63,23 @@ a {
   opacity: 60%;
 }
 
-.icon-36 {
-  width: 36px;
-  height: 36px;
+.icon-28 {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   vertical-align: middle;
 }
 
-.icon-28 {
-  width: 28px;
-  height: 28px;
+.icon-24 {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.icon-36 {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   vertical-align: middle;
 }
@@ -92,4 +99,8 @@ a {
   vertical-align: middle;
   margin-right: 8px;
   border-radius: 50%;
+}
+
+.progress-bar-with-white-back .mdc-linear-progress__buffer .mdc-linear-progress__buffer-bar {
+  background-color: rgb(255 255 255);
 }

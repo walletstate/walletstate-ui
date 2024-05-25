@@ -1,6 +1,7 @@
 <mat-nav-list>
   @if (!!user?.wallet) {
   <a mat-list-item routerLink="/accounts" (click)="onClose()"> Accounts </a>
+  <a mat-list-item routerLink="/analytics" (click)="onClose()"> Analytics </a>
   <a mat-list-item routerLink="/settings" (click)="onClose()"> Settings </a>
   }
   <a mat-list-item routerLink="/user" (click)="onClose()"> User profile </a>

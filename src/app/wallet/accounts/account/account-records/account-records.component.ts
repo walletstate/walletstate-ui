@@ -4,10 +4,8 @@ import {
   Account,
   AccountsHttpClient,
   Asset,
-  AssetBalance,
   Category,
   FullRecord,
-  Page,
   RecordsHttpClient,
   RecordType,
 } from '@walletstate/angular-client';
@@ -31,19 +29,12 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = false;
 
-  assetsMap: Map<string, Asset>;
-  categoriesMap: Map<string, Category>;
-  accountsMap: Map<string, Account>;
-
   readonly recordType = RecordType;
   readonly defaultAssetIcon = AssetIcon;
   readonly defaultAccountIcon = AccountIcon;
   readonly defaultCategoryIcon = CategoryIcon;
 
   paramsSubscription: Subscription;
-  assetsMapSubscription: Subscription;
-  categoriesMapSubscription: Subscription;
-  accountsMapSubscription: Subscription;
 
   constructor(
     private assetsService: AssetsService,
@@ -56,12 +47,9 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.assetsMapSubscription = this.assetsService.assetsMap.subscribe(map => (this.assetsMap = map));
-    this.categoriesMapSubscription = this.categoriesService.categoriesMap.subscribe(map => (this.categoriesMap = map));
-    this.accountsMapSubscription = this.accountsService.accountsMap.subscribe(map => (this.accountsMap = map));
-    this.assetsService.list().subscribe();
-    this.categoriesService.getGrouped().subscribe();
-    this.accountsService.getGrouped().subscribe();
+    this.assetsService.loadAssets().subscribe();
+    this.categoriesService.loadGrouped().subscribe();
+    this.accountsService.loadGrouped().subscribe();
 
     this.paramsSubscription = this.route.parent.paramMap
       .pipe(
@@ -81,15 +69,6 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
-    }
-    if (this.assetsMapSubscription) {
-      this.assetsMapSubscription.unsubscribe();
-    }
-    if (this.categoriesMapSubscription) {
-      this.categoriesMapSubscription.unsubscribe();
-    }
-    if (this.accountsMapSubscription) {
-      this.accountsMapSubscription.unsubscribe();
     }
   }
 
@@ -122,15 +101,15 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   }
 
   getCategory(id: string): Category {
-    return this.categoriesMap.get(id);
+    return this.categoriesService.category(id);
   }
 
   getAsset(id: string): Asset {
-    return this.assetsMap.get(id);
+    return this.assetsService.asset(id);
   }
 
   getAccount(id: string): Account {
-    return this.accountsMap.get(id);
+    return this.accountsService.account(id);
   }
 
   editRecord(record: FullRecord): void {

@@ -1,48 +1,57 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Asset, AssetsHttpClient, CreateAsset, UpdateAsset } from '@walletstate/angular-client';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssetsService {
-  assets: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
-  assetsMap: BehaviorSubject<Map<string, Asset>> = new BehaviorSubject<Map<string, Asset>>(new Map());
+  private _assets: BehaviorSubject<Asset[]> = new BehaviorSubject<Asset[]>([]);
+  private _assetsMap: Map<string, Asset> = new Map();
 
   constructor(private assetsClient: AssetsHttpClient) {}
 
-  list(): Observable<Asset[]> {
+  get assets(): Observable<Asset[]> {
+    return this._assets.asObservable();
+  }
+
+  asset(id: string): Asset {
+    return this._assetsMap.get(id);
+  }
+
+  private updateLocalState(newAssetsFn: (current: Asset[]) => Asset[]): Asset[] {
+    const updatedAssets: Asset[] = newAssetsFn([...this._assets.value]);
+    this._assetsMap = new Map(updatedAssets.map(a => [a.id, a]));
+    this._assets.next(updatedAssets);
+    return updatedAssets;
+  }
+
+  loadAssets(): Observable<Asset[]> {
     return this.assetsClient.list().pipe(
-      map(assets => {
-        this.updateLocalData(assets);
-        return assets;
+      tap(assets => {
+        this.updateLocalState(() => assets);
       })
     );
   }
 
   create(data: CreateAsset): Observable<Asset> {
     return this.assetsClient.create(data).pipe(
-      map(asset => {
-        this.updateLocalData([...this.assets.value, asset]);
-        return asset;
+      tap(asset => {
+        this.updateLocalState(current => [...current, asset]);
       })
     );
   }
 
-  update(id: string, data: UpdateAsset): Observable<Asset> {
+  update(id: string, data: UpdateAsset): Observable<void> {
     return this.assetsClient.update(id, data).pipe(
-      map(() => {
-        const asset = this.assets.value.find(a => a.id === id);
-        Object.assign(asset, data);
-        this.updateLocalData([...this.assets.value]);
-        return asset;
+      tap(() => {
+        this.updateLocalState((current: Asset[]) => {
+          const asset = current.find(a => a.id === id);
+          Object.assign(asset, data);
+          return [...current];
+        });
       })
     );
-  }
-
-  private updateLocalData(assets: Asset[]) {
-    this.assets.next(assets);
-    this.assetsMap.next(new Map(assets.map(a => [a.id, a])));
   }
 }

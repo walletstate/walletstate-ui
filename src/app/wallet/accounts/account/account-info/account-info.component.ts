@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AccountsHttpClient, Asset, AssetBalance } from '@walletstate/angular-client';
+import { AccountsHttpClient, Asset, AssetAmount } from '@walletstate/angular-client';
 import { Subscription, switchMap } from 'rxjs';
 import { AssetsService } from '../../../shared/assets.service';
 import { AssetIcon } from '../../../../shared/icons';
@@ -11,8 +11,7 @@ import { AssetIcon } from '../../../../shared/icons';
   styleUrls: ['./account-info.component.scss'],
 })
 export class AccountInfoComponent implements OnInit, OnDestroy {
-  balances: AssetBalance[] = [];
-  assetsMap: Map<string, Asset>;
+  balances: AssetAmount[] = [];
 
   paramsSubscription: Subscription;
   defaultAssetIcon = AssetIcon;
@@ -26,8 +25,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.assetsService.assetsMap.subscribe(map => (this.assetsMap = map));
-    this.assetsService.list().subscribe();
+    this.assetsService.loadAssets().subscribe();
 
     this.paramsSubscription = this.route.parent.paramMap
       .pipe(switchMap(params => this.accountsClient.getBalance(params.get('id'))))
@@ -40,5 +38,9 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
     }
+  }
+
+  getAsset(id: string): Asset {
+    return this.assetsService.asset(id);
   }
 }
