@@ -47,7 +47,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.assetsService.loadAssets().subscribe();
+    this.assetsService.loadGrouped().subscribe();
     this.categoriesService.loadGrouped().subscribe();
     this.accountsService.loadGrouped().subscribe();
 

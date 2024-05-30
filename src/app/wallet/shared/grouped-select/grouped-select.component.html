@@ -1,0 +1,25 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="control">
+    @if (isOptional) {
+    <mat-option [value]="null">None</mat-option>
+    }
+    <!--    -->
+    @for (group of service.groups | async; track group.id) { @if (group.items.filter(filterPredicate)?.length > 0) {
+    <mat-optgroup [label]="group.name">
+      @for (item of group.items.filter(filterPredicate) ?? []; track item) {
+      <mat-option [value]="getId(item)" class="mat-option-with-icon">
+        <span style="white-space: nowrap">
+          <img
+            [alt]="getName(item)"
+            class="mat-option-icon"
+            [src]="getIconId(item) | iconUrl: defaultIcon"
+            height="25" />
+          <span class="mat-option-text">{{ getName(item) }}</span>
+        </span>
+      </mat-option>
+      }
+    </mat-optgroup>
+    } }
+  </mat-select>
+</mat-form-field>

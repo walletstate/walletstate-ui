@@ -14,45 +14,26 @@
         <!--        from-->
         <div formGroupName="from" class="account-asset-amount">
           <p [class.opacity-60]="recordForm.get('from').disabled">From</p>
-          <mat-form-field appearance="outline">
-            <mat-label>Account</mat-label>
-            <mat-select formControlName="account">
-              @for (group of accounts | async; track group) {
-              <mat-optgroup [label]="group.name">
-                @for (account of group.items ?? []; track account) {
-                <mat-option [value]="account.id" class="mat-option-with-icon">
-                  <img
-                    [alt]="account.name"
-                    class="mat-option-icon"
-                    [src]="account.icon | iconUrl: defaultAccountIcon"
-                    height="25" />
-                  <span class="mat-option-text">{{ account.name }}</span>
-                </mat-option>
-                }
-              </mat-optgroup>
-              }
-            </mat-select>
-          </mat-form-field>
+          <app-grouped-select
+            label="Account"
+            [service]="accountsService"
+            [control]="recordForm.get('from').get('account')"
+            [getId]="getItemId"
+            [getName]="getItemName"
+            [getIconId]="getItemIcon"
+            [defaultIcon]="defaultAccountIcon"></app-grouped-select>
+
           <div class="asset-amount">
-            <mat-form-field appearance="outline" class="asset">
-              <mat-label>Asset</mat-label>
-              <mat-select formControlName="asset">
-                @for (assetType of assetTypes; track assetType) {
-                <mat-optgroup [label]="assetType">
-                  @for (asset of assets | async | assetsFilter:assetType; track asset) {
-                  <mat-option [value]="asset.id" class="mat-option-with-icon">
-                    <img
-                      [alt]="asset.name"
-                      class="mat-option-icon"
-                      [src]="asset.icon | iconUrl: defaultAssetIcon"
-                      height="25" />
-                    <span class="mat-option-text">{{ asset.ticker }}</span>
-                  </mat-option>
-                  }
-                </mat-optgroup>
-                }
-              </mat-select>
-            </mat-form-field>
+            <app-grouped-select
+              class="asset"
+              label="Asset"
+              [service]="assetsService"
+              [control]="recordForm.get('from').get('asset')"
+              [getId]="getItemId"
+              [getName]="getAssetTicker"
+              [getIconId]="getItemIcon"
+              [defaultIcon]="defaultAssetIcon"></app-grouped-select>
+
             <mat-form-field appearance="outline" class="amount">
               <mat-label>Amount</mat-label>
               <input type="number" matInput formControlName="amount" />
@@ -62,45 +43,26 @@
         <!--        to-->
         <div formGroupName="to" class="account-asset-amount">
           <p [class.opacity-60]="recordForm.get('to').disabled">To</p>
-          <mat-form-field appearance="outline">
-            <mat-label>Account</mat-label>
-            <mat-select formControlName="account">
-              @for (group of accounts | async; track group) {
-              <mat-optgroup [label]="group.name">
-                @for (account of group.items ?? []; track account) {
-                <mat-option [value]="account.id" class="mat-option-with-icon">
-                  <img
-                    [alt]="account.name"
-                    class="mat-option-icon"
-                    [src]="account.icon | iconUrl: defaultAccountIcon"
-                    height="25" />
-                  <span class="mat-option-text">{{ account.name }}</span>
-                </mat-option>
-                }
-              </mat-optgroup>
-              }
-            </mat-select>
-          </mat-form-field>
+          <app-grouped-select
+            label="Account"
+            [service]="accountsService"
+            [control]="recordForm.get('to').get('account')"
+            [getId]="getItemId"
+            [getName]="getItemName"
+            [getIconId]="getItemIcon"
+            [defaultIcon]="defaultAccountIcon"></app-grouped-select>
+
           <div class="asset-amount">
-            <mat-form-field appearance="outline" class="asset">
-              <mat-label>Asset</mat-label>
-              <mat-select formControlName="asset">
-                @for (assetType of assetTypes; track assetType) {
-                <mat-optgroup [label]="assetType">
-                  @for (asset of assets | async | assetsFilter:assetType; track asset) {
-                  <mat-option [value]="asset.id" class="mat-option-with-icon">
-                    <img
-                      [alt]="asset.name"
-                      class="mat-option-icon"
-                      [src]="asset.icon | iconUrl: defaultAssetIcon"
-                      height="25" />
-                    <span class="mat-option-text">{{ asset.ticker }}</span>
-                  </mat-option>
-                  }
-                </mat-optgroup>
-                }
-              </mat-select>
-            </mat-form-field>
+            <app-grouped-select
+              class="asset"
+              label="Asset"
+              [service]="assetsService"
+              [control]="recordForm.get('to').get('asset')"
+              [getId]="getItemId"
+              [getName]="getAssetTicker"
+              [getIconId]="getItemIcon"
+              [defaultIcon]="defaultAssetIcon"></app-grouped-select>
+
             <mat-form-field appearance="outline" class="amount">
               <mat-label>Amount</mat-label>
               <input type="number" matInput formControlName="amount" />
@@ -111,25 +73,15 @@
 
       <!--      category/ time -->
       <div class="row">
-        <mat-form-field appearance="outline" class="category">
-          <mat-label>Category</mat-label>
-          <mat-select formControlName="category">
-            @for (group of categories | async; track group) {
-            <mat-optgroup [label]="group.name">
-              @for (category of group.items ?? []; track category) {
-              <mat-option [value]="category.id" class="mat-option-with-icon">
-                <img
-                  [alt]="category.name"
-                  class="mat-option-icon"
-                  [src]="category.icon | iconUrl: defaultCategoryIcon"
-                  height="25" />
-                <span class="mat-option-text">{{ category.name }}</span>
-              </mat-option>
-              }
-            </mat-optgroup>
-            }
-          </mat-select>
-        </mat-form-field>
+        <app-grouped-select
+          class="category"
+          label="Category"
+          [service]="categoriesService"
+          [control]="recordForm.get('category')"
+          [getId]="getItemId"
+          [getName]="getItemName"
+          [getIconId]="getItemIcon"
+          [defaultIcon]="defaultCategoryIcon"></app-grouped-select>
 
         <mat-form-field appearance="outline" class="date">
           <mat-label>Choose a date</mat-label>
@@ -159,46 +111,29 @@
 
       <!--      spent on/generated by-->
       <div class="row">
-        <mat-form-field appearance="outline" class="asset">
-          <mat-label>Spent on</mat-label>
-          <mat-select formControlName="spentOn">
-            <mat-option [value]="null">None</mat-option>
-            @for (assetType of assetTypes; track assetType) {
-            <mat-optgroup [label]="assetType">
-              @for (asset of assets | async | assetsFilter:assetType; track asset) {
-              <mat-option [value]="asset.id" class="mat-option-with-icon">
-                <img
-                  [alt]="asset.name"
-                  class="mat-option-icon"
-                  [src]="asset.icon | iconUrl: defaultAssetIcon"
-                  height="25" />
-                <span class="mat-option-text">{{ asset.ticker }}</span>
-              </mat-option>
-              }
-            </mat-optgroup>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="asset">
-          <mat-label>Generated by</mat-label>
-          <mat-select formControlName="generatedBy">
-            <mat-option [value]="null">None</mat-option>
-            @for (assetType of assetTypes; track assetType) {
-            <mat-optgroup [label]="assetType">
-              @for (asset of assets | async | assetsFilter:assetType; track asset) {
-              <mat-option [value]="asset.id" class="mat-option-with-icon">
-                <img
-                  [alt]="asset.name"
-                  class="mat-option-icon"
-                  [src]="asset.icon | iconUrl: defaultAssetIcon"
-                  height="25" />
-                <span class="mat-option-text">{{ asset.ticker }}</span>
-              </mat-option>
-              }
-            </mat-optgroup>
-            }
-          </mat-select>
-        </mat-form-field>
+        <app-grouped-select
+          class="asset"
+          label="Spent on"
+          [service]="assetsService"
+          [control]="recordForm.get('spentOn')"
+          [isOptional]="true"
+          [getId]="getItemId"
+          [getName]="getAssetTicker"
+          [getIconId]="getItemIcon"
+          [defaultIcon]="defaultAssetIcon"
+          [filterPredicate]="notFiat"></app-grouped-select>
+
+        <app-grouped-select
+          class="asset"
+          label="Generated by"
+          [service]="assetsService"
+          [control]="recordForm.get('generatedBy')"
+          [isOptional]="true"
+          [getId]="getItemId"
+          [getName]="getAssetTicker"
+          [getIconId]="getItemIcon"
+          [defaultIcon]="defaultAssetIcon"
+          [filterPredicate]="notFiat"></app-grouped-select>
       </div>
     </mat-card-content>
 

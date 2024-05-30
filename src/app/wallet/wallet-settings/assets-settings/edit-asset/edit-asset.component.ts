@@ -11,13 +11,16 @@ import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icon
 })
 export class EditAssetComponent implements OnInit {
   @Input() asset?: Asset = null;
-  @Input() assetType?: AssetType = null;
+  @Input() group?: string = null;
+  @Input() idx?: number = null;
 
   @Output() save = new EventEmitter<CreateAsset | UpdateAsset>();
   @Output() discard = new EventEmitter<void>();
 
   defaultIcon = 'b0a03cea92532d56e7dec9848fb81c51b4c80a55721b17fd245bfc90f94df314';
   assetForm;
+
+  assetTypes: AssetType[] = Object.values(AssetType);
 
   constructor(
     private fb: FormBuilder,
@@ -30,11 +33,13 @@ export class EditAssetComponent implements OnInit {
 
   buildForm() {
     return this.fb.group({
-      type: this.fb.control(this.asset?.type ?? this.assetType, [Validators.required]),
+      type: this.fb.control(this.asset?.type, [Validators.required]),
       ticker: this.fb.control(this.asset?.ticker, [Validators.required]),
       name: this.fb.control(this.asset?.name, [Validators.required]),
       icon: this.fb.control(this.asset?.icon),
       tags: this.fb.control([...(this.asset?.tags ?? [])]),
+      group: this.fb.control(this.asset?.group ?? this.group),
+      idx: this.fb.control(this.asset?.idx ?? this.idx),
     });
   }
 
@@ -50,7 +55,7 @@ export class EditAssetComponent implements OnInit {
     const dialogRef = this.dialog.open(IconsDialogComponent, {
       height: '400px',
       width: '600px',
-      data: { tag: this.asset?.type.toLowerCase() ?? this.assetType?.toLowerCase() },
+      data: { tag: 'assets' },
     });
 
     dialogRef.afterClosed().subscribe(iconId => {

@@ -21,6 +21,15 @@
       <mat-error>Category name is required</mat-error>
       }
     </mat-form-field>
+
+    <mat-form-field appearance="outline" style="min-width: 150px">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        @for (assetType of assetTypes; track assetType) {
+        <mat-option [value]="assetType">{{ assetType }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="assetForm.value['tags']"></app-tags-selector>

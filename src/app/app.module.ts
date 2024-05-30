@@ -37,13 +37,13 @@ import { EditGroupFormComponent } from './wallet/wallet-settings/shared/grouped-
 import { AccountsSettingsComponent } from './wallet/wallet-settings/accounts-settings/accounts-settings.component';
 import { CategoriesSettingsComponent } from './wallet/wallet-settings/categories-settings/categories-settings.component';
 import { EditAccountComponent } from './wallet/wallet-settings/accounts-settings/edit-account/edit-account.component';
-import { AssetsFilterPipe } from './shared/assets-filter.pipe';
 import { EditAssetComponent } from './wallet/wallet-settings/assets-settings/edit-asset/edit-asset.component';
 import { RecordDialogComponent } from './wallet/shared/record-dialog/record-dialog.component';
 import { AccountBalanceWidgetComponent } from './wallet/wallet-home/account-balance-widget/account-balance-widget.component';
 import { AnalyticsComponent } from './wallet/analytics/analytics.component';
 import { AnalyticsFilterComponent } from './wallet/analytics/analytics-filter/analytics-filter.component';
 import { AnalyticsByCategoryTableComponent } from './wallet/analytics/analytics-by-category-table/analytics-by-category-table.component';
+import { GroupedSelectComponent } from './wallet/shared/grouped-select/grouped-select.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +81,7 @@ import { AnalyticsByCategoryTableComponent } from './wallet/analytics/analytics-
     AnalyticsComponent,
     AnalyticsFilterComponent,
     AnalyticsByCategoryTableComponent,
+    GroupedSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +93,6 @@ import { AnalyticsByCategoryTableComponent } from './wallet/analytics/analytics-
     BrowserAnimationsModule,
     IconPipe,
     CdkDropListGroup,
-    AssetsFilterPipe,
   ],
   providers: [
     {

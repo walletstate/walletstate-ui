@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AssetsService } from '../../shared/assets.service';
-import { Asset, AssetType, CreateAsset, UpdateAsset } from '@walletstate/angular-client';
-import { Observable } from 'rxjs';
+import { Asset, CreateAsset, Grouped, UpdateAsset } from '@walletstate/angular-client';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AssetIcon } from '../../../shared/icons';
 
@@ -11,29 +10,19 @@ import { AssetIcon } from '../../../shared/icons';
   templateUrl: './assets-settings.component.html',
   styleUrl: './assets-settings.component.scss',
 })
-export class AssetsSettingsComponent implements OnInit, OnDestroy {
-  assets: Observable<Asset[]>;
-
-  assetTypes: AssetType[] = Object.values(AssetType);
-  selectedAssetType: AssetType;
+export class AssetsSettingsComponent {
+  group: Grouped<Asset> = null;
 
   readonly defaultIcon = AssetIcon;
 
-  constructor(private assetsService: AssetsService) {}
+  constructor(public assetsService: AssetsService) {}
 
-  ngOnInit(): void {
-    this.assets = this.assetsService.assets;
-    this.assetsService.loadAssets().subscribe();
+  onSelectGroup(grouped: Grouped<Asset>) {
+    this.group = grouped;
   }
 
-  ngOnDestroy(): void {}
-
-  selectAssetType(type: AssetType) {
-    this.selectedAssetType = type;
-  }
-
-  updateAsset(id: string, data: UpdateAsset, panelRef: MatExpansionPanel) {
-    this.assetsService.update(id, data).subscribe(rs => console.log(rs));
+  updateAsset(id: string, group: string, data: UpdateAsset) {
+    this.assetsService.update(id, group, data).subscribe(rs => console.log(rs));
   }
 
   createAsset(data: CreateAsset, panelRef: MatExpansionPanel) {
