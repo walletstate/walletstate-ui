@@ -87,10 +87,10 @@ export class AnalyticsFilterComponent implements OnInit, OnDestroy {
       this.dataSource.data[1].children = this.accountsGroupsToNode(accountsGroups, this.dataSource.data[1].id);
       this.dataSource.data = [...this.dataSource.data];
     });
-    this.assetsSubscription = this.assetsService.assets.subscribe(assets => {
-      this.dataSource.data[2].children = this.assetsToNode(assets, 'assets', this.dataSource.data[2].id);
-      this.dataSource.data[3].children = this.assetsToNode(assets, 'generatedBy', this.dataSource.data[3].id);
-      this.dataSource.data[4].children = this.assetsToNode(assets, 'spentOn', this.dataSource.data[4].id);
+    this.assetsSubscription = this.assetsService.groups.subscribe(assetsGroups => {
+      this.dataSource.data[2].children = this.assetsToNode(assetsGroups, 'assets', this.dataSource.data[2].id);
+      this.dataSource.data[3].children = this.assetsToNode(assetsGroups, 'generatedBy', this.dataSource.data[3].id);
+      this.dataSource.data[4].children = this.assetsToNode(assetsGroups, 'spentOn', this.dataSource.data[4].id);
       this.dataSource.data = [...this.dataSource.data];
     });
   }
@@ -204,16 +204,17 @@ export class AnalyticsFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  private assetsToNode(assets: Asset[], filterKey: string, parentId: string): FilterNode[] {
-    const nodes: FilterNode[] = Object.values(AssetType).map(type => {
-      return { name: type, children: [], id: `asset-type-id-${parentId}-${type}`, parentId: parentId };
+  private assetsToNode(assetsGroups: Grouped<Asset>[], filterKey: string, parentId: string): FilterNode[] {
+    return assetsGroups.map(group => {
+      const uniqueGroupId = `${group.id}-${parentId}`;
+      return {
+        name: group.name,
+        id: uniqueGroupId,
+        parentId: parentId,
+        children: (group.items ?? []).map(asset => {
+          return { name: asset.ticker, filterKey: filterKey, id: asset.id, parentId: uniqueGroupId };
+        }),
+      };
     });
-    assets.forEach(asset => {
-      const maybeNode = nodes.find(node => node.name === asset.type);
-      if (maybeNode) {
-        maybeNode.children.push({ name: asset.ticker, filterKey, id: asset.id, parentId: maybeNode.id });
-      }
-    });
-    return nodes.filter(node => node.children.length);
   }
 }

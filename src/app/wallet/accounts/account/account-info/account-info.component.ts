@@ -25,7 +25,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.assetsService.loadAssets().subscribe();
+    this.assetsService.loadGrouped().subscribe();
 
     this.paramsSubscription = this.route.parent.paramMap
       .pipe(switchMap(params => this.accountsClient.getBalance(params.get('id'))))

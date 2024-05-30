@@ -17,6 +17,7 @@ import {
 } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AccountIcon, AssetIcon, CategoryIcon } from '../../../shared/icons';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-record-dialog',
@@ -53,11 +54,11 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.assets = this.assetsService.assets;
+    this.assets = this.assetsService.groups.pipe(map((groups: Grouped<Asset>[]) => groups.flatMap(i => i.items)));
     this.accounts = this.accountsService.groups;
     this.categories = this.categoriesService.groups;
 
-    this.assetsService.loadAssets().subscribe();
+    this.assetsService.loadGrouped().subscribe();
     this.accountsService.loadGrouped().subscribe();
     this.categoriesService.loadGrouped().subscribe();
 

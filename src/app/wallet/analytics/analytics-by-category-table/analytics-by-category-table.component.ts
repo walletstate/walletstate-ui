@@ -72,8 +72,8 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filterForm = this.initFilterForm();
 
-    this.assetsService.assets.subscribe(assets => {
-      this.allAssetsIds = assets.map(a => a.id);
+    this.assetsService.groups.subscribe(assetGroups => {
+      this.allAssetsIds = assetGroups.flatMap(group => group.items.map(a => a.id));
       if (this.selectedAssetsIds.length === 0) {
         this.selectedAssetsIds = this.allAssetsIds;
         this.buildColumns();

@@ -23,7 +23,7 @@ export class AnalyticsComponent implements OnInit {
   ngOnInit(): void {
     this.categoriesService.loadGrouped().subscribe();
     this.accountsService.loadGrouped().subscribe();
-    this.assetsService.loadAssets().subscribe();
+    this.assetsService.loadGrouped().subscribe();
   }
 
   onApplyFilter(filter: AppAnalyticsFilter) {

@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Account, Asset, AssetType, CreateAccount, UpdateAccount } from '@walletstate/angular-client';
+import { Account, Asset, AssetType, CreateAccount, Grouped, UpdateAccount } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
 import { Observable } from 'rxjs';
 import { AssetsService } from '../../../shared/assets.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-account',
@@ -32,8 +33,8 @@ export class EditAccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.assets = this.assetsService.assets;
-    this.assetsService.loadAssets().subscribe();
+    this.assets = this.assetsService.groups.pipe(map((groups: Grouped<Asset>[]) => groups.flatMap(i => i.items)));
+    this.assetsService.loadGrouped().subscribe();
 
     this.accountForm = this.buildForm();
   }

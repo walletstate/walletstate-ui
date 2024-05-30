@@ -22,7 +22,7 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.accounts = this.accountsService.loadGrouped();
-    this.assetsService.loadAssets().subscribe(); //prefetch assets for widgets
+    this.assetsService.loadGrouped().subscribe(); //prefetch assets for widgets
   }
 
   ngOnDestroy(): void {}

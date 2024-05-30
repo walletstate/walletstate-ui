@@ -1,66 +1,52 @@
-<div class="container">
-  <mat-nav-list class="asset-types-list">
-    @for (assetType of assetTypes; track assetType) {
-    <mat-list-item (click)="selectAssetType(assetType)" [activated]="selectedAssetType === assetType">
-      <a matListItemTitle>{{ assetType }}</a>
-    </mat-list-item>
+<app-grouped-entities [groupedService]="assetsService" (groupSelected)="onSelectGroup($event)">
+  @if (group) {
+
+  <mat-accordion hideToggle>
+    @for (asset of group.items; track asset.id) {
+
+    <mat-expansion-panel [id]="asset.id" #panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <img [src]="asset.icon | iconUrl: defaultIcon" class="asset-icon" />
+          <h3 style="margin: 0">{{ asset.ticker }}</h3>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ asset.name }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <!--workaround to destroy component after collapse -->
+        @if (panel.expanded) {
+        <app-edit-asset
+          [asset]="asset"
+          (discard)="panel.close()"
+          (save)="updateAsset(asset.id, group.id, $event)"></app-edit-asset>
+        }
+      </ng-template>
+    </mat-expansion-panel>
     }
-  </mat-nav-list>
 
-  <div class="assets-detail">
-    @if (selectedAssetType) {
-    <div class="asset-type-name">
-      <h2 style="margin: 0">{{ selectedAssetType }}</h2>
-    </div>
-    <mat-accordion hideToggle>
-      @for (asset of assets | async | assetsFilter:selectedAssetType; track asset.id) {
+    <mat-expansion-panel id="new-asset" #newPanel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>add</mat-icon>
+          Add new asset
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-      <mat-expansion-panel [id]="asset.id" #panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <img [src]="asset.icon | iconUrl: defaultIcon" class="asset-icon" />
-            <h3 style="margin: 0">{{ asset.ticker }}</h3>
-          </mat-panel-title>
-          <mat-panel-description>
-            {{ asset.name }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <!--workaround to destroy component after collapse -->
+        @if (newPanel.expanded) {
+        <app-edit-asset
+          [group]="group.id"
+          [idx]="group.items?.length + 1"
+          (save)="createAsset($event, newPanel)"
+          (discard)="newPanel.close()"></app-edit-asset>
+        }
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-        <ng-template matExpansionPanelContent>
-          <!--workaround to destroy component after collapse -->
-          @if (panel.expanded) {
-          <app-edit-asset
-            [asset]="asset"
-            (discard)="panel.close()"
-            (save)="updateAsset(asset.id, $event, panel)"></app-edit-asset>
-          }
-        </ng-template>
-      </mat-expansion-panel>
-      }
-
-      <mat-expansion-panel id="new-asset" #newPanel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>add</mat-icon>
-            Add new asset
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <ng-template matExpansionPanelContent>
-          <!--workaround to destroy component after collapse -->
-          @if (newPanel.expanded) {
-          <app-edit-asset
-            [assetType]="selectedAssetType"
-            (save)="createAsset($event, newPanel)"
-            (discard)="newPanel.close()"></app-edit-asset>
-          }
-        </ng-template>
-      </mat-expansion-panel>
-    </mat-accordion>
-    } @else {
-    <div class="asset-type-name opacity-60">
-      <h2 style="margin: 0">Please select asset type</h2>
-    </div>
-    }
-  </div>
-</div>
+  }
+</app-grouped-entities>
