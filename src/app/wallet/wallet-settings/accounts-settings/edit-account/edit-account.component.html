@@ -14,21 +14,16 @@
       }
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="asset">
-      <mat-label>Default asset</mat-label>
-      <mat-select formControlName="defaultAsset">
-        @for (assetType of assetTypes; track assetType) {
-        <mat-optgroup [label]="assetType">
-          @for (asset of assets | async | assetsFilter:assetType; track asset) {
-          <mat-option [value]="asset.id" class="mat-option-with-icon">
-            <img [alt]="asset.name" class="mat-option-icon" [src]="asset.icon | iconUrl" height="25" />
-            <span class="mat-option-text">{{ asset.ticker }}</span>
-          </mat-option>
-          }
-        </mat-optgroup>
-        }
-      </mat-select>
-    </mat-form-field>
+    <app-grouped-select
+      class="asset"
+      label="Default asset"
+      [service]="assetsService"
+      [control]="accountForm.get('defaultAsset')"
+      [isOptional]="true"
+      [getId]="getAssetId"
+      [getName]="getAssetTicker"
+      [getIconId]="getAssetIcon"
+      [defaultIcon]="defaultAssetIcon"></app-grouped-select>
   </div>
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="accountForm.value['tags']"></app-tags-selector>

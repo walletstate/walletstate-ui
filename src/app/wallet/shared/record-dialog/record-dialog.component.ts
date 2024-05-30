@@ -1,50 +1,45 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AccountsService } from '../accounts.service';
 import { CategoriesService } from '../categories.service';
 import { AssetsService } from '../assets.service';
-import { Observable, Subscription } from 'rxjs';
 import {
   Account,
   Asset,
   AssetType,
   Category,
-  Grouped,
+  FullRecord,
   RecordsHttpClient,
   RecordType,
-  FullRecord,
   TransactionData,
 } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AccountIcon, AssetIcon, CategoryIcon } from '../../../shared/icons';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-record-dialog',
   templateUrl: './record-dialog.component.html',
   styleUrl: './record-dialog.component.scss',
 })
-export class RecordDialogComponent implements OnInit, OnDestroy {
+export class RecordDialogComponent implements OnInit {
   @Input() record?: FullRecord = null;
 
-  assets: Observable<Asset[]>;
-  accounts: Observable<Grouped<Account>[]>;
-  categories: Observable<Grouped<Category>[]>;
-
   recordType = RecordType;
-  assetTypes: AssetType[] = Object.values(AssetType);
   recordForm;
 
   readonly defaultAssetIcon = AssetIcon;
   readonly defaultAccountIcon = AccountIcon;
   readonly defaultCategoryIcon = CategoryIcon;
-
-  accountsMapSubscription: Subscription;
+  getItemId = (item: Account | Category | Asset) => item.id;
+  getItemName = (item: Account | Category | Asset) => item.name;
+  getItemIcon = (item: Account | Category | Asset) => item.icon;
+  getAssetTicker = (asset: Asset) => asset.ticker;
+  notFiat = (asset: Asset) => asset.type !== AssetType.Fiat;
 
   constructor(
-    private accountsService: AccountsService,
-    private categoriesService: CategoriesService,
-    private assetsService: AssetsService,
+    public accountsService: AccountsService,
+    public categoriesService: CategoriesService,
+    public assetsService: AssetsService,
     private recordsClient: RecordsHttpClient,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<RecordDialogComponent>,
@@ -54,10 +49,6 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.assets = this.assetsService.groups.pipe(map((groups: Grouped<Asset>[]) => groups.flatMap(i => i.items)));
-    this.accounts = this.accountsService.groups;
-    this.categories = this.categoriesService.groups;
-
     this.assetsService.loadGrouped().subscribe();
     this.accountsService.loadGrouped().subscribe();
     this.categoriesService.loadGrouped().subscribe();
@@ -83,12 +74,6 @@ export class RecordDialogComponent implements OnInit, OnDestroy {
           this.recordForm.get('to').get('asset').patchValue(this.accountsService.account(accountId).defaultAsset);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.accountsMapSubscription) {
-      this.accountsMapSubscription.unsubscribe();
-    }
   }
 
   initForm(record?: FullRecord) {

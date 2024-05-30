@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Account, Asset, AssetType, CreateAccount, Grouped, UpdateAccount } from '@walletstate/angular-client';
+import { Account, Asset, CreateAccount, UpdateAccount } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
-import { Observable } from 'rxjs';
 import { AssetsService } from '../../../shared/assets.service';
-import { map } from 'rxjs/operators';
+import { AssetIcon } from '../../../../shared/icons';
 
 @Component({
   selector: 'app-edit-account',
@@ -20,22 +19,22 @@ export class EditAccountComponent implements OnInit {
   @Output() save = new EventEmitter<CreateAccount | UpdateAccount>();
   @Output() discard = new EventEmitter<void>();
 
-  assets: Observable<Asset[]>;
-  assetTypes: AssetType[] = Object.values(AssetType);
-
   defaultIcon = 'b0a03cea92532d56e7dec9848fb81c51b4c80a55721b17fd245bfc90f94df314';
+  readonly defaultAssetIcon = AssetIcon;
   accountForm;
 
+  getAssetId = (asset: Asset) => asset.id;
+  getAssetTicker = (asset: Asset) => asset.ticker;
+  getAssetIcon = (asset: Asset) => asset.icon;
+
   constructor(
-    private assetsService: AssetsService,
+    public assetsService: AssetsService,
     private fb: FormBuilder,
     private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.assets = this.assetsService.groups.pipe(map((groups: Grouped<Asset>[]) => groups.flatMap(i => i.items)));
     this.assetsService.loadGrouped().subscribe();
-
     this.accountForm = this.buildForm();
   }
 
