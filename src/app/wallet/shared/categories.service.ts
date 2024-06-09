@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import {
-  Account,
   CategoriesHttpClient,
   Category,
-  CreateCategory,
+  CategoryData,
   Grouped,
   GroupsHttpClient,
   GroupType,
-  UpdateCategory,
 } from '@walletstate/angular-client';
 import { GroupsService } from './groups.service';
 import { GroupedInterface } from './grouped.interface';
@@ -51,7 +49,7 @@ export class CategoriesService extends GroupsService<Category> implements Groupe
     );
   }
 
-  create(data: CreateCategory): Observable<Category> {
+  create(data: CategoryData): Observable<Category> {
     return this.categoriesClient.create(data).pipe(
       tap(category => {
         this.updateLocalState((current: Grouped<Category>[]) => {
@@ -63,7 +61,7 @@ export class CategoriesService extends GroupsService<Category> implements Groupe
     );
   }
 
-  update(id: string, group: string, data: UpdateCategory): Observable<void> {
+  update(id: string, group: string, data: CategoryData): Observable<void> {
     return this.categoriesClient.update(id, data).pipe(
       tap(() => {
         this.updateLocalState((current: Grouped<Category>[]) => {

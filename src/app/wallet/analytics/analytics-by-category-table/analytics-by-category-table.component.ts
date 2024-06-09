@@ -179,15 +179,15 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     };
 
     const totalIncome: Observable<AnalyticsGroupedResult[]> = this.analyticsClient
-      .aggregated(filterWithPeriod.withRecordType(RecordType.Income))
+      .aggregated(filterWithPeriod.withRecordType(RecordType.Income).aggregate())
       .pipe(map(assetAmount => [{ group: 'total-income', assets: assetAmount }]));
 
     const totalSpending: Observable<AnalyticsGroupedResult[]> = this.analyticsClient
-      .aggregated(filterWithPeriod.withRecordType(RecordType.Spending))
+      .aggregated(filterWithPeriod.withRecordType(RecordType.Spending).aggregate())
       .pipe(map(assetAmount => [{ group: 'total-spending', assets: assetAmount }]));
 
     const totalProfit: Observable<AnalyticsGroupedResult[]> = this.analyticsClient
-      .aggregated(filterWithPeriod.withRecordTypes([RecordType.Spending, RecordType.Income]))
+      .aggregated(filterWithPeriod.withRecordTypes([RecordType.Spending, RecordType.Income]).aggregate())
       .pipe(map(assetAmount => [{ group: 'total-profit', assets: assetAmount }]));
 
     let dataToLoad: Observable<AnalyticsGroupedResult[]>[] = [];

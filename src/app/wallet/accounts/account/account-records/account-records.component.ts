@@ -5,7 +5,7 @@ import {
   AccountsHttpClient,
   Asset,
   Category,
-  FullRecord,
+  RecordFull,
   RecordsHttpClient,
   RecordType,
 } from '@walletstate/angular-client';
@@ -24,7 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AccountRecordsComponent implements OnInit, OnDestroy {
   account?: string = null;
-  records: FullRecord[] = [];
+  records: RecordFull[] = [];
   nextPageToken?: string = null;
 
   isLoading: boolean = false;
@@ -112,7 +112,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
     return this.accountsService.account(id);
   }
 
-  editRecord(record: FullRecord): void {
+  editRecord(record: RecordFull): void {
     const dialogRef = this.dialog.open(RecordDialogComponent, {
       // height: '400px',
       width: '800px',

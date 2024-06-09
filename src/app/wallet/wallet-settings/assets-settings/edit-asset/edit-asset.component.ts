@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Asset, AssetType, CreateAsset, UpdateAsset } from '@walletstate/angular-client';
+import { Asset, AssetData, AssetType } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
@@ -14,7 +14,7 @@ export class EditAssetComponent implements OnInit {
   @Input() group?: string = null;
   @Input() idx?: number = null;
 
-  @Output() save = new EventEmitter<CreateAsset | UpdateAsset>();
+  @Output() save = new EventEmitter<AssetData>();
   @Output() discard = new EventEmitter<void>();
 
   defaultIcon = 'b0a03cea92532d56e7dec9848fb81c51b4c80a55721b17fd245bfc90f94df314';

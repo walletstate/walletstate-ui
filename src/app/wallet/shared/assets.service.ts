@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  Asset,
-  AssetsHttpClient,
-  CreateAsset,
-  Grouped,
-  GroupsHttpClient,
-  GroupType,
-  UpdateAsset,
-} from '@walletstate/angular-client';
+import { Asset, AssetData, AssetsHttpClient, Grouped, GroupsHttpClient, GroupType } from '@walletstate/angular-client';
 import { tap } from 'rxjs/operators';
 import { GroupsService } from './groups.service';
 import { GroupedInterface } from './grouped.interface';
@@ -50,7 +42,7 @@ export class AssetsService extends GroupsService<Asset> implements GroupedInterf
     );
   }
 
-  create(data: CreateAsset): Observable<Asset> {
+  create(data: AssetData): Observable<Asset> {
     return this.assetsClient.create(data).pipe(
       tap(asset => {
         this.updateLocalState((current: Grouped<Asset>[]) => {
@@ -62,7 +54,7 @@ export class AssetsService extends GroupsService<Asset> implements GroupedInterf
     );
   }
 
-  update(id: string, group: string, data: UpdateAsset): Observable<void> {
+  update(id: string, group: string, data: AssetData): Observable<void> {
     return this.assetsClient.update(id, data).pipe(
       tap(() => {
         this.updateLocalState((current: Grouped<Asset>[]) => {

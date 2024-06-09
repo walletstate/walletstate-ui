@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CategoriesService } from '../../shared/categories.service';
-import { Category, CreateCategory, Grouped, UpdateCategory } from '@walletstate/angular-client';
+import { Category, CategoryData, Grouped } from '@walletstate/angular-client';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { CategoryIcon } from '../../../shared/icons';
 
@@ -20,11 +20,11 @@ export class CategoriesSettingsComponent {
     this.group = grouped;
   }
 
-  createCategory(data: CreateCategory, panelRef: MatExpansionPanel) {
+  createCategory(data: CategoryData, panelRef: MatExpansionPanel) {
     this.categoriesService.create(data).subscribe(() => panelRef.close());
   }
 
-  updateCategory(id: string, currentGroup: string, data: UpdateCategory) {
+  updateCategory(id: string, currentGroup: string, data: CategoryData) {
     this.categoriesService.update(id, currentGroup, data).subscribe(rs => console.log(rs));
   }
 }

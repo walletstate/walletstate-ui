@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { concatMap, Observable } from 'rxjs';
 import { exhaustMap, map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { CreateWallet, JoinWallet, Wallet, WalletInvite, WalletsHttpClient } from '@walletstate/angular-client';
+import { Wallet, WalletData, WalletInvite, WalletJoin, WalletsHttpClient } from '@walletstate/angular-client';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class WalletService {
     return this.walletsClient.getCurrent();
   }
 
-  create(data: CreateWallet): Observable<Wallet> {
+  create(data: WalletData): Observable<Wallet> {
     return this.walletsClient.create(data).pipe(
       concatMap(wallet => {
         return this.requestWalletAuthCookies(wallet.id).pipe(
@@ -31,7 +31,7 @@ export class WalletService {
     );
   }
 
-  join(data: JoinWallet): Observable<Wallet> {
+  join(data: WalletJoin): Observable<Wallet> {
     return this.walletsClient.join(data).pipe(
       concatMap(wallet => {
         return this.requestWalletAuthCookies(wallet.id).pipe(
