@@ -3,12 +3,11 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
   Account,
+  AccountData,
   AccountsHttpClient,
-  CreateAccount,
   Grouped,
   GroupsHttpClient,
   GroupType,
-  UpdateAccount,
 } from '@walletstate/angular-client';
 import { GroupsService } from './groups.service';
 import { GroupedInterface } from './grouped.interface';
@@ -50,7 +49,7 @@ export class AccountsService extends GroupsService<Account> implements GroupedIn
     );
   }
 
-  create(data: CreateAccount): Observable<Account> {
+  create(data: AccountData): Observable<Account> {
     return this.accountsClient.create(data).pipe(
       tap(account => {
         this.updateLocalState((current: Grouped<Account>[]) => {
@@ -62,7 +61,7 @@ export class AccountsService extends GroupsService<Account> implements GroupedIn
     );
   }
 
-  update(id: string, group: string, data: UpdateAccount): Observable<void> {
+  update(id: string, group: string, data: AccountData): Observable<void> {
     return this.accountsClient.update(id, data).pipe(
       tap(() => {
         this.updateLocalState((current: Grouped<Account>[]) => {

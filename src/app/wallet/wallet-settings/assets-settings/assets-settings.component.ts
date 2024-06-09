@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AssetsService } from '../../shared/assets.service';
-import { Asset, CreateAsset, Grouped, UpdateAsset } from '@walletstate/angular-client';
+import { Asset, AssetData, Grouped } from '@walletstate/angular-client';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AssetIcon } from '../../../shared/icons';
 
@@ -21,11 +21,11 @@ export class AssetsSettingsComponent {
     this.group = grouped;
   }
 
-  updateAsset(id: string, group: string, data: UpdateAsset) {
+  updateAsset(id: string, group: string, data: AssetData) {
     this.assetsService.update(id, group, data).subscribe(rs => console.log(rs));
   }
 
-  createAsset(data: CreateAsset, panelRef: MatExpansionPanel) {
+  createAsset(data: AssetData, panelRef: MatExpansionPanel) {
     this.assetsService.create(data).subscribe(() => panelRef.close());
   }
 }

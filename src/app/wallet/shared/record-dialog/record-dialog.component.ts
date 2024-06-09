@@ -8,7 +8,7 @@ import {
   Asset,
   AssetType,
   Category,
-  FullRecord,
+  RecordFull,
   RecordsHttpClient,
   RecordType,
   TransactionData,
@@ -22,7 +22,7 @@ import { AccountIcon, AssetIcon, CategoryIcon } from '../../../shared/icons';
   styleUrl: './record-dialog.component.scss',
 })
 export class RecordDialogComponent implements OnInit {
-  @Input() record?: FullRecord = null;
+  @Input() record?: RecordFull = null;
 
   recordType = RecordType;
   recordForm;
@@ -43,7 +43,7 @@ export class RecordDialogComponent implements OnInit {
     private recordsClient: RecordsHttpClient,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<RecordDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { record: FullRecord }
+    @Inject(MAT_DIALOG_DATA) public data: { record: RecordFull }
   ) {
     this.record = data?.record;
   }
@@ -76,7 +76,7 @@ export class RecordDialogComponent implements OnInit {
       });
   }
 
-  initForm(record?: FullRecord) {
+  initForm(record?: RecordFull) {
     const datetime = record?.datetime ? new Date(record.datetime) : new Date();
     return this.fb.group({
       type: [record?.type ?? RecordType.Transfer, [Validators.required]],

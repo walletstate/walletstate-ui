@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CreateIcon, IconsHttpClient } from '@walletstate/angular-client';
+import { IconData, IconsHttpClient } from '@walletstate/angular-client';
 
 @Component({
   selector: 'app-icons-dialog',
@@ -41,7 +41,7 @@ export class IconsDialogComponent implements OnInit {
       const base64Result = reader.result.toString().split(';');
       const contentType = base64Result[0].replace('data:', '');
       const content = base64Result[1].replace('base64,', '');
-      const body: CreateIcon = { contentType, content, tags: [this.tag] };
+      const body: IconData = { contentType, content, tags: [this.tag] };
       console.log(body);
 
       this.iconsClient.create(body).subscribe(newIconId => this.icons.push(newIconId));

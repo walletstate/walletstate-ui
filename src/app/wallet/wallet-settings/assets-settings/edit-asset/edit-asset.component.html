@@ -34,6 +34,23 @@
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="assetForm.value['tags']"></app-tags-selector>
 
+  <div class="input-row">
+    <app-grouped-select
+      label="Denominated In"
+      [service]="assetsService"
+      [control]="assetForm.get('denominatedIn')"
+      [isOptional]="true"
+      [getId]="getItemId"
+      [getName]="getAssetTicker"
+      [getIconId]="getItemIcon"
+      [defaultIcon]="defaultIcon"
+      [filterPredicate]="isFiatOrCrypto"></app-grouped-select>
+
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Denomination</mat-label>
+      <input matInput type="number" placeholder="Denomination" formControlName="denomination" />
+    </mat-form-field>
+  </div>
   <mat-action-row>
     <button type="submit" mat-raised-button [disabled]="assetForm.invalid">Save</button>
     <button type="button" mat-button (click)="onClose()">Close</button>

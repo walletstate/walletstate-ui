@@ -40,6 +40,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
   recordTypeChangeSubscription: Subscription;
   firstPeriodChangeSubscription: Subscription;
   secondPeriodChangeSubscription: Subscription;
+  finalAssetCheckboxChangeSubscription: Subscription;
 
   dataSource: MatTableDataSource<DataSourceValueType, MatPaginator> = new MatTableDataSource([]);
 
@@ -53,7 +54,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
 
   //
   allAssetsIds: string[] = [];
-  selectedAssetsIds: string[] = [];
+  nonZeroAssetsIds: string[] = [];
 
   readonly spendingRecordType = RecordType.Spending;
   readonly incomeRecordType = RecordType.Income;
@@ -74,10 +75,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
 
     this.assetsService.groups.subscribe(assetGroups => {
       this.allAssetsIds = assetGroups.flatMap(group => group.items.map(a => a.id));
-      if (this.selectedAssetsIds.length === 0) {
-        this.selectedAssetsIds = this.allAssetsIds;
-        this.buildColumns();
-      }
+      this.buildColumns();
     });
 
     this.dataSource.filterPredicate = (data, filter) =>
@@ -92,6 +90,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     this.firstPeriodChangeSubscription = this.periodChangeListener('first');
     this.secondPeriodChangeSubscription = this.periodChangeListener('second');
     this.filterSubscription = this.filterChangesListener();
+    this.finalAssetCheckboxChangeSubscription = this.finalAssetCheckboxListener();
   }
 
   ngOnDestroy(): void {
@@ -99,6 +98,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     this.firstPeriodChangeSubscription && this.firstPeriodChangeSubscription.unsubscribe();
     this.secondPeriodChangeSubscription && this.secondPeriodChangeSubscription.unsubscribe();
     this.recordTypeChangeSubscription && this.recordTypeChangeSubscription.unsubscribe();
+    this.finalAssetCheckboxChangeSubscription && this.finalAssetCheckboxChangeSubscription.unsubscribe();
   }
 
   toggleGroup(group: Grouped<Category>) {
@@ -123,7 +123,10 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
   recordTypeChangeListener() {
     return this.filterForm
       .get('recordType')
-      .valueChanges.pipe(switchMap(() => this.loadAnalytics()))
+      .valueChanges.pipe(
+        switchMap(() => this.loadAnalytics()),
+        tap(() => this.buildColumns())
+      )
       .subscribe(() => console.log('Record type changed. data reloaded'));
   }
 
@@ -132,21 +135,29 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
       .get(period)
       .valueChanges.pipe(
         debounceTime(500),
-        switchMap(periodValue => (periodValue.start && periodValue.end ? this.loadAnalyticsForPeriod(period) : EMPTY))
+        switchMap(periodValue => (periodValue.start && periodValue.end ? this.loadAnalyticsForPeriod(period) : EMPTY)),
+        tap(() => this.buildColumns())
       )
       .subscribe(() => console.log(`${period} period changed. Data reloaded`));
+  }
+
+  finalAssetCheckboxListener() {
+    return this.filterForm
+      .get('byFinalAsset')
+      .valueChanges.pipe(
+        debounceTime(500),
+        switchMap(() => this.loadAnalytics()),
+        tap(() => this.buildColumns())
+      )
+      .subscribe(() => console.log('Final asset checkbox changed. Data reloaded'));
   }
 
   filterChangesListener() {
     return this.filter.subscribe(filter => {
       console.log('Filter changed', filter);
-      if (filter.assets.length > 0) {
-        this.selectedAssetsIds = filter.assets;
-      } else {
-        this.selectedAssetsIds = this.allAssetsIds;
-      }
-      this.buildColumns();
-      this.loadAnalytics().subscribe(() => console.log('Filter changed. Data reloaded'));
+      this.loadAnalytics()
+        .pipe(tap(() => this.buildColumns()))
+        .subscribe(() => console.log('Filter changed. Data reloaded'));
     });
   }
 
@@ -166,28 +177,30 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     start.setHours(0, 0, 0);
     end.setHours(23, 59, 59);
 
+    const byFinalAsset = this.filterForm.get('byFinalAsset').value;
+
     const filterWithPeriod = this.filter.getValue().withPeriod(start, end);
     const filterWithSelectedRecordType = filterWithPeriod.withRecordType(this.filterForm.get('recordType').value);
 
     const byCategoryGroups: Observable<AnalyticsGroupedResult[]> = this.analyticsClient.grouped(
-      filterWithSelectedRecordType.groupBy(AnalyticsGroupBy.CategoryGroup)
+      filterWithSelectedRecordType.groupBy(AnalyticsGroupBy.CategoryGroup, byFinalAsset)
     );
 
     const byCategory: (groupId: string) => Observable<AnalyticsGroupedResult[]> = (groupId: string) => {
       const finalFilter = filterWithSelectedRecordType.withCategoryGroup(groupId);
-      return this.analyticsClient.grouped(finalFilter.groupBy(AnalyticsGroupBy.Category));
+      return this.analyticsClient.grouped(finalFilter.groupBy(AnalyticsGroupBy.Category, byFinalAsset));
     };
 
     const totalIncome: Observable<AnalyticsGroupedResult[]> = this.analyticsClient
-      .aggregated(filterWithPeriod.withRecordType(RecordType.Income))
+      .aggregated(filterWithPeriod.withRecordType(RecordType.Income).aggregate(byFinalAsset))
       .pipe(map(assetAmount => [{ group: 'total-income', assets: assetAmount }]));
 
     const totalSpending: Observable<AnalyticsGroupedResult[]> = this.analyticsClient
-      .aggregated(filterWithPeriod.withRecordType(RecordType.Spending))
+      .aggregated(filterWithPeriod.withRecordType(RecordType.Spending).aggregate(byFinalAsset))
       .pipe(map(assetAmount => [{ group: 'total-spending', assets: assetAmount }]));
 
     const totalProfit: Observable<AnalyticsGroupedResult[]> = this.analyticsClient
-      .aggregated(filterWithPeriod.withRecordTypes([RecordType.Spending, RecordType.Income]))
+      .aggregated(filterWithPeriod.withRecordTypes([RecordType.Spending, RecordType.Income]).aggregate(byFinalAsset))
       .pipe(map(assetAmount => [{ group: 'total-profit', assets: assetAmount }]));
 
     let dataToLoad: Observable<AnalyticsGroupedResult[]>[] = [];
@@ -248,6 +261,12 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     return this.assetsService.asset(id);
   }
 
+  isAssetValueNotZero(id: string): boolean {
+    return this.periods.some(
+      p => this.getColumnValue(p, 'total-income', id) !== 0 || this.getColumnValue(p, 'total-spending', id) !== 0
+    );
+  }
+
   //////////////////////////////////////
   // build table columns
   //////////////////////////////////////
@@ -272,10 +291,16 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
   }
 
   private buildColumns() {
+    this.nonZeroAssetsIds = this.allAssetsIds.filter(assetId => this.isAssetValueNotZero(assetId));
+
+    //show at least one column if each asset is zero
+    if (this.nonZeroAssetsIds.length === 0 && this.allAssetsIds.length > 0)
+      this.nonZeroAssetsIds = [this.allAssetsIds[0]];
+
     this.subheaderColumns = [
-      ...this.assetColumns('first', this.selectedAssetsIds),
-      ...this.assetColumns('second', this.selectedAssetsIds),
-      ...this.assetColumns('diff', this.selectedAssetsIds),
+      ...this.assetColumns('first', this.nonZeroAssetsIds),
+      ...this.assetColumns('second', this.nonZeroAssetsIds),
+      ...this.assetColumns('diff', this.nonZeroAssetsIds),
       'expand',
     ];
     this.valuesColumns = ['name', ...this.subheaderColumns];
@@ -295,6 +320,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
       recordType: new FormControl<RecordType>(RecordType.Spending, [Validators.required]),
       first: this.initPeriodFormGroup(thisMonth),
       second: this.initPeriodFormGroup(prevMonth),
+      byFinalAsset: new FormControl(false),
     });
   }
 

@@ -1,11 +1,11 @@
 import {
+  AnalyticsAggregateRequest,
   AnalyticsFilter,
   AnalyticsGroupBy,
   AnalyticsGroupRequest,
   AssetType,
   RecordType,
 } from '@walletstate/angular-client';
-import { AnalyticsComponent } from '../analytics.component';
 
 export type BasicFilterData = {
   assets: string[];
@@ -27,6 +27,7 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
   categories: string[] = [];
   categoryTag: string = null;
   assetTypes: AssetType[] = [];
+  assetGroups: string[] = [];
   assets: string[] = [];
   assetTag: string = null;
   generatedBy: string[] = [];
@@ -73,10 +74,18 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
     return newFilter;
   }
 
-  groupBy(by: AnalyticsGroupBy): AnalyticsGroupRequest {
+  groupBy(by: AnalyticsGroupBy, byFinalAsset: boolean): AnalyticsGroupRequest {
     return {
       filter: this,
       groupBy: by,
+      byFinalAsset: byFinalAsset,
+    };
+  }
+
+  aggregate(byFinalAsset: boolean): AnalyticsAggregateRequest {
+    return {
+      filter: this,
+      byFinalAsset: byFinalAsset,
     };
   }
 
