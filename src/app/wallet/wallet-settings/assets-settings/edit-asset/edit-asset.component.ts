@@ -1,15 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Asset, AssetData, AssetType } from '@walletstate/angular-client';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Account, Asset, AssetData, AssetType, Category } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IconsDialogComponent } from '../../../../shared/utils/icons-dialog/icons-dialog.component';
+import { AssetIcon } from '../../../../shared/icons';
+import { AssetsService } from '../../../shared/assets.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-asset',
   templateUrl: './edit-asset.component.html',
   styleUrl: './edit-asset.component.scss',
 })
-export class EditAssetComponent implements OnInit {
+export class EditAssetComponent implements OnInit, OnDestroy {
   @Input() asset?: Asset = null;
   @Input() group?: string = null;
   @Input() idx?: number = null;
@@ -22,13 +25,47 @@ export class EditAssetComponent implements OnInit {
 
   assetTypes: AssetType[] = Object.values(AssetType);
 
+  getItemId = (item: Asset) => item.id;
+  getItemIcon = (item: Asset) => item.icon;
+  getAssetTicker = (asset: Asset) => asset.ticker;
+  isFiatOrCrypto = (asset: Asset) => asset.type === AssetType.Fiat || asset.type === AssetType.Crypto;
+
+  private assetTypeChangeSubscription: Subscription;
+
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public assetsService: AssetsService
   ) {}
 
   ngOnInit() {
     this.assetForm = this.buildForm();
+
+    if (this.assetForm.get('type').value === AssetType.Fiat || this.assetForm.get('type').value === AssetType.Crypto) {
+      this.assetForm.get('denominatedIn').disable();
+      this.assetForm.get('denomination').disable();
+    } else {
+      this.assetForm.get('denominatedIn').enable();
+      this.assetForm.get('denomination').enable();
+    }
+
+    this.assetTypeChangeSubscription = this.assetForm.get('type').valueChanges.subscribe(newType => {
+      if (newType === AssetType.Fiat || newType === AssetType.Crypto) {
+        this.assetForm.get('denominatedIn').patchValue(null);
+        this.assetForm.get('denominatedIn').disable();
+        this.assetForm.get('denomination').patchValue(null);
+        this.assetForm.get('denomination').disable();
+      } else {
+        this.assetForm.get('denominatedIn').patchValue(this.asset?.denominatedIn);
+        this.assetForm.get('denominatedIn').enable();
+        this.assetForm.get('denomination').patchValue(this.asset?.denomination);
+        this.assetForm.get('denomination').enable();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.assetTypeChangeSubscription && this.assetTypeChangeSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -40,6 +77,8 @@ export class EditAssetComponent implements OnInit {
       tags: this.fb.control([...(this.asset?.tags ?? [])]),
       group: this.fb.control(this.asset?.group ?? this.group),
       idx: this.fb.control(this.asset?.idx ?? this.idx),
+      denominatedIn: this.fb.control(this.asset?.denominatedIn),
+      denomination: this.fb.control(this.asset?.denomination),
     });
   }
 
