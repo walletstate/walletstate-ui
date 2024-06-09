@@ -24,6 +24,9 @@
     <mat-datepicker-toggle matIconSuffix [for]="secondPicker"></mat-datepicker-toggle>
     <mat-date-range-picker #secondPicker></mat-date-range-picker>
   </mat-form-field>
+  <div class="filter-form-field" style="max-width: 120px">
+    <mat-checkbox formControlName="byFinalAsset">Final Asset</mat-checkbox>
+  </div>
 </div>
 
 <mat-progress-bar
@@ -52,18 +55,18 @@
     </ng-container>
 
     <ng-container matColumnDef="first-header">
-      <th mat-header-cell *matHeaderCellDef [attr.colspan]="selectedAssetsIds.length">First period</th>
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="nonZeroAssetsIds.length">First period</th>
     </ng-container>
 
     <ng-container matColumnDef="second-header">
-      <th mat-header-cell *matHeaderCellDef [attr.colspan]="selectedAssetsIds.length">Second period</th>
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="nonZeroAssetsIds.length">Second period</th>
     </ng-container>
 
     <ng-container matColumnDef="diff-header">
-      <th mat-header-cell *matHeaderCellDef [attr.colspan]="selectedAssetsIds.length">Diff</th>
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="nonZeroAssetsIds.length">Diff</th>
     </ng-container>
 
-    @for (assetId of selectedAssetsIds; track assetId) {
+    @for (assetId of allAssetsIds; track assetId) {
     <ng-container [matColumnDef]="assetColumn('first', assetId)">
       <th mat-header-cell *matHeaderCellDef>{{ getAsset(assetId).ticker }}</th>
       <td mat-cell *matCellDef="let item">{{ getColumnValue('first', item.id, assetId) }}</td>

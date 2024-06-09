@@ -74,18 +74,18 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
     return newFilter;
   }
 
-  groupBy(by: AnalyticsGroupBy): AnalyticsGroupRequest {
+  groupBy(by: AnalyticsGroupBy, byFinalAsset: boolean): AnalyticsGroupRequest {
     return {
       filter: this,
       groupBy: by,
-      byFinalAsset: false,
+      byFinalAsset: byFinalAsset,
     };
   }
 
-  aggregate(): AnalyticsAggregateRequest {
+  aggregate(byFinalAsset: boolean): AnalyticsAggregateRequest {
     return {
       filter: this,
-      byFinalAsset: false,
+      byFinalAsset: byFinalAsset,
     };
   }
 
