@@ -116,6 +116,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(RecordDialogComponent, {
       // height: '400px',
       width: '800px',
+      panelClass: 'modal-panel',
       data: { record },
     });
 

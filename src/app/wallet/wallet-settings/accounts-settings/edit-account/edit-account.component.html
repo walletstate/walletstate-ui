@@ -28,6 +28,13 @@
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="accountForm.value['tags']"></app-tags-selector>
 
+  <div class="input-row">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>External account id</mat-label>
+      <input matInput placeholder="External account id" formControlName="externalId" />
+    </mat-form-field>
+  </div>
+
   <mat-action-row>
     <button type="submit" mat-raised-button [disabled]="accountForm.invalid">Save</button>
     <button type="button" mat-button (click)="onClose()">Close</button>

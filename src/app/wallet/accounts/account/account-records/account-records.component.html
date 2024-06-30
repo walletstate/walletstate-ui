@@ -17,12 +17,14 @@
           @switch (record.type) {
           <!--income-->
           @case (recordType.Income) {
+          <div class="description">{{ record.description }}</div>
           <div class="amount">{{ record.to.amount }}</div>
           <img [src]="getAsset(record.to.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <!--          <div>{{ getAsset(record.to.asset).ticker }}</div>-->
           }
           <!--spending-->
           @case (recordType.Spending) {
+          <div class="description">{{ record.description }}</div>
           <div class="amount">{{ record.from.amount }}</div>
           <img [src]="getAsset(record.from.asset).icon | iconUrl: defaultAssetIcon" class="icon-28" />
           <!--          <div>{{ getAsset(record.from.asset).ticker }}</div>-->

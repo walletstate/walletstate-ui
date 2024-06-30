@@ -44,6 +44,7 @@ export class EditAccountComponent implements OnInit {
       icon: this.fb.control(this.account?.icon),
       tags: this.fb.control([...(this.account?.tags ?? [])]),
       defaultAsset: this.fb.control(this.account?.defaultAsset, []),
+      externalId: this.fb.control(this.account?.externalId, []),
       group: this.fb.control(this.account?.group ?? this.group),
       idx: this.fb.control(this.account?.idx ?? this.idx),
     });
