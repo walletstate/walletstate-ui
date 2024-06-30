@@ -25,6 +25,10 @@
 
 //end material
 
+@import "./mixins";
+
+@include responsive-dialogs();
+
 html, body {
   height: 100%;
 }

@@ -31,6 +31,7 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(RecordDialogComponent, {
       // height: '400px',
       width: '800px',
+      panelClass: 'modal-panel',
     });
 
     dialogRef.afterClosed().subscribe(() => console.log('closed'));
