@@ -43,6 +43,13 @@
   gap: 5px;
 }
 
+.description {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .amount {
   width: 120px;
   text-align: right;
