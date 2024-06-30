@@ -16,7 +16,7 @@
     "publish:patch": "npm version patch -m \"Upgrade version to v%s\" && git push --tags",
     "publish:minor": "npm version minor -m \"Upgrade version to v%s\" && git push --tags",
     "publish:major": "npm version major -m \"Upgrade version to v%s\" && git push --tags"
-  },
+  } ,
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.3.5",
@@ -32,7 +32,7 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2",
-    "@walletstate/angular-client": "0.0.1-13-ged9a3a1-SNAPSHOT"
+    "@walletstate/angular-client": "0.0.1-25-g4163ee7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.5",
