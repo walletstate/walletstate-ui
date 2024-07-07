@@ -1,0 +1,53 @@
+.filter-row {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  justify-content: space-around;
+
+}
+
+.filter-form-field {
+  margin-top: 20px;
+  flex: 1;
+  max-width: 250px;
+}
+
+
+.table-container {
+  width: 100%;
+  overflow: auto;
+  max-height: calc(100vh - 275px);
+}
+
+.name-column {
+  min-width: 250px;
+  position: sticky;
+  left: 0;
+}
+
+.group-row {
+  font-weight: 500;
+}
+
+.account-name-column {
+  padding-left: 40px;
+}
+
+.account-name-column > img {
+  margin-right: 10px;
+}
+
+.expand-toggle {
+  width: 48px;
+  position: sticky;
+  right: 0;
+}
+
+.footer-row {
+  font-weight: 550;
+  font-style: italic;
+}
+
+.first-footer-row > td {
+  border-top: 2px solid rgba(0, 0, 0, 0.25);
+}

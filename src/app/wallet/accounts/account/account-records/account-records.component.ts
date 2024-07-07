@@ -14,7 +14,7 @@ import { Subscription, switchMap } from 'rxjs';
 import { CategoriesService } from '../../../shared/categories.service';
 import { AccountIcon, AssetIcon, CategoryIcon, IncomeIcon, SpendingIcon, TransferIcon } from '../../../../shared/icons';
 import { AccountsService } from '../../../shared/accounts.service';
-import { RecordDialogComponent } from '../../../shared/record-dialog/record-dialog.component';
+import { openRecordDialog } from '../../../shared/record-dialog/record-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -113,14 +113,7 @@ export class AccountRecordsComponent implements OnInit, OnDestroy {
   }
 
   editRecord(record: RecordFull): void {
-    const dialogRef = this.dialog.open(RecordDialogComponent, {
-      // height: '400px',
-      width: '800px',
-      panelClass: 'modal-panel',
-      data: { record },
-    });
-
-    dialogRef.afterClosed().subscribe(() => console.log('closed'));
+    openRecordDialog(this.dialog, record).subscribe(() => console.log('closed'));
   }
 
   deleteRecord(id: string) {

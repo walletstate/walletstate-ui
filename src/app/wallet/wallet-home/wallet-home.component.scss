@@ -17,4 +17,6 @@
 .widget {
   min-width: 280px;
   flex: 1;
+  max-height: calc(100vh - 270px);
+  overflow-y: auto;
 }

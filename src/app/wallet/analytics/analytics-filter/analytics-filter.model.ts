@@ -61,6 +61,12 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
     return newFilter;
   }
 
+  withAccountGroup(accountGroupId: string) {
+    const newFilter = this.clone();
+    newFilter.accountGroups = [accountGroupId];
+    return newFilter;
+  }
+
   withCategoryGroup(categoryGroupId: string) {
     const newFilter = this.clone();
     newFilter.categoryGroups = [categoryGroupId];
@@ -70,6 +76,12 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
   withPeriod(start: Date, end: Date): AppAnalyticsFilter {
     const newFilter = this.clone();
     newFilter.start = start.toISOString();
+    newFilter.end = end.toISOString();
+    return newFilter;
+  }
+
+  withEndDate(end: Date): AppAnalyticsFilter {
+    const newFilter = this.clone();
     newFilter.end = end.toISOString();
     return newFilter;
   }
