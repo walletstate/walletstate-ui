@@ -44,6 +44,7 @@ import { AnalyticsComponent } from './wallet/analytics/analytics.component';
 import { AnalyticsFilterComponent } from './wallet/analytics/analytics-filter/analytics-filter.component';
 import { AnalyticsByCategoryTableComponent } from './wallet/analytics/analytics-by-category-table/analytics-by-category-table.component';
 import { GroupedSelectComponent } from './wallet/shared/grouped-select/grouped-select.component';
+import { BalanceByAccountTableComponent } from './wallet/analytics/balance-by-account-table/balance-by-account-table.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { GroupedSelectComponent } from './wallet/shared/grouped-select/grouped-s
     AnalyticsFilterComponent,
     AnalyticsByCategoryTableComponent,
     GroupedSelectComponent,
+    BalanceByAccountTableComponent,
   ],
   imports: [
     BrowserModule,
