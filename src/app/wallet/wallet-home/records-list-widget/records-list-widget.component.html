@@ -1,0 +1,58 @@
+<mat-list>
+  @for (record of records; track record) {
+  <mat-card>
+    <div matLine class="list-item">
+      <div class="no-wrap-block">
+        <div class="type-icon-and-date">
+          <img [src]="recordTypeIcon(record.type) | iconUrl" class="icon-28" style="border-radius: 0" />
+          <div>{{ record.datetime | date: 'YYYY/MM/dd HH:mm' }}</div>
+        </div>
+
+        <div class="account">
+          <img
+            [src]="accountsService.account(record.transaction.account)?.icon | iconUrl: defaultAccountIcon"
+            class="icon-28" />
+          <div>{{ accountsService.account(record.transaction.account)?.name }}</div>
+        </div>
+      </div>
+
+      <div class="no-wrap-block">
+        <div class="category">
+          <img
+            [src]="categoriesService.category(record.category)?.icon | iconUrl: defaultCategoryIcon"
+            class="icon-28" />
+          <div>{{ categoriesService.category(record.category)?.name }}</div>
+        </div>
+
+        <div class="description">
+          {{ record.description }}
+        </div>
+      </div>
+
+      <div class="no-wrap-block latest-block">
+        <div class="amount">
+          <img
+            [src]="assetsService.asset(record.transaction.asset)?.icon | iconUrl: defaultAssetIcon"
+            class="icon-28" />
+          <div>{{ record.transaction.amount }} {{ assetsService.asset(record.transaction.asset)?.ticker }}</div>
+        </div>
+        <div class="actions">
+          <button mat-icon-button (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="editRecord(record.id)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteRecord(record.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  }
+</mat-list>

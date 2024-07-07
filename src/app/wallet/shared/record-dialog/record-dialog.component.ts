@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AccountsService } from '../accounts.service';
 import { CategoriesService } from '../categories.service';
 import { AssetsService } from '../assets.service';
@@ -15,6 +15,7 @@ import {
 } from '@walletstate/angular-client';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AccountIcon, AssetIcon, CategoryIcon } from '../../../shared/icons';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-record-dialog',
@@ -167,4 +168,14 @@ export class RecordDialogComponent implements OnInit {
         break;
     }
   }
+}
+
+export function openRecordDialog(dialog: MatDialog, record?: RecordFull): Observable<any> {
+  const dialogRef = dialog.open(RecordDialogComponent, {
+    width: '800px',
+    panelClass: 'modal-panel',
+    data: { record },
+  });
+
+  return dialogRef.afterClosed();
 }

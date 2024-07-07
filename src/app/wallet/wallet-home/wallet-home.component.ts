@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RecordDialogComponent } from '../shared/record-dialog/record-dialog.component';
+import { openRecordDialog } from '../shared/record-dialog/record-dialog.component';
 import { AccountsService } from '../shared/accounts.service';
 import { Account, Grouped } from '@walletstate/angular-client';
 import { Observable } from 'rxjs';
 import { AssetsService } from '../shared/assets.service';
+import { CategoriesService } from '../shared/categories.service';
 
 @Component({
   selector: 'app-wallet-home',
@@ -16,24 +17,21 @@ export class WalletHomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private accountsService: AccountsService,
+    private categoriesService: CategoriesService,
     private assetsService: AssetsService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.accounts = this.accountsService.loadGrouped();
-    this.assetsService.loadGrouped().subscribe(); //prefetch assets for widgets
+    //prefetch data for widgets
+    this.accountsService.loadGrouped().subscribe();
+    this.assetsService.loadGrouped().subscribe();
+    this.categoriesService.loadGrouped().subscribe();
   }
 
   ngOnDestroy(): void {}
 
   createRecordDialog(): void {
-    const dialogRef = this.dialog.open(RecordDialogComponent, {
-      // height: '400px',
-      width: '800px',
-      panelClass: 'modal-panel',
-    });
-
-    dialogRef.afterClosed().subscribe(() => console.log('closed'));
+    openRecordDialog(this.dialog).subscribe(() => console.log('closed'));
   }
 }
