@@ -73,6 +73,12 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
     return newFilter;
   }
 
+  withCategory(categoryId: string) {
+    const newFilter = this.clone();
+    newFilter.categories = [categoryId];
+    return newFilter;
+  }
+
   withPeriod(start: Date, end: Date): AppAnalyticsFilter {
     const newFilter = this.clone();
     newFilter.start = start.toISOString();

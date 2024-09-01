@@ -38,6 +38,8 @@ export class AnalyticsFilterComponent implements OnInit, OnDestroy {
   accountsSubscription: Subscription;
   assetsSubscription: Subscription;
 
+  filterIsInitial = true;
+
   private _transformer = (node: FilterNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -92,6 +94,19 @@ export class AnalyticsFilterComponent implements OnInit, OnDestroy {
       this.dataSource.data[3].children = this.assetsToNode(assetsGroups, 'generatedBy', this.dataSource.data[3].id);
       this.dataSource.data[4].children = this.assetsToNode(assetsGroups, 'spentOn', this.dataSource.data[4].id);
       this.dataSource.data = [...this.dataSource.data];
+
+      if (this.filterIsInitial && assetsGroups.length > 0) {
+        const fiatAssetsIds = assetsGroups.flatMap(group =>
+          group.items.filter(a => a.type === AssetType.Fiat).map(a => a.id)
+        );
+        const fiatAssetNodes = this.treeControl.dataNodes.filter(
+          node => node.filterKey === 'assets' && fiatAssetsIds.some(id => id === node.id)
+        );
+        this.checklistSelection.select(...fiatAssetNodes);
+        console.log(`Initially selected assets: [${fiatAssetNodes.map(n => n.name).join(', ')}]`);
+        const filter = this.selectedNodesToFilter(this.checklistSelection.selected);
+        this.applyFilter.next(filter);
+      }
     });
   }
 
@@ -160,6 +175,7 @@ export class AnalyticsFilterComponent implements OnInit, OnDestroy {
   }
 
   onApply() {
+    this.filterIsInitial = false;
     const filter = this.selectedNodesToFilter(this.checklistSelection.selected);
     this.applyFilter.next(filter);
   }
