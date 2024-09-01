@@ -1,6 +1,6 @@
 {
   "name": "walletstate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "config": {
     "img": "ghcr.io/walletstate/walletstate-ui"
   },
