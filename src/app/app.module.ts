@@ -46,6 +46,7 @@ import { AnalyticsByCategoryTableComponent } from './wallet/analytics/analytics-
 import { GroupedSelectComponent } from './wallet/shared/grouped-select/grouped-select.component';
 import { BalanceByAccountTableComponent } from './wallet/analytics/balance-by-account-table/balance-by-account-table.component';
 import { RecordsListWidgetComponent } from './wallet/wallet-home/records-list-widget/records-list-widget.component';
+import { RecordsListModalComponent } from './wallet/analytics/analytics-by-category-table/records-list-modal/records-list-modal.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { RecordsListWidgetComponent } from './wallet/wallet-home/records-list-wi
     AnalyticsComponent,
     AnalyticsFilterComponent,
     AnalyticsByCategoryTableComponent,
+    RecordsListModalComponent,
     GroupedSelectComponent,
     BalanceByAccountTableComponent,
     RecordsListWidgetComponent,

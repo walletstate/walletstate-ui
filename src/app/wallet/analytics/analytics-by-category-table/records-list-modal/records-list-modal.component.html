@@ -1,0 +1,15 @@
+<mat-list>
+  @if (records.length) { @for (record of records; track record.id) {
+  <mat-list-item>
+    <div matListItemTitle>{{ record.description }}</div>
+    <div matListItemLine>{{ record.datetime | date: 'YYYY/MM/dd HH:mm' }}</div>
+    <div matListItemMeta>{{ record.transaction.amount }}</div>
+  </mat-list-item>
+  } } @else {
+  <mat-list-item>
+    <mat-icon matListItemIcon>mood</mat-icon>
+    <div matListItemTitle>No records</div>
+    <div matListItemLine>There are no items</div>
+  </mat-list-item>
+  }
+</mat-list>

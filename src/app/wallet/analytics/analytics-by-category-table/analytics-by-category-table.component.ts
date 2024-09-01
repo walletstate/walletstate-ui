@@ -17,6 +17,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { map, tap } from 'rxjs/operators';
+import { openRecordsListDialog } from './records-list-modal/records-list-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 type DataSourceValueType = Grouped<Category> | Category;
 type Period = 'first' | 'second';
@@ -64,10 +66,16 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     ['second', new Map()],
   ]);
 
+  currentFilters: Map<Period, AppAnalyticsFilter> = new Map([
+    ['first', null],
+    ['second', null],
+  ]);
+
   constructor(
     private analyticsClient: AnalyticsHttpClient,
     private categoriesService: CategoriesService,
-    private assetsService: AssetsService
+    private assetsService: AssetsService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -218,6 +226,7 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     return forkJoin(dataToLoad).pipe(
       map(res => res.flatMap(v => v)),
       tap(res => this.setLocalAnalyticsResults(period, res, !group)),
+      tap(() => this.setCurrentFilters(period, filterWithSelectedRecordType)),
       tap(() => (this.isLoading = false))
     );
   }
@@ -233,6 +242,10 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
 
   private assetAmountToMap(assetAmount: AssetAmount[]): Map<string, number> {
     return new Map(assetAmount.map(asset => [asset.asset, asset.amount]));
+  }
+
+  private setCurrentFilters(period: Period, filter: AppAnalyticsFilter) {
+    this.currentFilters.set(period, filter);
   }
 
   //////////////////////////////////////
@@ -337,5 +350,12 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
 
   private endOfTheMonth(date: Date): Date {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
+  }
+
+  showRecordsList(period: Period, categoryId: string) {
+    if (this.currentFilters.get(period))
+      openRecordsListDialog(this.dialog, this.currentFilters.get(period).withCategory(categoryId)).subscribe(rs =>
+        console.log(`closed ${rs}`)
+      );
   }
 }
