@@ -75,7 +75,7 @@
         @if (isGroup(item)) {
         <span>{{ getColumnValue('first', item.id, assetId) }}</span>
         } @else {
-        <span class="group-value" (click)="showRecordsList('first', item.id)">{{
+        <span class="group-value" (click)="showRecordsList('first', item.id, assetId)">{{
           getColumnValue('first', item.id, assetId)
         }}</span>
         }
@@ -89,7 +89,7 @@
         @if (isGroup(item)) {
         <span>{{ getColumnValue('second', item.id, assetId) }}</span>
         } @else {
-        <span class="group-value" (click)="showRecordsList('second', item.id)">{{
+        <span class="group-value" (click)="showRecordsList('second', item.id, assetId)">{{
           getColumnValue('second', item.id, assetId)
         }}</span>
         }

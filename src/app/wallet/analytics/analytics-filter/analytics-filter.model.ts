@@ -79,6 +79,12 @@ export class AppAnalyticsFilter implements AnalyticsFilter {
     return newFilter;
   }
 
+  withAsset(assetId: string) {
+    const newFilter = this.clone();
+    newFilter.assets = [assetId];
+    return newFilter;
+  }
+
   withPeriod(start: Date, end: Date): AppAnalyticsFilter {
     const newFilter = this.clone();
     newFilter.start = start.toISOString();
