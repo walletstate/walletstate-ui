@@ -102,7 +102,7 @@ export class AnalyticsFilterComponent implements OnInit, OnDestroy {
         const fiatAssetNodes = this.treeControl.dataNodes.filter(
           node => node.filterKey === 'assets' && fiatAssetsIds.some(id => id === node.id)
         );
-        this.checklistSelection.select(...fiatAssetNodes);
+        fiatAssetNodes.forEach(node => this.nodeSelectionToggle(node));
         console.log(`Initially selected assets: [${fiatAssetNodes.map(n => n.name).join(', ')}]`);
         const filter = this.selectedNodesToFilter(this.checklistSelection.selected);
         this.applyFilter.next(filter);

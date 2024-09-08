@@ -12,7 +12,7 @@ import {
 import { CategoriesService } from '../../shared/categories.service';
 import { AssetsService } from '../../shared/assets.service';
 import { AppAnalyticsFilter } from '../analytics-filter/analytics-filter.model';
-import { BehaviorSubject, debounceTime, EMPTY, forkJoin, Observable, Subscription, switchMap } from 'rxjs';
+import { BehaviorSubject, debounceTime, EMPTY, filter, forkJoin, Observable, Subscription, switchMap } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -352,10 +352,10 @@ export class AnalyticsByCategoryTableComponent implements OnInit, OnDestroy {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
   }
 
-  showRecordsList(period: Period, categoryId: string) {
-    if (this.currentFilters.get(period))
-      openRecordsListDialog(this.dialog, this.currentFilters.get(period).withCategory(categoryId)).subscribe(rs =>
-        console.log(`closed ${rs}`)
-      );
+  showRecordsList(period: Period, categoryId: string, assetId: string) {
+    if (this.currentFilters.get(period)) {
+      const filter = this.currentFilters.get(period).withCategory(categoryId).withAsset(assetId);
+      openRecordsListDialog(this.dialog, filter).subscribe(rs => console.log(`closed ${rs}`));
+    }
   }
 }
