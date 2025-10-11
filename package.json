@@ -32,7 +32,7 @@
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2",
-    "@walletstate/angular-client": "0.0.1-25-g4163ee7"
+    "@walletstate/angular-client": "0.0.1-31-gae5ae36"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.5",

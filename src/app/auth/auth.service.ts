@@ -13,6 +13,7 @@ export class AuthService {
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   private autoLogoutTimer = null;
+  private readonly maxAutoLogoutTimerMillis: number = 1000 * 60 * 60 * 24 * 7;
 
   constructor(
     private http: HttpClient,
@@ -74,11 +75,13 @@ export class AuthService {
 
   autoLogout(user: User) {
     this.clearAutoLogoutTimer();
-    this.autoLogoutTimer = setTimeout(() => {
-      console.log('auto logout');
-      this.updateUserContext(null);
-      this.router.navigate(['/login']);
-    }, user.expiresInMillis());
+    if (user.expiresInMillis() < this.maxAutoLogoutTimerMillis) {
+      this.autoLogoutTimer = setTimeout(() => {
+        console.log('auto logout');
+        this.updateUserContext(null);
+        this.router.navigate(['/login']);
+      }, user.expiresInMillis());
+    }
   }
 
   setWallet(wallet: string, expireInSeconds: number) {
@@ -88,8 +91,8 @@ export class AuthService {
     );
   }
 
-  login(username: string, password: string) {
-    return this.http.post<UserInfo>('/auth/login', { username, password }, { observe: 'response' }).pipe(
+  login(username: string, password: string, rememberMe: boolean) {
+    return this.http.post<UserInfo>('/auth/login', { username, password, rememberMe }, { observe: 'response' }).pipe(
       tap(response => {
         const user = User.build(response.body, +response.headers.get('X-Auth-Token-Expire-In'));
         this.updateUserContext(user);
