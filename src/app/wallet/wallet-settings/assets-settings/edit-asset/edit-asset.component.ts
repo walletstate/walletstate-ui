@@ -28,7 +28,8 @@ export class EditAssetComponent implements OnInit, OnDestroy {
   getItemId = (item: Asset) => item.id;
   getItemIcon = (item: Asset) => item.icon;
   getAssetTicker = (asset: Asset) => asset.ticker;
-  isFiatOrCrypto = (asset: Asset) => asset.type === AssetType.Fiat || asset.type === AssetType.Crypto;
+  isFiatOrCrypto = (asset: Asset) =>
+    asset.isActive && (asset.type === AssetType.Fiat || asset.type === AssetType.Crypto);
 
   private assetTypeChangeSubscription: Subscription;
 

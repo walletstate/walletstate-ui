@@ -5,9 +5,10 @@
     <mat-option [value]="null">None</mat-option>
     }
     <!--    -->
-    @for (group of service.groups | async; track group.id) { @if (group.items.filter(filterPredicate)?.length > 0) {
+    @for (group of service.groups | async; track group.id) { @if (group.items.filter(filterExcludingSelected)?.length >
+    0) {
     <mat-optgroup [label]="group.name">
-      @for (item of group.items.filter(filterPredicate) ?? []; track item) {
+      @for (item of group.items.filter(filterExcludingSelected) ?? []; track item) {
       <mat-option [value]="getId(item)" class="mat-option-with-icon">
         <span style="white-space: nowrap">
           <img

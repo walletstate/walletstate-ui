@@ -19,4 +19,7 @@ export class GroupedSelectComponent<T> {
   @Input() isOptional: boolean = false;
 
   @Input() filterPredicate: (item: T) => boolean = () => true;
+
+  filterExcludingSelected: (item: T) => boolean = (item: T) =>
+    this.filterPredicate(item) || this.control?.value === this.getId(item);
 }

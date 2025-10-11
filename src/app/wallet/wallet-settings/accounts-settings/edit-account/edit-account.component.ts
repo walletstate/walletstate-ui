@@ -26,6 +26,7 @@ export class EditAccountComponent implements OnInit {
   getAssetId = (asset: Asset) => asset.id;
   getAssetTicker = (asset: Asset) => asset.ticker;
   getAssetIcon = (asset: Asset) => asset.icon;
+  isAssetActive = (asset: Asset) => asset.isActive;
 
   constructor(
     public assetsService: AssetsService,

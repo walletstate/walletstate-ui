@@ -34,8 +34,9 @@ export class RecordDialogComponent implements OnInit {
   getItemId = (item: Account | Category | Asset) => item.id;
   getItemName = (item: Account | Category | Asset) => item.name;
   getItemIcon = (item: Account | Category | Asset) => item.icon;
+  isActive = (item: Account | Category | Asset) => item.isActive;
   getAssetTicker = (asset: Asset) => asset.ticker;
-  notFiat = (asset: Asset) => asset.type !== AssetType.Fiat;
+  isActiveNotFiat = (asset: Asset) => asset.isActive && asset.type !== AssetType.Fiat;
 
   constructor(
     public accountsService: AccountsService,

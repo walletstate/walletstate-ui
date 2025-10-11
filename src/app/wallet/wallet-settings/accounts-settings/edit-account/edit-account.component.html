@@ -23,7 +23,8 @@
       [getId]="getAssetId"
       [getName]="getAssetTicker"
       [getIconId]="getAssetIcon"
-      [defaultIcon]="defaultAssetIcon"></app-grouped-select>
+      [defaultIcon]="defaultAssetIcon"
+      [filterPredicate]="isAssetActive"></app-grouped-select>
 
     <div class="checkbox-wrapper">
       <mat-checkbox formControlName="isActive" matTooltip="Active" matTooltipPosition="above"></mat-checkbox>
