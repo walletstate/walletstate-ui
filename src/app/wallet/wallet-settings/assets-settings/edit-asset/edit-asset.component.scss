@@ -17,3 +17,14 @@
   flex: 1 1 auto;
   gap: 10px;
 }
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  margin: 0 12px;
+}
+
+.checkbox-wrapper mat-checkbox {
+  transform: scale(1.5);
+}

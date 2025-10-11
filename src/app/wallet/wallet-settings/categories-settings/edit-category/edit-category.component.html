@@ -13,6 +13,10 @@
       <mat-error>Category name is required</mat-error>
       }
     </mat-form-field>
+
+    <div class="checkbox-wrapper">
+      <mat-checkbox formControlName="isActive" matTooltip="Active" matTooltipPosition="above"></mat-checkbox>
+    </div>
   </div>
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="categoryForm.value['tags']"></app-tags-selector>

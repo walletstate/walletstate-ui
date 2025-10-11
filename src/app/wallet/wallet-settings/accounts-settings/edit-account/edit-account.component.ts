@@ -47,6 +47,7 @@ export class EditAccountComponent implements OnInit {
       externalId: this.fb.control(this.account?.externalId, []),
       group: this.fb.control(this.account?.group ?? this.group),
       idx: this.fb.control(this.account?.idx ?? this.idx),
+      isActive: this.fb.control(this.account?.isActive ?? true),
     });
   }
 

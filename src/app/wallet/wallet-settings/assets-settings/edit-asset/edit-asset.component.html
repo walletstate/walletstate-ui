@@ -30,6 +30,10 @@
         }
       </mat-select>
     </mat-form-field>
+
+    <div class="checkbox-wrapper">
+      <mat-checkbox formControlName="isActive" matTooltip="Active" matTooltipPosition="above"></mat-checkbox>
+    </div>
   </div>
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="assetForm.value['tags']"></app-tags-selector>

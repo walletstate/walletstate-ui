@@ -79,6 +79,7 @@ export class EditAssetComponent implements OnInit, OnDestroy {
       idx: this.fb.control(this.asset?.idx ?? this.idx),
       denominatedIn: this.fb.control(this.asset?.denominatedIn),
       denomination: this.fb.control(this.asset?.denomination),
+      isActive: this.fb.control(this.asset?.isActive ?? true),
     });
   }
 

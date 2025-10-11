@@ -36,6 +36,7 @@ export class EditCategoryComponent implements OnInit {
       tags: this.fb.control([...(this.category?.tags ?? [])]),
       group: this.fb.control(this.category?.group ?? this.group),
       idx: this.fb.control(this.category?.idx ?? this.idx),
+      isActive: this.fb.control(this.category?.isActive ?? true),
     });
   }
 

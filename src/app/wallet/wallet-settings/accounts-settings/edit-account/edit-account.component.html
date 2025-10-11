@@ -24,6 +24,10 @@
       [getName]="getAssetTicker"
       [getIconId]="getAssetIcon"
       [defaultIcon]="defaultAssetIcon"></app-grouped-select>
+
+    <div class="checkbox-wrapper">
+      <mat-checkbox formControlName="isActive" matTooltip="Active" matTooltipPosition="above"></mat-checkbox>
+    </div>
   </div>
 
   <app-tags-selector class="input-row" [allTags]="[]" [selectedTags]="accountForm.value['tags']"></app-tags-selector>
