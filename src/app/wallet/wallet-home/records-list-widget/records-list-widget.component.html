@@ -24,18 +24,21 @@
           <div>{{ categoriesService.category(record.category)?.name }}</div>
         </div>
 
-        <div class="description">
-          {{ record.description }}
-        </div>
-      </div>
-
-      <div class="no-wrap-block latest-block">
         <div class="amount">
           <img
             [src]="assetsService.asset(record.transaction.asset)?.icon | iconUrl: defaultAssetIcon"
             class="icon-28" />
           <div>{{ record.transaction.amount }} {{ assetsService.asset(record.transaction.asset)?.ticker }}</div>
         </div>
+      </div>
+
+      <div class="no-wrap-block">
+        <div class="description">
+          {{ record.description }}
+        </div>
+      </div>
+
+      <div class="no-wrap-block latest-block">
         <div class="actions">
           <button mat-icon-button (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>

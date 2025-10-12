@@ -39,7 +39,7 @@ mat-card {
   flex-direction: row;
   align-items: center;
   gap: 15px;
-  width: 200px;
+  width: 180px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -49,16 +49,7 @@ mat-card {
   flex-direction: row;
   align-items: center;
   gap: 15px;
-  width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.description {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
+  width: 180px;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -68,4 +59,16 @@ mat-card {
   flex-direction: row;
   align-items: center;
   gap: 15px;
+  width: 180px;
+}
+
+.description {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 310px;
 }
